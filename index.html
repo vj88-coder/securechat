@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VOID — Secure P2P Chat</title>
+    <title>Whisper — Chat privé et sécurisé</title>
+    <meta name="description" content="Messagerie chiffrée de bout en bout. Aucun serveur. Connexion directe entre vous et votre contact.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,737 +16,715 @@
         }
 
         :root {
-            --bg-0: #000;
-            --bg-1: #0a0a0a;
-            --bg-2: #111;
-            --bg-3: #1a1a1a;
-            --border: #222;
-            --border-light: #333;
-            --text-0: #fff;
-            --text-1: #ccc;
-            --text-2: #888;
-            --text-3: #555;
-            --green: #00ff88;
-            --green-dim: rgba(0, 255, 136, 0.1);
-            --yellow: #ffcc00;
-            --yellow-dim: rgba(255, 204, 0, 0.1);
-            --red: #ff4444;
-            --red-dim: rgba(255, 68, 68, 0.1);
-            --purple: #a855f7;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --blue-50: #eff6ff;
+            --blue-100: #dbeafe;
+            --blue-500: #3b82f6;
+            --blue-600: #2563eb;
+            --blue-700: #1d4ed8;
+            --green-50: #f0fdf4;
+            --green-100: #dcfce7;
+            --green-500: #22c55e;
+            --green-600: #16a34a;
+            --green-700: #15803d;
+            --red-50: #fef2f2;
+            --red-500: #ef4444;
+            --amber-50: #fffbeb;
+            --amber-500: #f59e0b;
+            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
         body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--bg-0);
-            color: var(--text-1);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.6;
             min-height: 100vh;
             min-height: 100dvh;
-            line-height: 1.6;
-            font-size: 13px;
         }
 
-        /* App */
+        .mono {
+            font-family: 'IBM Plex Mono', monospace;
+        }
+
+        /* Layout */
         .app {
-            height: 100vh;
-            height: 100dvh;
+            max-width: 480px;
+            margin: 0 auto;
+            min-height: 100vh;
+            min-height: 100dvh;
+            background: var(--white);
             display: flex;
             flex-direction: column;
-            max-width: 700px;
-            margin: 0 auto;
+            box-shadow: var(--shadow-md);
+        }
+
+        @media (max-width: 480px) {
+            .app {
+                box-shadow: none;
+            }
         }
 
         /* Header */
         header {
-            padding: 12px 16px;
-            border-bottom: 1px solid var(--border);
+            padding: 16px 20px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-200);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--bg-1);
         }
 
         .logo {
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 2px;
-            color: var(--text-0);
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        .security-badge {
-            font-size: 10px;
-            padding: 4px 10px;
-            border: 1px solid;
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-icon svg {
+            width: 18px;
+            height: 18px;
+            color: white;
+        }
+
+        .logo-text {
+            font-weight: 600;
+            font-size: 18px;
+            color: var(--gray-900);
+        }
+
+        .security-indicator {
             display: flex;
             align-items: center;
             gap: 6px;
+            padding: 6px 12px;
+            border-radius: 100px;
+            font-size: 13px;
+            font-weight: 500;
         }
 
-        .security-badge.anonymous {
-            border-color: var(--green);
-            color: var(--green);
-            background: var(--green-dim);
+        .security-indicator.secure {
+            background: var(--green-50);
+            color: var(--green-700);
         }
 
-        .security-badge.secure {
-            border-color: var(--green);
-            color: var(--green);
-            background: var(--green-dim);
+        .security-indicator.connecting {
+            background: var(--amber-50);
+            color: var(--amber-500);
         }
 
-        .security-badge.danger {
-            border-color: var(--red);
-            color: var(--red);
-            background: var(--red-dim);
-        }
-
-        .badge-dot {
-            width: 5px;
-            height: 5px;
+        .security-indicator .dot {
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
             background: currentColor;
-            animation: pulse 2s infinite;
         }
 
-        @keyframes pulse {
+        .security-indicator.secure .dot {
+            animation: pulse-green 2s infinite;
+        }
+
+        @keyframes pulse-green {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
+            50% { opacity: 0.5; }
         }
 
         /* Main */
         main {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 16px;
+            padding: 24px 20px;
         }
 
         /* Views */
         .view {
             display: none;
-            animation: fadeIn 0.2s ease;
         }
 
         .view.active {
             display: block;
+            animation: fadeIn 0.3s ease;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Home */
         .home {
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-
-        .hero {
             text-align: center;
-            margin-bottom: 40px;
+            padding: 20px 0;
         }
 
-        .hero h1 {
-            font-size: 32px;
+        .home-hero {
+            margin-bottom: 32px;
+        }
+
+        .home-hero h1 {
+            font-size: 28px;
             font-weight: 700;
-            color: var(--text-0);
+            color: var(--gray-900);
             margin-bottom: 8px;
-            letter-spacing: -1px;
         }
 
-        .hero p {
-            color: var(--text-2);
-            font-size: 12px;
-        }
-
-        .btn-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            max-width: 300px;
-            margin: 0 auto 40px;
+        .home-hero p {
+            color: var(--gray-500);
+            font-size: 16px;
         }
 
         .btn {
-            padding: 14px 20px;
-            border: 1px solid var(--border-light);
-            background: var(--bg-1);
-            color: var(--text-1);
-            font-family: inherit;
-            font-size: 12px;
-            cursor: pointer;
-            transition: all 0.15s;
-            text-align: left;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 14px 20px;
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            border: none;
         }
 
-        .btn:hover {
-            border-color: var(--green);
-            background: var(--green-dim);
+        .btn-primary {
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            color: white;
+            box-shadow: var(--shadow), 0 4px 14px -3px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-arrow {
-            color: var(--text-3);
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-md), 0 6px 20px -3px rgba(37, 99, 235, 0.5);
         }
 
-        .btn:hover .btn-arrow {
-            color: var(--green);
+        .btn-secondary {
+            background: var(--white);
+            color: var(--gray-700);
+            border: 1px solid var(--gray-200);
         }
 
-        /* Info Panels */
-        .info-panel {
-            border: 1px solid var(--border);
-            background: var(--bg-1);
-            padding: 16px;
-            margin-bottom: 16px;
+        .btn-secondary:hover {
+            background: var(--gray-50);
+            border-color: var(--gray-300);
         }
 
-        .info-panel.warning {
-            border-color: var(--yellow);
-            background: var(--yellow-dim);
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 40px;
         }
 
-        .info-panel.success {
-            border-color: var(--green);
-            background: var(--green-dim);
+        /* Trust Section */
+        .trust-section {
+            text-align: left;
+            margin-bottom: 24px;
         }
 
-        .info-panel h3 {
-            font-size: 10px;
+        .trust-section h2 {
+            font-size: 14px;
             font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .trust-section h2 svg {
+            width: 18px;
+            height: 18px;
+            color: var(--green-600);
+        }
+
+        .trust-card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+
+        .trust-card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .trust-card-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--blue-50);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .trust-card-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--blue-600);
+        }
+
+        .trust-card-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--gray-900);
+            margin-bottom: 2px;
+        }
+
+        .trust-card-desc {
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.5;
+        }
+
+        /* Proof Section */
+        .proof-section {
+            background: var(--blue-50);
+            border: 1px solid var(--blue-100);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .proof-section h3 {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--blue-700);
+            margin-bottom: 12px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-            color: var(--text-0);
+            letter-spacing: 0.5px;
         }
 
-        .info-panel.warning h3 {
-            color: var(--yellow);
+        .proof-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-700);
+            margin-bottom: 8px;
         }
 
-        .info-panel.success h3 {
-            color: var(--green);
+        .proof-item:last-child {
+            margin-bottom: 0;
         }
 
-        .info-panel p, .info-panel li {
-            font-size: 11px;
-            color: var(--text-2);
-            line-height: 1.7;
+        .proof-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--green-600);
+            flex-shrink: 0;
         }
 
-        .info-panel ul {
-            list-style: none;
-        }
-
-        .info-panel li {
-            padding: 3px 0;
-        }
-
-        .info-panel li::before {
-            content: "→ ";
-            color: var(--text-3);
-        }
-
-        .info-panel a {
-            color: var(--green);
+        .proof-item a {
+            color: var(--blue-600);
             text-decoration: none;
         }
 
-        .info-panel a:hover {
+        .proof-item a:hover {
             text-decoration: underline;
         }
 
-        /* Setup */
-        .setup h2 {
-            font-size: 16px;
-            font-weight: 600;
-            color: var(--text-0);
-            margin-bottom: 6px;
+        /* Comparison */
+        .comparison {
+            text-align: left;
+            margin-bottom: 24px;
         }
 
-        .setup .desc {
-            color: var(--text-2);
-            font-size: 11px;
+        .comparison h2 {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 16px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .comparison-table th {
+            text-align: left;
+            padding: 10px 12px;
+            background: var(--gray-100);
+            font-weight: 500;
+            color: var(--gray-600);
+        }
+
+        .comparison-table th:first-child {
+            border-radius: 8px 0 0 0;
+        }
+
+        .comparison-table th:last-child {
+            border-radius: 0 8px 0 0;
+            text-align: center;
+        }
+
+        .comparison-table td {
+            padding: 12px;
+            border-bottom: 1px solid var(--gray-100);
+        }
+
+        .comparison-table td:last-child {
+            text-align: center;
+        }
+
+        .comparison-table tr:last-child td:first-child {
+            border-radius: 0 0 0 8px;
+        }
+
+        .comparison-table tr:last-child td:last-child {
+            border-radius: 0 0 8px 0;
+        }
+
+        .comparison-table tr.highlight {
+            background: var(--green-50);
+        }
+
+        .comparison-table tr.highlight td {
+            border-bottom: 1px solid var(--green-100);
+            font-weight: 500;
+        }
+
+        .check {
+            color: var(--green-600);
+        }
+
+        .cross {
+            color: var(--red-500);
+        }
+
+        .partial {
+            color: var(--amber-500);
+        }
+
+        /* Setup Flow */
+        .setup {
+            text-align: left;
+        }
+
+        .setup-header {
             margin-bottom: 24px;
+        }
+
+        .setup-header h2 {
+            font-size: 22px;
+            font-weight: 600;
+            color: var(--gray-900);
+            margin-bottom: 4px;
+        }
+
+        .setup-header p {
+            color: var(--gray-500);
+            font-size: 15px;
         }
 
         .step {
             margin-bottom: 24px;
         }
 
-        .step-header {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: var(--text-3);
-            margin-bottom: 8px;
+        .step-label {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: 10px;
         }
 
-        .step-num {
-            width: 16px;
-            height: 16px;
-            border: 1px solid var(--green);
-            color: var(--green);
-            font-size: 9px;
+        .step-number {
+            width: 24px;
+            height: 24px;
+            background: var(--blue-600);
+            color: white;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 12px;
+            font-weight: 600;
         }
 
-        .code-block {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            padding: 12px;
-            font-size: 10px;
-            color: var(--green);
+        .step-title {
+            font-weight: 500;
+            font-size: 14px;
+            color: var(--gray-700);
+        }
+
+        .code-box {
+            background: var(--gray-900);
+            border-radius: 10px;
+            padding: 16px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 11px;
+            color: var(--gray-300);
             word-break: break-all;
-            max-height: 150px;
-            overflow-y: auto;
             line-height: 1.6;
+            max-height: 140px;
+            overflow-y: auto;
         }
 
-        .code-block.loading {
-            color: var(--text-3);
-        }
-
-        textarea.code-input {
-            width: 100%;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            padding: 12px;
-            font-family: inherit;
-            font-size: 10px;
-            color: var(--text-1);
-            resize: none;
+        .code-box.loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
             min-height: 80px;
+            color: var(--gray-500);
+        }
+
+        textarea.input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 12px;
+            color: var(--gray-800);
+            resize: none;
+            min-height: 100px;
             outline: none;
+            transition: border-color 0.15s;
         }
 
-        textarea.code-input:focus {
-            border-color: var(--green);
+        textarea.input:focus {
+            border-color: var(--blue-500);
+            box-shadow: 0 0 0 3px var(--blue-50);
         }
 
-        textarea.code-input::placeholder {
-            color: var(--text-3);
+        textarea.input::placeholder {
+            color: var(--gray-400);
         }
 
         .btn-row {
             display: flex;
-            gap: 8px;
+            gap: 10px;
             margin-top: 12px;
         }
 
         .btn-row .btn {
             flex: 1;
-            justify-content: center;
         }
 
-        .btn.primary {
-            border-color: var(--green);
-            color: var(--green);
-        }
-
-        .btn.primary:hover {
-            background: var(--green);
-            color: var(--bg-0);
-        }
-
-        .btn.small {
+        .btn-sm {
             padding: 10px 16px;
-            font-size: 11px;
+            font-size: 14px;
         }
 
-        .helper {
-            font-size: 10px;
-            color: var(--text-3);
-            margin-top: 8px;
+        .note {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--amber-50);
+            border-radius: 8px;
+            font-size: 13px;
+            color: var(--gray-700);
+        }
+
+        .note svg {
+            width: 18px;
+            height: 18px;
+            color: var(--amber-500);
+            flex-shrink: 0;
+            margin-top: 1px;
         }
 
         /* Chat */
         .chat {
-            height: 100%;
             display: flex;
             flex-direction: column;
+            height: 100%;
         }
 
-        .chat.active {
+        /* Security Bar */
+        .security-bar {
+            background: var(--green-50);
+            border: 1px solid var(--green-100);
+            border-radius: 10px;
+            padding: 12px 14px;
+            margin-bottom: 16px;
             display: flex;
+            align-items: center;
+            gap: 12px;
         }
 
+        .security-bar-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--green-100);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .security-bar-icon svg {
+            width: 18px;
+            height: 18px;
+            color: var(--green-700);
+        }
+
+        .security-bar-text {
+            flex: 1;
+        }
+
+        .security-bar-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--green-800);
+        }
+
+        .security-bar-desc {
+            font-size: 12px;
+            color: var(--green-700);
+        }
+
+        .fingerprint-btn {
+            padding: 6px 10px;
+            background: var(--white);
+            border: 1px solid var(--green-200);
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--green-700);
+            cursor: pointer;
+        }
+
+        .fingerprint-btn:hover {
+            background: var(--green-100);
+        }
+
+        /* Messages */
         .messages {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 16px;
         }
 
-        .msg {
+        .message {
             margin-bottom: 12px;
+            animation: msgIn 0.2s ease;
         }
 
-        .msg.sent {
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .message.sent {
             text-align: right;
         }
 
-        .msg-bubble {
+        .message-bubble {
             display: inline-block;
             max-width: 80%;
-            padding: 10px 12px;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            font-size: 12px;
+            padding: 10px 14px;
+            border-radius: 16px;
+            font-size: 15px;
             text-align: left;
             word-wrap: break-word;
         }
 
-        .msg.sent .msg-bubble {
-            background: var(--green-dim);
-            border-color: rgba(0, 255, 136, 0.3);
+        .message:not(.sent) .message-bubble {
+            background: var(--gray-100);
+            color: var(--gray-900);
+            border-bottom-left-radius: 4px;
         }
 
-        .msg-time {
-            font-size: 9px;
-            color: var(--text-3);
+        .message.sent .message-bubble {
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--gray-400);
             margin-top: 4px;
         }
 
-        .sys-msg {
+        .system-message {
             text-align: center;
             padding: 16px;
-            font-size: 11px;
-            color: var(--text-3);
         }
 
-        .sys-msg.connected {
-            color: var(--green);
-        }
-
-        .sys-msg .icon {
-            font-size: 20px;
-            margin-bottom: 6px;
-            display: block;
-        }
-
-        /* Input */
-        .input-area {
-            padding: 12px 16px;
-            border-top: 1px solid var(--border);
-            background: var(--bg-1);
-        }
-
-        .input-wrap {
-            display: flex;
+        .system-message-content {
+            display: inline-flex;
+            align-items: center;
             gap: 8px;
+            padding: 8px 16px;
+            background: var(--gray-100);
+            border-radius: 100px;
+            font-size: 13px;
+            color: var(--gray-600);
         }
 
-        .msg-input {
-            flex: 1;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            padding: 10px 12px;
-            font-family: inherit;
-            font-size: 12px;
-            color: var(--text-1);
-            outline: none;
+        .system-message-content svg {
+            width: 16px;
+            height: 16px;
         }
 
-        .msg-input:focus {
-            border-color: var(--green);
-        }
-
-        .msg-input::placeholder {
-            color: var(--text-3);
-        }
-
-        .send-btn {
-            background: var(--green);
-            border: none;
-            color: var(--bg-0);
-            padding: 10px 16px;
-            font-family: inherit;
-            font-size: 12px;
-            font-weight: 600;
-            cursor: pointer;
-        }
-
-        .send-btn:hover {
-            opacity: 0.9;
-        }
-
-        /* Toast */
-        .toast {
-            position: fixed;
-            bottom: 80px;
-            left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: var(--bg-2);
-            border: 1px solid var(--green);
-            padding: 10px 16px;
-            font-size: 11px;
-            color: var(--green);
-            opacity: 0;
-            transition: all 0.2s;
-            z-index: 100;
-        }
-
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
-
-        /* Paranoid Mode Toggle */
-        .toggle-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .toggle-label {
-            font-size: 11px;
-            color: var(--text-2);
-        }
-
-        .toggle {
-            width: 36px;
-            height: 20px;
-            background: var(--bg-3);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .toggle.active {
-            background: var(--green-dim);
-            border-color: var(--green);
-        }
-
-        .toggle::after {
-            content: '';
-            position: absolute;
-            top: 3px;
-            left: 3px;
-            width: 12px;
-            height: 12px;
-            background: var(--text-3);
-            border-radius: 50%;
-            transition: all 0.2s;
-        }
-
-        .toggle.active::after {
-            left: 19px;
-            background: var(--green);
-        }
-
-        /* Explainer */
-        .explainer {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .exp-row {
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-
-        .exp-icon {
-            width: 20px;
-            height: 20px;
-            border: 1px solid var(--green);
-            color: var(--green);
-            font-size: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
-
-        .exp-text {
-            font-size: 11px;
-            color: var(--text-2);
-            line-height: 1.6;
-        }
-
-        .exp-text strong {
-            color: var(--text-1);
-        }
-
-        /* Comparison */
-        .compare {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .compare-item {
-            padding: 12px;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-        }
-
-        .compare-item.ours {
-            border-color: var(--green);
-            background: var(--green-dim);
-        }
-
-        .compare-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 6px;
-        }
-
-        .compare-name {
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-0);
-        }
-
-        .compare-verdict {
-            font-size: 9px;
-            padding: 2px 6px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .compare-verdict.good {
-            background: var(--green-dim);
-            color: var(--green);
-            border: 1px solid var(--green);
-        }
-
-        .compare-verdict.partial {
-            background: var(--yellow-dim);
-            color: var(--yellow);
-            border: 1px solid var(--yellow);
-        }
-
-        .compare-verdict.bad {
-            background: var(--red-dim);
-            color: var(--red);
-            border: 1px solid var(--red);
-        }
-
-        .compare-item p {
-            font-size: 11px;
-            color: var(--text-2);
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .compare-item.ours p {
-            color: var(--text-1);
-        }
-
-        /* Honest disclaimer */
-        .honest {
-            font-size: 11px;
-            color: var(--text-2);
-            line-height: 1.6;
-        }
-
-        .honest a {
-            color: var(--green);
-            text-decoration: none;
-        }
-
-        .honest a:hover {
-            text-decoration: underline;
-        }
-
-        /* File sharing */
-        .attach-btn {
-            background: var(--bg-2);
-            border: 1px solid var(--border);
-            color: var(--text-2);
-            padding: 10px 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.15s;
-        }
-
-        .attach-btn:hover {
-            border-color: var(--green);
-            color: var(--green);
-        }
-
-        .file-progress {
-            padding: 10px 0;
-            margin-bottom: 8px;
-        }
-
-        .file-progress-info {
-            display: flex;
-            justify-content: space-between;
-            font-size: 10px;
-            color: var(--text-2);
-            margin-bottom: 6px;
-        }
-
-        .file-progress-bar {
-            height: 3px;
-            background: var(--bg-2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-
-        .file-progress-fill {
-            height: 100%;
-            background: var(--green);
-            width: 0%;
-            transition: width 0.2s;
-        }
-
-        /* File message */
+        /* File Messages */
         .file-bubble {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
             max-width: 80%;
-            padding: 12px 14px;
-            background: var(--bg-2);
-            border: 1px solid var(--border);
+            padding: 12px 16px;
+            background: var(--gray-100);
+            border-radius: 16px;
+            border-bottom-left-radius: 4px;
             text-align: left;
         }
 
-        .msg.sent .file-bubble {
-            background: var(--green-dim);
-            border-color: rgba(0, 255, 136, 0.3);
-        }
-
-        .file-info {
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        .message.sent .file-bubble {
+            background: var(--blue-50);
+            border-bottom-left-radius: 16px;
+            border-bottom-right-radius: 4px;
         }
 
         .file-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--bg-3);
-            border: 1px solid var(--border);
+            width: 40px;
+            height: 40px;
+            background: var(--white);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
-            color: var(--text-3);
+            font-size: 11px;
+            font-weight: 600;
+            color: var(--gray-500);
             text-transform: uppercase;
-            flex-shrink: 0;
-        }
-
-        .msg.sent .file-icon {
-            background: rgba(0, 255, 136, 0.1);
-            border-color: rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--gray-200);
         }
 
         .file-details {
@@ -754,81 +733,284 @@
         }
 
         .file-name {
-            font-size: 12px;
-            color: var(--text-1);
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--gray-900);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
         .file-size {
-            font-size: 10px;
-            color: var(--text-3);
+            font-size: 12px;
+            color: var(--gray-500);
         }
 
         .file-download {
-            margin-top: 8px;
+            margin-top: 6px;
         }
 
         .file-download a {
-            font-size: 10px;
-            color: var(--green);
+            font-size: 13px;
+            color: var(--blue-600);
             text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
+            font-weight: 500;
         }
 
         .file-download a:hover {
             text-decoration: underline;
         }
 
-        /* Image preview */
-        .img-bubble {
-            display: inline-block;
-            max-width: 70%;
-        }
-
         .img-bubble img {
-            max-width: 100%;
-            max-height: 300px;
+            max-width: 240px;
+            max-height: 240px;
+            border-radius: 12px;
             display: block;
-            border: 1px solid var(--border);
         }
 
-        .msg.sent .img-bubble img {
-            border-color: rgba(0, 255, 136, 0.3);
+        /* Input */
+        .input-area {
+            padding: 16px 20px;
+            background: var(--white);
+            border-top: 1px solid var(--gray-200);
         }
 
-        /* Loading */
+        .file-progress {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            background: var(--gray-50);
+            border-radius: 8px;
+        }
+
+        .file-progress-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: var(--gray-600);
+            margin-bottom: 6px;
+        }
+
+        .file-progress-bar {
+            height: 4px;
+            background: var(--gray-200);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .file-progress-fill {
+            height: 100%;
+            background: var(--blue-600);
+            width: 0%;
+            transition: width 0.2s;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 10px;
+            align-items: flex-end;
+        }
+
+        .attach-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--gray-100);
+            border: none;
+            color: var(--gray-500);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .attach-btn:hover {
+            background: var(--gray-200);
+            color: var(--gray-700);
+        }
+
+        .attach-btn svg {
+            width: 20px;
+            height: 20px;
+        }
+
+        .message-input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 1px solid var(--gray-200);
+            border-radius: 12px;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--gray-900);
+            outline: none;
+            transition: all 0.15s;
+        }
+
+        .message-input:focus {
+            border-color: var(--blue-500);
+            box-shadow: 0 0 0 3px var(--blue-50);
+        }
+
+        .message-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .send-btn {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            border: none;
+            color: white;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .send-btn svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(10px);
+            background: var(--gray-900);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0;
+            transition: all 0.2s ease;
+            z-index: 100;
+            box-shadow: var(--shadow-md);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        /* Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--white);
+            border-radius: 16px;
+            padding: 24px;
+            max-width: 360px;
+            width: 100%;
+            animation: modalIn 0.2s ease;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .modal h3 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            font-size: 14px;
+            color: var(--gray-600);
+            margin-bottom: 16px;
+        }
+
+        .fingerprint-display {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'IBM Plex Mono', monospace;
+            font-size: 14px;
+            text-align: center;
+            letter-spacing: 2px;
+            color: var(--gray-700);
+            margin-bottom: 16px;
+            word-break: break-all;
+        }
+
+        .modal-note {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 16px;
+        }
+
+        /* Spinner */
         .spinner {
-            display: inline-block;
-            width: 12px;
-            height: 12px;
-            border: 1px solid var(--border);
-            border-top-color: var(--green);
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--gray-600);
+            border-top-color: var(--gray-300);
             border-radius: 50%;
-            animation: spin 0.6s linear infinite;
+            animation: spin 0.7s linear infinite;
         }
 
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
 
-        /* Responsive */
-        @media (max-width: 500px) {
-            .hero h1 {
-                font-size: 24px;
-            }
+        /* Transparent note */
+        .transparent-note {
+            margin-top: 24px;
+            padding: 14px 16px;
+            background: var(--gray-50);
+            border-radius: 10px;
+            font-size: 13px;
+            color: var(--gray-600);
+            text-align: left;
+        }
+
+        .transparent-note strong {
+            color: var(--gray-800);
+            font-weight: 600;
+        }
+
+        .transparent-note a {
+            color: var(--blue-600);
+            text-decoration: none;
         }
     </style>
 </head>
 <body>
     <div class="app">
         <header>
-            <div class="logo">VOID</div>
-            <div class="security-badge secure" id="securityBadge">
-                <span class="badge-dot"></span>
+            <div class="logo">
+                <div class="logo-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                    </svg>
+                </div>
+                <span class="logo-text">Whisper</span>
+            </div>
+            <div class="security-indicator secure" id="securityIndicator">
+                <span class="dot"></span>
                 <span id="securityStatus">Sécurisé</span>
             </div>
         </header>
@@ -837,110 +1019,157 @@
             <!-- HOME -->
             <div class="view active" id="homeView">
                 <div class="home">
-                    <div class="hero">
-                        <h1>void://chat</h1>
-                        <p>Messages et fichiers · Chiffré · Zero serveur</p>
+                    <div class="home-hero">
+                        <h1>Discutez en privé</h1>
+                        <p>Messages et fichiers chiffrés, sans intermédiaire</p>
                     </div>
 
-                    <div class="btn-stack">
-                        <button class="btn" onclick="startChat()">
-                            <span>Créer une conversation</span>
-                            <span class="btn-arrow">→</span>
+                    <div class="btn-group">
+                        <button class="btn btn-primary" onclick="startChat()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="5" x2="12" y2="19"/>
+                                <line x1="5" y1="12" x2="19" y2="12"/>
+                            </svg>
+                            Nouvelle conversation
                         </button>
-                        <button class="btn" onclick="joinChat()">
-                            <span>Rejoindre</span>
-                            <span class="btn-arrow">→</span>
+                        <button class="btn btn-secondary" onclick="joinChat()">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                                <polyline points="10 17 15 12 10 7"/>
+                                <line x1="15" y1="12" x2="3" y2="12"/>
+                            </svg>
+                            Rejoindre
                         </button>
                     </div>
 
-                    <div class="info-panel success" id="securityInfo">
-                        <h3>✓ Chiffré de bout en bout</h3>
-                        <p>Tes messages ne peuvent être lus que par toi et ton contact. Point.</p>
-                    </div>
+                    <div class="trust-section">
+                        <h2>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                                <polyline points="9 12 11 14 15 10"/>
+                            </svg>
+                            Comment ça fonctionne
+                        </h2>
 
-                    <div class="info-panel success" id="torDetected" style="display:none;">
-                        <h3>✓ Anonymat maximum</h3>
-                        <p>Tor détecté. Ton IP réelle est masquée, même pour ton contact.</p>
-                    </div>
+                        <div class="trust-card">
+                            <div class="trust-card-header">
+                                <div class="trust-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"/>
+                                        <line x1="12" y1="8" x2="12" y2="12"/>
+                                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="trust-card-title">Connexion directe</div>
+                                    <div class="trust-card-desc">Votre navigateur se connecte directement à celui de votre contact. Vos messages ne passent par aucun serveur.</div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <div class="info-panel">
-                        <h3>Comment ça marche</h3>
-                        <div class="explainer">
-                            <div class="exp-row">
-                                <span class="exp-icon">1</span>
-                                <span class="exp-text"><strong>Connexion directe</strong> — Ton navigateur se connecte directement à celui de ton contact. Pas de serveur entre vous.</span>
+                        <div class="trust-card">
+                            <div class="trust-card-header">
+                                <div class="trust-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="trust-card-title">Chiffrement de bout en bout</div>
+                                    <div class="trust-card-desc">Vos messages sont chiffrés avec AES-256-GCM avant de quitter votre appareil. Même nous ne pouvons pas les lire.</div>
+                                </div>
                             </div>
-                            <div class="exp-row">
-                                <span class="exp-icon">2</span>
-                                <span class="exp-text"><strong>Clé secrète partagée</strong> — Le "ticket" contient une clé AES-256. Seuls vous deux l'avez.</span>
-                            </div>
-                            <div class="exp-row">
-                                <span class="exp-icon">3</span>
-                                <span class="exp-text"><strong>Chiffrement local</strong> — Messages et fichiers sont chiffrés dans ton navigateur avant d'être envoyés.</span>
+                        </div>
+
+                        <div class="trust-card">
+                            <div class="trust-card-header">
+                                <div class="trust-card-icon">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <polyline points="3 6 5 6 21 6"/>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="trust-card-title">Rien n'est stocké</div>
+                                    <div class="trust-card-desc">Aucune donnée n'est conservée. Fermez l'onglet, tout disparaît. Pas d'historique, pas de traces.</div>
+                                </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="info-panel">
-                        <h3>Ce qu'on ne cache pas</h3>
-                        <p class="honest">Ton contact voit ton adresse IP. C'est inhérent au P2P : pour se connecter directement, il faut savoir où envoyer les données. Si tu veux masquer ton IP aussi, utilise <a href="https://www.torproject.org/download/" target="_blank">Tor Browser</a>.</p>
+                    <div class="proof-section">
+                        <h3>🔬 Vérifiez par vous-même</h3>
+                        <div class="proof-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>AES-256-GCM</strong> — Standard utilisé par les banques et les gouvernements</span>
+                        </div>
+                        <div class="proof-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>WebRTC</strong> — Technologie des appels vidéo (Google Meet, Discord)</span>
+                        </div>
+                        <div class="proof-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>Web Crypto API</strong> — Cryptographie native du navigateur</span>
+                        </div>
+                        <div class="proof-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                            <span><strong>Code visible</strong> — Clic droit → Afficher le code source</span>
+                        </div>
                     </div>
 
-                    <div class="info-panel">
-                        <h3>Niveau supérieur</h3>
-                        <div class="toggle-row">
-                            <span class="toggle-label">Mode Fantôme (via Tor)</span>
-                            <div class="toggle" id="paranoidToggle" onclick="toggleParanoid()"></div>
-                        </div>
-                        <p class="helper" style="margin-top:8px;">Active ce mode, puis ouvre la page dans Tor Browser. Ton IP sera masquée même pour ton contact.</p>
+                    <div class="comparison">
+                        <h2>Comparaison avec les autres apps</h2>
+                        <table class="comparison-table">
+                            <tr>
+                                <th>App</th>
+                                <th>Chiffré</th>
+                                <th>Sans serveur</th>
+                                <th>Sans compte</th>
+                            </tr>
+                            <tr class="highlight">
+                                <td><strong>Whisper</strong></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="check">✓</span></td>
+                            </tr>
+                            <tr>
+                                <td>Signal</td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                            </tr>
+                            <tr>
+                                <td>WhatsApp</td>
+                                <td><span class="check">✓</span></td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                            </tr>
+                            <tr>
+                                <td>Telegram</td>
+                                <td><span class="partial">~</span></td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                            </tr>
+                            <tr>
+                                <td>Discord</td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                                <td><span class="cross">✗</span></td>
+                            </tr>
+                        </table>
                     </div>
 
-                    <div class="info-panel">
-                        <h3>Comparé aux autres</h3>
-                        <div class="compare">
-                            <div class="compare-item ours">
-                                <div class="compare-header">
-                                    <span class="compare-name">VOID</span>
-                                    <span class="compare-verdict good">Zero serveur</span>
-                                </div>
-                                <p>Pas de serveur = pas de métadonnées = rien à collecter. Le message va directement de toi à ton contact.</p>
-                            </div>
-                            <div class="compare-item">
-                                <div class="compare-header">
-                                    <span class="compare-name">Signal</span>
-                                    <span class="compare-verdict good">Excellent</span>
-                                </div>
-                                <p>Le gold standard. Mais : nécessite ton numéro de téléphone, et passe par leurs serveurs (même s'ils ne voient rien).</p>
-                            </div>
-                            <div class="compare-item">
-                                <div class="compare-header">
-                                    <span class="compare-name">WhatsApp</span>
-                                    <span class="compare-verdict partial">Chiffré, mais...</span>
-                                </div>
-                                <p>Messages chiffrés, oui. Mais Meta collecte qui parle à qui, quand, combien de fois. Ces métadonnées valent de l'or.</p>
-                            </div>
-                            <div class="compare-item">
-                                <div class="compare-header">
-                                    <span class="compare-name">iMessage</span>
-                                    <span class="compare-verdict partial">Dépend de tes réglages</span>
-                                </div>
-                                <p>Chiffré, sauf si tu actives iCloud backup. Dans ce cas, Apple a une copie lisible.</p>
-                            </div>
-                            <div class="compare-item">
-                                <div class="compare-header">
-                                    <span class="compare-name">Telegram</span>
-                                    <span class="compare-verdict bad">Pas chiffré par défaut</span>
-                                </div>
-                                <p>Les "secret chats" sont chiffrés. Les conversations normales ? Telegram peut les lire.</p>
-                            </div>
-                            <div class="compare-item">
-                                <div class="compare-header">
-                                    <span class="compare-name">Discord</span>
-                                    <span class="compare-verdict bad">Zero chiffrement</span>
-                                </div>
-                                <p>Tout est lisible par Discord. Tes DMs, tes serveurs, tout.</p>
-                            </div>
-                        </div>
+                    <div class="transparent-note">
+                        <strong>Ce que nous ne cachons pas :</strong> Votre contact voit votre adresse IP (c'est normal pour une connexion directe). Pour masquer votre IP, utilisez <a href="https://www.torproject.org/download/" target="_blank">Tor Browser</a>.
                     </div>
                 </div>
             </div>
@@ -948,32 +1177,45 @@
             <!-- CREATE -->
             <div class="view" id="createView">
                 <div class="setup">
-                    <h2>Nouveau chat</h2>
-                    <p class="desc">Envoie ce ticket à ton contact par un canal sécurisé</p>
+                    <div class="setup-header">
+                        <h2>Nouvelle conversation</h2>
+                        <p>Envoyez ce code à votre contact</p>
+                    </div>
 
                     <div class="step">
-                        <div class="step-header">
-                            <span class="step-num">1</span>
-                            Ton ticket
+                        <div class="step-label">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Votre code d'invitation</span>
                         </div>
-                        <div class="code-block loading" id="offerCode">
-                            <span class="spinner"></span> Génération...
+                        <div class="code-box loading" id="offerCode">
+                            <div class="spinner"></div>
                         </div>
                         <div class="btn-row">
-                            <button class="btn small" onclick="copyOffer()">Copier</button>
+                            <button class="btn btn-secondary btn-sm" onclick="copyOffer()">
+                                Copier le code
+                            </button>
                         </div>
                     </div>
 
                     <div class="step">
-                        <div class="step-header">
-                            <span class="step-num">2</span>
-                            Réponse de ton contact
+                        <div class="step-label">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Réponse de votre contact</span>
                         </div>
-                        <textarea class="code-input" id="answerInput" placeholder="Colle ici..."></textarea>
+                        <textarea class="input" id="answerInput" placeholder="Collez ici la réponse de votre contact..."></textarea>
                         <div class="btn-row">
-                            <button class="btn primary small" onclick="processAnswer()">Connecter</button>
-                            <button class="btn small" onclick="goHome()">Annuler</button>
+                            <button class="btn btn-primary btn-sm" onclick="processAnswer()">Connecter</button>
+                            <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
                         </div>
+                    </div>
+
+                    <div class="note">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="16" x2="12" y2="12"/>
+                            <line x1="12" y1="8" x2="12.01" y2="8"/>
+                        </svg>
+                        <span>Envoyez ce code par un moyen sécurisé (de visu, par Signal, etc.). Ce code contient la clé de chiffrement.</span>
                     </div>
                 </div>
             </div>
@@ -981,31 +1223,35 @@
             <!-- JOIN -->
             <div class="view" id="joinView">
                 <div class="setup">
-                    <h2>Rejoindre</h2>
-                    <p class="desc">Colle le ticket reçu de ton contact</p>
+                    <div class="setup-header">
+                        <h2>Rejoindre</h2>
+                        <p>Collez le code reçu de votre contact</p>
+                    </div>
 
                     <div class="step">
-                        <div class="step-header">
-                            <span class="step-num">1</span>
-                            Ticket reçu
+                        <div class="step-label">
+                            <span class="step-number">1</span>
+                            <span class="step-title">Code d'invitation reçu</span>
                         </div>
-                        <textarea class="code-input" id="offerInput" placeholder="Colle ici..."></textarea>
+                        <textarea class="input" id="offerInput" placeholder="Collez ici le code d'invitation..."></textarea>
                         <div class="btn-row">
-                            <button class="btn primary small" onclick="processOffer()">Générer réponse</button>
-                            <button class="btn small" onclick="goHome()">Annuler</button>
+                            <button class="btn btn-primary btn-sm" onclick="processOffer()">Continuer</button>
+                            <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
                         </div>
                     </div>
 
-                    <div class="step" id="answerStep" style="display:none;">
-                        <div class="step-header">
-                            <span class="step-num">2</span>
-                            Ta réponse (envoie-la)
+                    <div class="step" id="answerStep" style="display: none;">
+                        <div class="step-label">
+                            <span class="step-number">2</span>
+                            <span class="step-title">Votre réponse (à envoyer)</span>
                         </div>
-                        <div class="code-block" id="answerCode"></div>
+                        <div class="code-box" id="answerCode"></div>
                         <div class="btn-row">
-                            <button class="btn small" onclick="copyAnswer()">Copier</button>
+                            <button class="btn btn-secondary btn-sm" onclick="copyAnswer()">Copier la réponse</button>
                         </div>
-                        <p class="helper">En attente de connexion...</p>
+                        <p style="margin-top: 12px; font-size: 13px; color: var(--gray-500);">
+                            Envoyez cette réponse à votre contact. La connexion s'établira automatiquement.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -1013,18 +1259,26 @@
             <!-- CHAT -->
             <div class="view" id="chatView">
                 <div class="chat">
-                    <div class="messages" id="messages">
-                        <div class="sys-msg connected">
-                            <span class="icon">🔒</span>
-                            Connexion E2E établie
+                    <div class="security-bar">
+                        <div class="security-bar-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                            </svg>
                         </div>
+                        <div class="security-bar-text">
+                            <div class="security-bar-title">Connexion chiffrée</div>
+                            <div class="security-bar-desc">Messages protégés de bout en bout</div>
+                        </div>
+                        <button class="fingerprint-btn" onclick="showFingerprint()">Vérifier</button>
                     </div>
+                    <div class="messages" id="messages"></div>
                 </div>
             </div>
         </main>
 
-        <div class="input-area" id="inputArea" style="display:none;">
-            <div class="file-progress" id="fileProgress" style="display:none;">
+        <div class="input-area" id="inputArea" style="display: none;">
+            <div class="file-progress" id="fileProgress" style="display: none;">
                 <div class="file-progress-info">
                     <span id="fileProgressName">fichier.pdf</span>
                     <span id="fileProgressPercent">0%</span>
@@ -1033,87 +1287,53 @@
                     <div class="file-progress-fill" id="fileProgressFill"></div>
                 </div>
             </div>
-            <div class="input-wrap">
-                <button class="attach-btn" onclick="document.getElementById('fileInput').click()" title="Envoyer un fichier">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+            <div class="input-row">
+                <button class="attach-btn" onclick="document.getElementById('fileInput').click()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
                     </svg>
                 </button>
-                <input type="file" id="fileInput" style="display:none;" onchange="handleFileSelect(event)" multiple>
-                <input type="text" class="msg-input" id="msgInput" placeholder="Message..." onkeypress="handleKey(event)" autocomplete="off">
-                <button class="send-btn" onclick="sendMsg()">↵</button>
+                <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)" multiple>
+                <input type="text" class="message-input" id="msgInput" placeholder="Votre message..." onkeypress="handleKey(event)" autocomplete="off">
+                <button class="send-btn" onclick="sendMsg()">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
             </div>
         </div>
     </div>
 
     <div class="toast" id="toast"></div>
 
+    <!-- Fingerprint Modal -->
+    <div class="modal-overlay" id="fingerprintModal">
+        <div class="modal">
+            <h3>🔐 Vérification de sécurité</h3>
+            <p>Comparez ce code avec votre contact (par téléphone ou de visu). S'ils sont identiques, personne n'intercepte vos messages.</p>
+            <div class="fingerprint-display" id="fingerprintDisplay"></div>
+            <p class="modal-note">Ce code est dérivé de la clé de chiffrement partagée entre vous et votre contact uniquement.</p>
+            <button class="btn btn-secondary btn-sm" onclick="closeFingerprint()" style="width: 100%;">Fermer</button>
+        </div>
+    </div>
+
     <script>
         // =============================================
-        // CONFIG
+        // CONFIGURATION
         // =============================================
         
-        // Privacy-focused STUN servers (not Google)
         const STUN_SERVERS = [
-            { urls: 'stun:stun.l.google.com:19302' }, // Fallback only
-            { urls: 'stun:stun.cloudflare.com:3478' },
-            { urls: 'stun:stun.nextcloud.com:443' }
+            { urls: 'stun:stun.l.google.com:19302' },
+            { urls: 'stun:stun.cloudflare.com:3478' }
         ];
 
-        let isOnTor = false;
-        let paranoidMode = false;
-
         // =============================================
-        // TOR DETECTION
-        // =============================================
-
-        async function detectTor() {
-            const badge = document.getElementById('securityBadge');
-            const status = document.getElementById('securityStatus');
-            const secInfo = document.getElementById('securityInfo');
-            const torOk = document.getElementById('torDetected');
-
-            try {
-                // Method 1: Check via Tor check API
-                const res = await fetch('https://check.torproject.org/api/ip', {
-                    mode: 'cors',
-                    cache: 'no-cache'
-                });
-                const data = await res.json();
-                isOnTor = data.IsTor === true;
-            } catch {
-                // Method 2: Fallback - check if .onion resolution works
-                // or check for typical Tor Browser characteristics
-                isOnTor = navigator.userAgent.includes('Tor') || 
-                          window.location.hostname.endsWith('.onion');
-            }
-
-            if (isOnTor) {
-                badge.className = 'security-badge anonymous';
-                status.textContent = 'Anonymat max';
-                secInfo.style.display = 'none';
-                torOk.style.display = 'block';
-            } else {
-                badge.className = 'security-badge secure';
-                status.textContent = 'Sécurisé';
-                secInfo.style.display = 'block';
-                torOk.style.display = 'none';
-            }
-        }
-
-        function toggleParanoid() {
-            const toggle = document.getElementById('paranoidToggle');
-            paranoidMode = !paranoidMode;
-            toggle.classList.toggle('active', paranoidMode);
-            localStorage.setItem('paranoidMode', paranoidMode);
-        }
-
-        // =============================================
-        // CRYPTO
+        // CRYPTOGRAPHY (Web Crypto API)
         // =============================================
 
         class Crypto {
-            static async genKey() {
+            static async generateKey() {
                 return await crypto.subtle.generateKey(
                     { name: 'AES-GCM', length: 256 },
                     true,
@@ -1123,11 +1343,11 @@
 
             static async exportKey(key) {
                 const raw = await crypto.subtle.exportKey('raw', key);
-                return this.toB64(raw);
+                return this.toBase64(raw);
             }
 
-            static async importKey(b64) {
-                const raw = this.fromB64(b64);
+            static async importKey(base64) {
+                const raw = this.fromBase64(base64);
                 return await crypto.subtle.importKey(
                     'raw', raw,
                     { name: 'AES-GCM', length: 256 },
@@ -1136,125 +1356,148 @@
                 );
             }
 
-            static async encrypt(key, text) {
+            static async encrypt(key, plaintext) {
                 const iv = crypto.getRandomValues(new Uint8Array(12));
-                const enc = new TextEncoder().encode(text);
-                const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc);
-                const buf = new Uint8Array(iv.length + ct.byteLength);
-                buf.set(iv);
-                buf.set(new Uint8Array(ct), iv.length);
-                return this.toB64(buf.buffer);
-            }
-
-            static async decrypt(key, b64) {
-                const buf = this.fromB64(b64);
-                const iv = buf.slice(0, 12);
-                const ct = buf.slice(12);
-                const dec = await crypto.subtle.decrypt(
-                    { name: 'AES-GCM', iv: new Uint8Array(iv) },
-                    key, ct
+                const encoded = new TextEncoder().encode(plaintext);
+                const ciphertext = await crypto.subtle.encrypt(
+                    { name: 'AES-GCM', iv },
+                    key,
+                    encoded
                 );
-                return new TextDecoder().decode(dec);
+                const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+                combined.set(iv);
+                combined.set(new Uint8Array(ciphertext), iv.length);
+                return this.toBase64(combined.buffer);
             }
 
-            static toB64(buf) {
-                const bytes = new Uint8Array(buf);
-                let s = '';
-                bytes.forEach(b => s += String.fromCharCode(b));
-                return btoa(s);
+            static async decrypt(key, base64) {
+                const combined = this.fromBase64(base64);
+                const iv = combined.slice(0, 12);
+                const ciphertext = combined.slice(12);
+                const decrypted = await crypto.subtle.decrypt(
+                    { name: 'AES-GCM', iv: new Uint8Array(iv) },
+                    key,
+                    ciphertext
+                );
+                return new TextDecoder().decode(decrypted);
             }
 
-            static fromB64(s) {
-                const bin = atob(s);
-                const bytes = new Uint8Array(bin.length);
-                for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+            static async getFingerprint(key) {
+                const raw = await crypto.subtle.exportKey('raw', key);
+                const hash = await crypto.subtle.digest('SHA-256', raw);
+                const bytes = new Uint8Array(hash);
+                // Return first 16 bytes as hex, grouped
+                let hex = '';
+                for (let i = 0; i < 16; i++) {
+                    hex += bytes[i].toString(16).padStart(2, '0');
+                    if (i % 4 === 3 && i < 15) hex += ' ';
+                }
+                return hex.toUpperCase();
+            }
+
+            static toBase64(buffer) {
+                const bytes = new Uint8Array(buffer);
+                let binary = '';
+                bytes.forEach(b => binary += String.fromCharCode(b));
+                return btoa(binary);
+            }
+
+            static fromBase64(base64) {
+                const binary = atob(base64);
+                const bytes = new Uint8Array(binary.length);
+                for (let i = 0; i < binary.length; i++) {
+                    bytes[i] = binary.charCodeAt(i);
+                }
                 return bytes.buffer;
             }
         }
 
         // =============================================
-        // P2P
+        // P2P CONNECTION (WebRTC)
         // =============================================
 
-        class P2P {
+        class P2PConnection {
             constructor() {
                 this.pc = null;
                 this.dc = null;
-                this.key = null;
-                this.onMsg = null;
-                this.onOpen = null;
-                this.onClose = null;
+                this.encryptionKey = null;
+                this.onMessage = null;
+                this.onConnected = null;
+                this.onDisconnected = null;
             }
 
             async createOffer() {
-                this.key = await Crypto.genKey();
-                const keyB64 = await Crypto.exportKey(this.key);
+                this.encryptionKey = await Crypto.generateKey();
+                const keyBase64 = await Crypto.exportKey(this.encryptionKey);
 
                 this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
-                this.dc = this.pc.createDataChannel('v', { ordered: true });
-                this._setupDC();
+                this.dc = this.pc.createDataChannel('whisper', { ordered: true });
+                this._setupDataChannel();
 
                 const offer = await this.pc.createOffer();
                 await this.pc.setLocalDescription(offer);
-                await this._waitICE();
+                await this._waitForICE();
 
                 return btoa(JSON.stringify({
-                    s: this.pc.localDescription.sdp,
-                    k: keyB64
+                    sdp: this.pc.localDescription.sdp,
+                    key: keyBase64
                 }));
             }
 
-            async acceptOffer(b64) {
-                const { s, k } = JSON.parse(atob(b64));
-                this.key = await Crypto.importKey(k);
+            async acceptOffer(offerBase64) {
+                const { sdp, key } = JSON.parse(atob(offerBase64));
+                this.encryptionKey = await Crypto.importKey(key);
 
                 this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
-                this.pc.ondatachannel = e => {
+                this.pc.ondatachannel = (e) => {
                     this.dc = e.channel;
-                    this._setupDC();
+                    this._setupDataChannel();
                 };
 
-                await this.pc.setRemoteDescription({ type: 'offer', sdp: s });
+                await this.pc.setRemoteDescription({ type: 'offer', sdp });
                 const answer = await this.pc.createAnswer();
                 await this.pc.setLocalDescription(answer);
-                await this._waitICE();
+                await this._waitForICE();
 
                 return btoa(JSON.stringify({
-                    s: this.pc.localDescription.sdp
+                    sdp: this.pc.localDescription.sdp
                 }));
             }
 
-            async acceptAnswer(b64) {
-                const { s } = JSON.parse(atob(b64));
-                await this.pc.setRemoteDescription({ type: 'answer', sdp: s });
+            async acceptAnswer(answerBase64) {
+                const { sdp } = JSON.parse(atob(answerBase64));
+                await this.pc.setRemoteDescription({ type: 'answer', sdp });
             }
 
-            async send(msg) {
-                if (!this.dc || this.dc.readyState !== 'open') throw new Error('Not connected');
-                const enc = await Crypto.encrypt(this.key, msg);
-                this.dc.send(enc);
+            async send(message) {
+                if (!this.dc || this.dc.readyState !== 'open') {
+                    throw new Error('Non connecté');
+                }
+                const encrypted = await Crypto.encrypt(this.encryptionKey, message);
+                this.dc.send(encrypted);
             }
 
-            _setupDC() {
-                this.dc.onopen = () => this.onOpen?.();
-                this.dc.onclose = () => this.onClose?.();
-                this.dc.onmessage = async e => {
-                    const dec = await Crypto.decrypt(this.key, e.data);
-                    this.onMsg?.(dec);
+            _setupDataChannel() {
+                this.dc.onopen = () => this.onConnected?.();
+                this.dc.onclose = () => this.onDisconnected?.();
+                this.dc.onmessage = async (e) => {
+                    const decrypted = await Crypto.decrypt(this.encryptionKey, e.data);
+                    this.onMessage?.(decrypted);
                 };
             }
 
-            _waitICE() {
-                return new Promise(r => {
-                    if (this.pc.iceGatheringState === 'complete') return r();
+            _waitForICE() {
+                return new Promise((resolve) => {
+                    if (this.pc.iceGatheringState === 'complete') return resolve();
+                    
                     const check = () => {
                         if (this.pc.iceGatheringState === 'complete') {
                             this.pc.removeEventListener('icegatheringstatechange', check);
-                            r();
+                            resolve();
                         }
                     };
                     this.pc.addEventListener('icegatheringstatechange', check);
-                    setTimeout(r, 4000);
+                    setTimeout(resolve, 5000);
                 });
             }
 
@@ -1265,13 +1508,14 @@
         }
 
         // =============================================
-        // UI
+        // APPLICATION
         // =============================================
 
-        let p2p = null;
-        let offer = '';
-        let answer = '';
+        let connection = null;
+        let currentOffer = '';
+        let currentAnswer = '';
 
+        // UI Functions
         function showView(id) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
             document.getElementById(id).classList.add('active');
@@ -1282,53 +1526,55 @@
             const t = document.getElementById('toast');
             t.textContent = msg;
             t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2000);
+            setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function updateSecurityIndicator(status, text) {
+            const indicator = document.getElementById('securityIndicator');
+            const statusEl = document.getElementById('securityStatus');
+            indicator.className = 'security-indicator ' + status;
+            statusEl.textContent = text;
         }
 
         function goHome() {
-            p2p?.close();
-            p2p = null;
+            connection?.close();
+            connection = null;
             showView('homeView');
-            document.getElementById('messages').innerHTML = '';
+            updateSecurityIndicator('secure', 'Sécurisé');
         }
 
-        // =============================================
-        // ACTIONS
-        // =============================================
-
+        // Chat Functions
         async function startChat() {
-            if (paranoidMode && !isOnTor) {
-                toast('Mode Fantôme: ouvre dans Tor Browser');
-                return;
-            }
-
-            p2p = new P2P();
-            p2p.onOpen = () => {
+            connection = new P2PConnection();
+            
+            connection.onConnected = () => {
                 showView('chatView');
-                document.getElementById('messages').innerHTML = `
-                    <div class="sys-msg connected">
-                        <span class="icon">🔒</span>
-                        Connexion E2E établie
-                    </div>
-                `;
+                updateSecurityIndicator('secure', 'Chiffré');
+                document.getElementById('messages').innerHTML = '';
                 document.getElementById('msgInput').focus();
-                updateBadgeConnected();
             };
-            p2p.onClose = () => addSys('Déconnecté');
-            p2p.onMsg = msg => {
-                if (!handleIncomingMessage(msg)) {
-                    addMsg(msg, false);
+
+            connection.onDisconnected = () => {
+                updateSecurityIndicator('connecting', 'Déconnecté');
+                addSystemMessage('Connexion terminée');
+            };
+
+            connection.onMessage = (msg) => {
+                if (!handleFileMessage(msg)) {
+                    addMessage(msg, false);
                 }
             };
 
             showView('createView');
-            document.getElementById('offerCode').innerHTML = '<span class="spinner"></span> Génération...';
+            updateSecurityIndicator('connecting', 'En attente');
+            
+            document.getElementById('offerCode').innerHTML = '<div class="spinner"></div>';
             document.getElementById('offerCode').classList.add('loading');
             document.getElementById('answerInput').value = '';
 
             try {
-                offer = await p2p.createOffer();
-                document.getElementById('offerCode').textContent = offer;
+                currentOffer = await connection.createOffer();
+                document.getElementById('offerCode').textContent = currentOffer;
                 document.getElementById('offerCode').classList.remove('loading');
             } catch (e) {
                 document.getElementById('offerCode').textContent = 'Erreur: ' + e.message;
@@ -1336,102 +1582,107 @@
         }
 
         function copyOffer() {
-            navigator.clipboard.writeText(offer);
-            toast('Copié');
+            navigator.clipboard.writeText(currentOffer);
+            toast('Code copié');
         }
 
         async function processAnswer() {
             const val = document.getElementById('answerInput').value.trim();
-            if (!val) return toast('Colle la réponse');
+            if (!val) return toast('Collez la réponse de votre contact');
             try {
-                await p2p.acceptAnswer(val);
-            } catch {
-                toast('Réponse invalide');
+                await connection.acceptAnswer(val);
+            } catch (e) {
+                toast('Code invalide');
             }
         }
 
         async function joinChat() {
-            if (paranoidMode && !isOnTor) {
-                toast('Mode Fantôme: ouvre dans Tor Browser');
-                return;
-            }
-
-            p2p = new P2P();
-            p2p.onOpen = () => {
+            connection = new P2PConnection();
+            
+            connection.onConnected = () => {
                 showView('chatView');
-                document.getElementById('messages').innerHTML = `
-                    <div class="sys-msg connected">
-                        <span class="icon">🔒</span>
-                        Connexion E2E établie
-                    </div>
-                `;
+                updateSecurityIndicator('secure', 'Chiffré');
+                document.getElementById('messages').innerHTML = '';
                 document.getElementById('msgInput').focus();
-                updateBadgeConnected();
             };
-            p2p.onClose = () => addSys('Déconnecté');
-            p2p.onMsg = msg => {
-                if (!handleIncomingMessage(msg)) {
-                    addMsg(msg, false);
+
+            connection.onDisconnected = () => {
+                updateSecurityIndicator('connecting', 'Déconnecté');
+                addSystemMessage('Connexion terminée');
+            };
+
+            connection.onMessage = (msg) => {
+                if (!handleFileMessage(msg)) {
+                    addMessage(msg, false);
                 }
             };
 
             showView('joinView');
+            updateSecurityIndicator('connecting', 'En attente');
             document.getElementById('answerStep').style.display = 'none';
             document.getElementById('offerInput').value = '';
         }
 
         async function processOffer() {
             const val = document.getElementById('offerInput').value.trim();
-            if (!val) return toast('Colle le ticket');
+            if (!val) return toast('Collez le code d\'invitation');
             try {
-                answer = await p2p.acceptOffer(val);
-                document.getElementById('answerCode').textContent = answer;
+                currentAnswer = await connection.acceptOffer(val);
+                document.getElementById('answerCode').textContent = currentAnswer;
                 document.getElementById('answerStep').style.display = 'block';
-            } catch {
-                toast('Ticket invalide');
+            } catch (e) {
+                toast('Code invalide');
             }
         }
 
         function copyAnswer() {
-            navigator.clipboard.writeText(answer);
-            toast('Copié');
+            navigator.clipboard.writeText(currentAnswer);
+            toast('Réponse copiée');
         }
 
-        // =============================================
-        // CHAT
-        // =============================================
-
-        function addMsg(text, sent) {
-            const c = document.getElementById('messages');
+        // Messages
+        function addMessage(text, sent) {
+            const container = document.getElementById('messages');
             const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+            
             const div = document.createElement('div');
-            div.className = 'msg' + (sent ? ' sent' : '');
+            div.className = 'message' + (sent ? ' sent' : '');
             div.innerHTML = `
-                <div class="msg-bubble">${esc(text)}</div>
-                <div class="msg-time">${time}</div>
+                <div class="message-bubble">${escapeHtml(text)}</div>
+                <div class="message-time">${time}</div>
             `;
-            c.appendChild(div);
-            c.scrollTop = c.scrollHeight;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
 
-        function addSys(text) {
-            const c = document.getElementById('messages');
+        function addSystemMessage(text) {
+            const container = document.getElementById('messages');
             const div = document.createElement('div');
-            div.className = 'sys-msg';
-            div.textContent = text;
-            c.appendChild(div);
+            div.className = 'system-message';
+            div.innerHTML = `
+                <div class="system-message-content">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="16" x2="12" y2="12"/>
+                        <line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    ${escapeHtml(text)}
+                </div>
+            `;
+            container.appendChild(div);
         }
 
         async function sendMsg() {
             const input = document.getElementById('msgInput');
             const text = input.value.trim();
-            if (!text || !p2p) return;
+            if (!text || !connection) return;
+
             try {
-                await p2p.send(text);
-                addMsg(text, true);
+                await connection.send(text);
+                addMessage(text, true);
                 input.value = '';
-            } catch {
-                toast('Erreur envoi');
+            } catch (e) {
+                toast('Erreur d\'envoi');
             }
         }
 
@@ -1439,126 +1690,100 @@
             if (e.key === 'Enter') sendMsg();
         }
 
-        function esc(s) {
-            const d = document.createElement('div');
-            d.textContent = s;
-            return d.innerHTML;
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
 
-        function updateBadgeConnected() {
-            const badge = document.getElementById('securityBadge');
-            const status = document.getElementById('securityStatus');
-            badge.className = 'security-badge anonymous';
-            status.textContent = 'Chiffré E2E';
+        // Fingerprint
+        async function showFingerprint() {
+            if (!connection?.encryptionKey) return;
+            const fp = await Crypto.getFingerprint(connection.encryptionKey);
+            document.getElementById('fingerprintDisplay').textContent = fp;
+            document.getElementById('fingerprintModal').classList.add('active');
+        }
+
+        function closeFingerprint() {
+            document.getElementById('fingerprintModal').classList.remove('active');
         }
 
         // =============================================
         // FILE SHARING
         // =============================================
 
-        const CHUNK_SIZE = 64 * 1024; // 64KB chunks
-        const MAX_BUFFER = 256 * 1024; // 256KB max buffer before waiting
-        let incomingFiles = {}; // Track incoming file transfers
+        const CHUNK_SIZE = 64 * 1024;
+        const MAX_BUFFER = 256 * 1024;
+        let incomingFiles = {};
 
         async function handleFileSelect(event) {
             const files = event.target.files;
-            if (!files.length || !p2p) return;
-
+            if (!files.length || !connection) return;
             for (const file of files) {
                 await sendFile(file);
             }
-            
-            event.target.value = ''; // Reset input
+            event.target.value = '';
         }
 
         async function sendFile(file) {
             const fileId = crypto.randomUUID();
             const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
             
-            // Show progress
             showProgress(file.name, 0);
 
-            // Send file metadata first
-            const metadata = {
+            await connection.send(JSON.stringify({
                 type: 'file-start',
                 id: fileId,
                 name: file.name,
                 size: file.size,
                 mimeType: file.type,
-                totalChunks: totalChunks
-            };
-            
-            await p2p.send(JSON.stringify(metadata));
+                totalChunks
+            }));
 
-            // Read file as array buffer
             const arrayBuffer = await file.arrayBuffer();
             const uint8Array = new Uint8Array(arrayBuffer);
 
-            // Send chunks with flow control
             for (let i = 0; i < totalChunks; i++) {
                 const start = i * CHUNK_SIZE;
                 const end = Math.min(start + CHUNK_SIZE, file.size);
                 const chunk = uint8Array.slice(start, end);
-                const chunkB64 = Crypto.toB64(chunk.buffer);
                 
-                const chunkMsg = {
+                await waitForBuffer(connection.dc);
+                
+                await connection.send(JSON.stringify({
                     type: 'file-chunk',
                     id: fileId,
                     index: i,
-                    data: chunkB64
-                };
+                    data: Crypto.toBase64(chunk.buffer)
+                }));
                 
-                // Wait for buffer to drain if needed
-                await waitForBuffer(p2p.dc);
-                
-                await p2p.send(JSON.stringify(chunkMsg));
-                
-                // Update progress
-                const progress = Math.round(((i + 1) / totalChunks) * 100);
-                showProgress(file.name, progress);
+                showProgress(file.name, Math.round(((i + 1) / totalChunks) * 100));
             }
 
-            // Send completion message
-            await p2p.send(JSON.stringify({
-                type: 'file-end',
-                id: fileId
-            }));
-            
+            await connection.send(JSON.stringify({ type: 'file-end', id: fileId }));
             hideProgress();
-            
-            // Add to chat
-            addFileMsg(file.name, file.size, file.type, null, true);
+            addFileMessage(file.name, file.size, file.type, null, true);
         }
 
-        function waitForBuffer(dataChannel) {
+        function waitForBuffer(dc) {
             return new Promise((resolve) => {
-                if (!dataChannel || dataChannel.bufferedAmount <= MAX_BUFFER) {
-                    resolve();
-                    return;
-                }
-                
-                const checkBuffer = () => {
-                    if (!dataChannel || dataChannel.readyState !== 'open') {
-                        resolve();
-                        return;
-                    }
-                    if (dataChannel.bufferedAmount <= MAX_BUFFER) {
+                if (!dc || dc.bufferedAmount <= MAX_BUFFER) return resolve();
+                const check = () => {
+                    if (!dc || dc.readyState !== 'open' || dc.bufferedAmount <= MAX_BUFFER) {
                         resolve();
                     } else {
-                        setTimeout(checkBuffer, 50);
+                        setTimeout(check, 50);
                     }
                 };
-                
-                checkBuffer();
+                check();
             });
         }
 
-        function handleIncomingMessage(data) {
+        function handleFileMessage(data) {
             try {
                 const msg = JSON.parse(data);
                 
                 if (msg.type === 'file-start') {
-                    // Initialize file reception
                     incomingFiles[msg.id] = {
                         name: msg.name,
                         size: msg.size,
@@ -1574,12 +1799,9 @@
                 if (msg.type === 'file-chunk') {
                     const file = incomingFiles[msg.id];
                     if (!file) return true;
-                    
-                    file.chunks[msg.index] = Crypto.fromB64(msg.data);
+                    file.chunks[msg.index] = Crypto.fromBase64(msg.data);
                     file.received++;
-                    
-                    const progress = Math.round((file.received / file.totalChunks) * 100);
-                    showProgress(file.name, progress);
+                    showProgress(file.name, Math.round((file.received / file.totalChunks) * 100));
                     return true;
                 }
                 
@@ -1587,87 +1809,75 @@
                     const file = incomingFiles[msg.id];
                     if (!file) return true;
                     
-                    // Reassemble file
-                    const totalSize = file.chunks.reduce((acc, chunk) => acc + chunk.byteLength, 0);
+                    const totalSize = file.chunks.reduce((acc, c) => acc + c.byteLength, 0);
                     const assembled = new Uint8Array(totalSize);
                     let offset = 0;
-                    
                     for (const chunk of file.chunks) {
                         assembled.set(new Uint8Array(chunk), offset);
                         offset += chunk.byteLength;
                     }
                     
-                    // Create blob and download URL
                     const blob = new Blob([assembled], { type: file.mimeType });
                     const url = URL.createObjectURL(blob);
                     
                     hideProgress();
-                    addFileMsg(file.name, file.size, file.mimeType, url, false);
-                    
+                    addFileMessage(file.name, file.size, file.mimeType, url, false);
                     delete incomingFiles[msg.id];
                     return true;
                 }
                 
-                return false; // Not a file message
+                return false;
             } catch {
-                return false; // Not JSON, treat as text
+                return false;
             }
         }
 
         function showProgress(name, percent) {
             const el = document.getElementById('fileProgress');
-            const nameEl = document.getElementById('fileProgressName');
-            const percentEl = document.getElementById('fileProgressPercent');
-            const fillEl = document.getElementById('fileProgressFill');
-            
+            document.getElementById('fileProgressName').textContent = name.length > 25 ? name.slice(0, 22) + '...' : name;
+            document.getElementById('fileProgressPercent').textContent = percent + '%';
+            document.getElementById('fileProgressFill').style.width = percent + '%';
             el.style.display = 'block';
-            nameEl.textContent = name.length > 30 ? name.slice(0, 27) + '...' : name;
-            percentEl.textContent = percent + '%';
-            fillEl.style.width = percent + '%';
         }
 
         function hideProgress() {
             document.getElementById('fileProgress').style.display = 'none';
         }
 
-        function addFileMsg(name, size, mimeType, url, sent) {
-            const c = document.getElementById('messages');
+        function addFileMessage(name, size, mimeType, url, sent) {
+            const container = document.getElementById('messages');
             const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
             const ext = name.split('.').pop() || '?';
             const sizeStr = formatSize(size);
-            const isImage = mimeType && mimeType.startsWith('image/');
+            const isImage = mimeType?.startsWith('image/');
             
             const div = document.createElement('div');
-            div.className = 'msg' + (sent ? ' sent' : '');
+            div.className = 'message' + (sent ? ' sent' : '');
             
             if (isImage && url) {
                 div.innerHTML = `
                     <div class="img-bubble">
-                        <img src="${url}" alt="${esc(name)}">
-                        <div class="file-download">
-                            <a href="${url}" download="${esc(name)}">↓ Télécharger (${sizeStr})</a>
-                        </div>
+                        <img src="${url}" alt="${escapeHtml(name)}">
+                        <div class="file-download"><a href="${url}" download="${escapeHtml(name)}">Télécharger (${sizeStr})</a></div>
                     </div>
-                    <div class="msg-time">${time}</div>
+                    <div class="message-time">${time}</div>
                 `;
             } else {
                 div.innerHTML = `
                     <div class="file-bubble">
-                        <div class="file-info">
-                            <div class="file-icon">${esc(ext)}</div>
-                            <div class="file-details">
-                                <div class="file-name">${esc(name)}</div>
-                                <div class="file-size">${sizeStr}</div>
-                            </div>
+                        <div class="file-icon">${escapeHtml(ext)}</div>
+                        <div class="file-details">
+                            <div class="file-name">${escapeHtml(name)}</div>
+                            <div class="file-size">${sizeStr}</div>
+                            ${url ? `<div class="file-download"><a href="${url}" download="${escapeHtml(name)}">Télécharger</a></div>` : ''}
                         </div>
-                        ${url ? `<div class="file-download"><a href="${url}" download="${esc(name)}">↓ Télécharger</a></div>` : ''}
                     </div>
-                    <div class="msg-time">${time}</div>
+                    <div class="message-time">${time}</div>
                 `;
             }
             
-            c.appendChild(div);
-            c.scrollTop = c.scrollHeight;
+            container.appendChild(div);
+            container.scrollTop = container.scrollHeight;
         }
 
         function formatSize(bytes) {
@@ -1676,16 +1886,6 @@
             if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' Mo';
             return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' Go';
         }
-
-        // =============================================
-        // INIT
-        // =============================================
-
-        document.addEventListener('DOMContentLoaded', () => {
-            detectTor();
-            paranoidMode = localStorage.getItem('paranoidMode') === 'true';
-            document.getElementById('paranoidToggle').classList.toggle('active', paranoidMode);
-        });
     </script>
 </body>
 </html>
