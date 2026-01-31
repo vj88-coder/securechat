@@ -90,22 +90,20 @@
         .nav-status {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             font-size: 13px;
             font-weight: 500;
+            color: var(--gray-600);
+        }
+
+        .nav-status svg {
+            width: 14px;
+            height: 14px;
             color: var(--green);
         }
 
-        .nav-status::before {
-            content: '';
-            width: 8px;
-            height: 8px;
-            background: var(--green);
-            border-radius: 50%;
-        }
-
         .nav-status.pending { color: var(--amber); }
-        .nav-status.pending::before { background: var(--amber); }
+        .nav-status.pending svg { color: var(--amber); }
 
         /* Hero */
         .hero {
@@ -407,7 +405,7 @@
         }
 
         .compare-inner {
-            max-width: 720px;
+            max-width: 780px;
             margin: 0 auto;
         }
 
@@ -435,7 +433,16 @@
         .compare-table th:not(:first-child),
         .compare-table td:not(:first-child) {
             text-align: center;
-            width: 80px;
+            width: 70px;
+        }
+
+        @media (max-width: 540px) {
+            .compare-table th:not(:first-child),
+            .compare-table td:not(:first-child) {
+                width: 54px;
+                font-size: 12px;
+                padding: 12px 6px;
+            }
         }
 
         .compare-table tbody tr:first-child {
@@ -446,6 +453,27 @@
         .compare-table .yes { color: var(--green); }
         .compare-table .no { color: var(--red); }
         .compare-table .partial { color: var(--amber); }
+
+        .compare-table sup {
+            font-size: 10px;
+            color: var(--gray-400);
+        }
+
+        .compare-footnotes {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--gray-100);
+        }
+
+        .compare-footnotes p {
+            font-size: 12px;
+            color: var(--gray-500);
+            margin-bottom: 6px;
+            line-height: 1.5;
+        }
+
+        .compare-footnotes p:last-child { margin-bottom: 0; }
+        .compare-footnotes sup { color: var(--gray-400); margin-right: 4px; }
 
         /* Note */
         .note-section {
@@ -1015,7 +1043,12 @@
                     </div>
                     <span class="logo-text">Whisper</span>
                 </a>
-                <div class="nav-status" id="navStatus">Chiffrement actif</div>
+                <div class="nav-status" id="navStatus">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    </svg>
+                    <span>Chiffré</span>
+                </div>
             </div>
         </nav>
 
@@ -1133,6 +1166,7 @@
                                 <th>E2E</th>
                                 <th>P2P</th>
                                 <th>Anonyme</th>
+                                <th>Serveur</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1141,27 +1175,44 @@
                                 <td class="yes">Oui</td>
                                 <td class="yes">Oui</td>
                                 <td class="yes">Oui</td>
+                                <td class="yes">Aucun</td>
+                            </tr>
+                            <tr>
+                                <td>Olvid <sup>1</sup></td>
+                                <td class="yes">Oui</td>
+                                <td class="no">Non</td>
+                                <td class="partial">Partiel <sup>2</sup></td>
+                                <td class="partial">AWS <sup>3</sup></td>
                             </tr>
                             <tr>
                                 <td>Signal</td>
                                 <td class="yes">Oui</td>
                                 <td class="no">Non</td>
                                 <td class="no">Non</td>
+                                <td class="no">USA</td>
                             </tr>
                             <tr>
                                 <td>WhatsApp</td>
                                 <td class="yes">Oui</td>
                                 <td class="no">Non</td>
                                 <td class="no">Non</td>
+                                <td class="no">Meta</td>
                             </tr>
                             <tr>
-                                <td>Telegram</td>
+                                <td>Telegram <sup>4</sup></td>
                                 <td class="partial">Partiel</td>
                                 <td class="no">Non</td>
                                 <td class="no">Non</td>
+                                <td class="no">Dubaï</td>
                             </tr>
                         </tbody>
                     </table>
+                    <div class="compare-footnotes">
+                        <p><sup>1</sup> Certifiée ANSSI, crypto solide (AES-256, Curve25519), métadonnées chiffrées, client open source.</p>
+                        <p><sup>2</sup> Pas de numéro requis, mais un compte est nécessaire.</p>
+                        <p><sup>3</sup> Serveur relais hébergé sur AWS, soumis au Cloud Act malgré l'éditeur français.</p>
+                        <p><sup>4</sup> E2E uniquement dans les "chats secrets", désactivé par défaut.</p>
+                    </div>
                 </div>
             </section>
 
@@ -1609,7 +1660,7 @@
 
     function setStatus(text, pending = false) {
         const s = $('navStatus');
-        s.textContent = text;
+        s.querySelector('span').textContent = text;
         s.classList.toggle('pending', pending);
     }
 
@@ -1617,7 +1668,7 @@
         conn?.close();
         conn = null;
         showScreen('landing');
-        setStatus('Chiffrement actif');
+        setStatus('Connecté');
     }
 
     // ============================================
@@ -1628,7 +1679,7 @@
         
         conn.onOpen = () => {
             showScreen('chat');
-            setStatus('Chiffrement actif');
+            setStatus('Connecté');
             $('messageList').innerHTML = '';
             $('msgInput').focus();
         };
@@ -1681,7 +1732,7 @@
         
         conn.onOpen = () => {
             showScreen('chat');
-            setStatus('Chiffrement actif');
+            setStatus('Connecté');
             $('messageList').innerHTML = '';
             $('msgInput').focus();
         };
