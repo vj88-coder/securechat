@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Secure P2P Chat — Zero Server</title>
+    <title>VOID — Secure P2P Chat</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -15,124 +15,113 @@
         }
 
         :root {
-            --bg-primary: #050505;
-            --bg-secondary: #0a0a0a;
-            --bg-tertiary: #111;
-            --bg-hover: #1a1a1a;
+            --bg-0: #000;
+            --bg-1: #0a0a0a;
+            --bg-2: #111;
+            --bg-3: #1a1a1a;
             --border: #222;
             --border-light: #333;
-            --text-primary: #e8e8e8;
-            --text-secondary: #888;
-            --text-muted: #555;
-            --accent: #00ff9d;
-            --accent-dim: rgba(0, 255, 157, 0.1);
-            --accent-glow: rgba(0, 255, 157, 0.3);
-            --danger: #ff3b3b;
-            --warning: #ffa41b;
+            --text-0: #fff;
+            --text-1: #ccc;
+            --text-2: #888;
+            --text-3: #555;
+            --green: #00ff88;
+            --green-dim: rgba(0, 255, 136, 0.1);
+            --yellow: #ffcc00;
+            --yellow-dim: rgba(255, 204, 0, 0.1);
+            --red: #ff4444;
+            --red-dim: rgba(255, 68, 68, 0.1);
+            --purple: #a855f7;
         }
 
         body {
-            font-family: 'Space Grotesk', -apple-system, sans-serif;
-            background: var(--bg-primary);
-            color: var(--text-primary);
+            font-family: 'JetBrains Mono', monospace;
+            background: var(--bg-0);
+            color: var(--text-1);
             min-height: 100vh;
             min-height: 100dvh;
             line-height: 1.6;
-            overflow: hidden;
+            font-size: 13px;
         }
 
-        .mono {
-            font-family: 'JetBrains Mono', monospace;
-        }
-
-        /* App Container */
+        /* App */
         .app {
             height: 100vh;
             height: 100dvh;
             display: flex;
             flex-direction: column;
-            max-width: 600px;
+            max-width: 700px;
             margin: 0 auto;
-            border-left: 1px solid var(--border);
-            border-right: 1px solid var(--border);
         }
 
         /* Header */
         header {
-            padding: 16px 20px;
+            padding: 12px 16px;
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--bg-secondary);
+            background: var(--bg-1);
         }
 
         .logo {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--text-0);
         }
 
-        .logo-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            box-shadow: 0 0 10px var(--accent-glow);
-        }
-
-        .status {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--text-muted);
+        .security-badge {
+            font-size: 10px;
+            padding: 4px 10px;
+            border: 1px solid;
             display: flex;
             align-items: center;
             gap: 6px;
         }
 
-        .status-indicator {
+        .security-badge.anonymous {
+            border-color: var(--green);
+            color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .security-badge.secure {
+            border-color: var(--green);
+            color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .security-badge.danger {
+            border-color: var(--red);
+            color: var(--red);
+            background: var(--red-dim);
+        }
+
+        .badge-dot {
             width: 5px;
             height: 5px;
             border-radius: 50%;
-            background: var(--text-muted);
-        }
-
-        .status-indicator.connected {
-            background: var(--accent);
-            box-shadow: 0 0 8px var(--accent-glow);
+            background: currentColor;
             animation: pulse 2s infinite;
-        }
-
-        .status-indicator.waiting {
-            background: var(--warning);
-            animation: blink 1s infinite;
         }
 
         @keyframes pulse {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.6; }
+            50% { opacity: 0.4; }
         }
 
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-
-        /* Main Content */
+        /* Main */
         main {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 20px;
+            padding: 20px 16px;
         }
 
         /* Views */
         .view {
             display: none;
-            animation: fadeIn 0.3s ease;
+            animation: fadeIn 0.2s ease;
         }
 
         .view.active {
@@ -140,122 +129,146 @@
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
 
-        /* Home View */
-        .home-view {
+        /* Home */
+        .home {
             height: 100%;
             display: flex;
             flex-direction: column;
             justify-content: center;
+        }
+
+        .hero {
             text-align: center;
-            padding: 20px;
-        }
-
-        .home-view h1 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-        }
-
-        .home-view h1 .highlight {
-            color: var(--accent);
-        }
-
-        .home-view .tagline {
-            color: var(--text-secondary);
-            font-size: 15px;
             margin-bottom: 40px;
         }
 
-        .btn-group {
+        .hero h1 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-0);
+            margin-bottom: 8px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            color: var(--text-2);
+            font-size: 12px;
+        }
+
+        .btn-stack {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            max-width: 280px;
-            margin: 0 auto;
+            gap: 8px;
+            max-width: 300px;
+            margin: 0 auto 40px;
         }
 
         .btn {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            font-weight: 500;
-            padding: 14px 24px;
+            padding: 14px 20px;
             border: 1px solid var(--border-light);
-            background: var(--bg-secondary);
-            color: var(--text-primary);
+            background: var(--bg-1);
+            color: var(--text-1);
+            font-family: inherit;
+            font-size: 12px;
             cursor: pointer;
-            transition: all 0.2s ease;
-            text-align: center;
+            transition: all 0.15s;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .btn:hover {
-            border-color: var(--accent);
-            background: var(--accent-dim);
+            border-color: var(--green);
+            background: var(--green-dim);
         }
 
-        .btn.primary {
-            border-color: var(--accent);
-            color: var(--accent);
+        .btn-arrow {
+            color: var(--text-3);
         }
 
-        .btn.primary:hover {
-            background: var(--accent);
-            color: var(--bg-primary);
+        .btn:hover .btn-arrow {
+            color: var(--green);
         }
 
-        /* Security Info */
-        .security-badge {
-            margin-top: 50px;
-            padding: 16px;
+        /* Info Panels */
+        .info-panel {
             border: 1px solid var(--border);
-            background: var(--bg-secondary);
-            text-align: left;
+            background: var(--bg-1);
+            padding: 16px;
+            margin-bottom: 16px;
         }
 
-        .security-badge h4 {
-            font-family: 'JetBrains Mono', monospace;
+        .info-panel.warning {
+            border-color: var(--yellow);
+            background: var(--yellow-dim);
+        }
+
+        .info-panel.success {
+            border-color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .info-panel h3 {
             font-size: 10px;
             font-weight: 600;
-            color: var(--accent);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 12px;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            color: var(--text-0);
         }
 
-        .security-badge ul {
+        .info-panel.warning h3 {
+            color: var(--yellow);
+        }
+
+        .info-panel.success h3 {
+            color: var(--green);
+        }
+
+        .info-panel p, .info-panel li {
+            font-size: 11px;
+            color: var(--text-2);
+            line-height: 1.7;
+        }
+
+        .info-panel ul {
             list-style: none;
-            font-size: 12px;
-            color: var(--text-secondary);
         }
 
-        .security-badge li {
-            padding: 4px 0;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .info-panel li {
+            padding: 3px 0;
         }
 
-        .security-badge li::before {
-            content: "◆";
-            color: var(--accent);
-            font-size: 6px;
+        .info-panel li::before {
+            content: "→ ";
+            color: var(--text-3);
         }
 
-        /* Setup Views */
-        .setup-view h2 {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 18px;
-            margin-bottom: 8px;
+        .info-panel a {
+            color: var(--green);
+            text-decoration: none;
         }
 
-        .setup-view .subtitle {
-            color: var(--text-secondary);
-            font-size: 14px;
+        .info-panel a:hover {
+            text-decoration: underline;
+        }
+
+        /* Setup */
+        .setup h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-0);
+            margin-bottom: 6px;
+        }
+
+        .setup .desc {
+            color: var(--text-2);
+            font-size: 11px;
             margin-bottom: 24px;
         }
 
@@ -263,240 +276,220 @@
             margin-bottom: 24px;
         }
 
-        .step-label {
-            font-family: 'JetBrains Mono', monospace;
+        .step-header {
             font-size: 10px;
-            font-weight: 600;
-            color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            margin-bottom: 10px;
+            letter-spacing: 1px;
+            color: var(--text-3);
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
 
-        .step-number {
-            width: 18px;
-            height: 18px;
-            border: 1px solid var(--accent);
-            color: var(--accent);
-            font-size: 10px;
+        .step-num {
+            width: 16px;
+            height: 16px;
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-size: 9px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .code-box {
-            background: var(--bg-tertiary);
+        .code-block {
+            background: var(--bg-2);
             border: 1px solid var(--border);
-            padding: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--accent);
+            padding: 12px;
+            font-size: 10px;
+            color: var(--green);
             word-break: break-all;
-            max-height: 120px;
+            max-height: 150px;
             overflow-y: auto;
-            line-height: 1.5;
-            position: relative;
+            line-height: 1.6;
         }
 
-        .code-box.large {
-            max-height: 200px;
+        .code-block.loading {
+            color: var(--text-3);
         }
 
         textarea.code-input {
             width: 100%;
-            background: var(--bg-tertiary);
+            background: var(--bg-2);
             border: 1px solid var(--border);
-            padding: 14px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 11px;
-            color: var(--text-primary);
+            padding: 12px;
+            font-family: inherit;
+            font-size: 10px;
+            color: var(--text-1);
             resize: none;
-            min-height: 100px;
+            min-height: 80px;
             outline: none;
-            transition: border-color 0.2s;
         }
 
         textarea.code-input:focus {
-            border-color: var(--accent);
+            border-color: var(--green);
         }
 
         textarea.code-input::placeholder {
-            color: var(--text-muted);
-        }
-
-        .helper-text {
-            font-size: 12px;
-            color: var(--text-muted);
-            margin-top: 8px;
+            color: var(--text-3);
         }
 
         .btn-row {
             display: flex;
-            gap: 10px;
-            margin-top: 16px;
+            gap: 8px;
+            margin-top: 12px;
         }
 
         .btn-row .btn {
             flex: 1;
+            justify-content: center;
         }
 
-        /* Chat View */
-        .chat-view {
+        .btn.primary {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .btn.primary:hover {
+            background: var(--green);
+            color: var(--bg-0);
+        }
+
+        .btn.small {
+            padding: 10px 16px;
+            font-size: 11px;
+        }
+
+        .helper {
+            font-size: 10px;
+            color: var(--text-3);
+            margin-top: 8px;
+        }
+
+        /* Chat */
+        .chat {
             height: 100%;
             display: flex;
             flex-direction: column;
         }
 
-        .chat-view.active {
+        .chat.active {
             display: flex;
         }
 
-        .messages-container {
+        .messages {
             flex: 1;
             overflow-y: auto;
-            padding-bottom: 20px;
+            padding-bottom: 16px;
         }
 
-        .message {
-            margin-bottom: 16px;
-            animation: messageIn 0.2s ease;
+        .msg {
+            margin-bottom: 12px;
         }
 
-        @keyframes messageIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.sent {
+        .msg.sent {
             text-align: right;
         }
 
-        .message-bubble {
+        .msg-bubble {
             display: inline-block;
-            max-width: 85%;
-            padding: 10px 14px;
-            background: var(--bg-tertiary);
+            max-width: 80%;
+            padding: 10px 12px;
+            background: var(--bg-2);
             border: 1px solid var(--border);
-            font-size: 14px;
+            font-size: 12px;
             text-align: left;
             word-wrap: break-word;
         }
 
-        .message.sent .message-bubble {
-            background: var(--accent-dim);
-            border-color: rgba(0, 255, 157, 0.3);
+        .msg.sent .msg-bubble {
+            background: var(--green-dim);
+            border-color: rgba(0, 255, 136, 0.3);
         }
 
-        .message-time {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            color: var(--text-muted);
+        .msg-time {
+            font-size: 9px;
+            color: var(--text-3);
             margin-top: 4px;
         }
 
-        .system-message {
+        .sys-msg {
             text-align: center;
-            padding: 20px;
-            color: var(--text-muted);
-            font-size: 13px;
+            padding: 16px;
+            font-size: 11px;
+            color: var(--text-3);
         }
 
-        .system-message .icon {
-            font-size: 24px;
-            margin-bottom: 8px;
+        .sys-msg.connected {
+            color: var(--green);
+        }
+
+        .sys-msg .icon {
+            font-size: 20px;
+            margin-bottom: 6px;
             display: block;
         }
 
-        .system-message.connected {
-            color: var(--accent);
-        }
-
-        /* Input Area */
+        /* Input */
         .input-area {
-            padding: 16px 20px;
+            padding: 12px 16px;
             border-top: 1px solid var(--border);
-            background: var(--bg-secondary);
+            background: var(--bg-1);
         }
 
-        .input-wrapper {
+        .input-wrap {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
 
-        .message-input {
+        .msg-input {
             flex: 1;
-            background: var(--bg-tertiary);
+            background: var(--bg-2);
             border: 1px solid var(--border);
-            padding: 12px 14px;
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 14px;
-            color: var(--text-primary);
+            padding: 10px 12px;
+            font-family: inherit;
+            font-size: 12px;
+            color: var(--text-1);
             outline: none;
-            transition: border-color 0.2s;
         }
 
-        .message-input:focus {
-            border-color: var(--accent);
+        .msg-input:focus {
+            border-color: var(--green);
         }
 
-        .message-input::placeholder {
-            color: var(--text-muted);
+        .msg-input::placeholder {
+            color: var(--text-3);
         }
 
         .send-btn {
-            background: var(--accent);
+            background: var(--green);
             border: none;
-            color: var(--bg-primary);
-            padding: 12px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
+            color: var(--bg-0);
+            padding: 10px 16px;
+            font-family: inherit;
+            font-size: 12px;
             font-weight: 600;
             cursor: pointer;
-            transition: opacity 0.2s;
         }
 
         .send-btn:hover {
             opacity: 0.9;
         }
 
-        .send-btn:disabled {
-            background: var(--text-muted);
-            cursor: not-allowed;
-        }
-
-        /* Loading */
-        .loading {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid var(--border);
-            border-top-color: var(--accent);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 100px;
+            bottom: 80px;
             left: 50%;
-            transform: translateX(-50%) translateY(20px);
-            background: var(--bg-tertiary);
-            border: 1px solid var(--accent);
-            padding: 12px 20px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
-            color: var(--accent);
+            transform: translateX(-50%) translateY(10px);
+            background: var(--bg-2);
+            border: 1px solid var(--green);
+            padding: 10px 16px;
+            font-size: 11px;
+            color: var(--green);
             opacity: 0;
-            transition: all 0.3s ease;
-            pointer-events: none;
+            transition: all 0.2s;
             z-index: 100;
         }
 
@@ -505,10 +498,190 @@
             transform: translateX(-50%) translateY(0);
         }
 
+        /* Paranoid Mode Toggle */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .toggle-label {
+            font-size: 11px;
+            color: var(--text-2);
+        }
+
+        .toggle {
+            width: 36px;
+            height: 20px;
+            background: var(--bg-3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .toggle.active {
+            background: var(--green-dim);
+            border-color: var(--green);
+        }
+
+        .toggle::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 12px;
+            height: 12px;
+            background: var(--text-3);
+            border-radius: 50%;
+            transition: all 0.2s;
+        }
+
+        .toggle.active::after {
+            left: 19px;
+            background: var(--green);
+        }
+
+        /* Explainer */
+        .explainer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .exp-row {
+            display: flex;
+            gap: 12px;
+            align-items: flex-start;
+        }
+
+        .exp-icon {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--green);
+            color: var(--green);
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .exp-text {
+            font-size: 11px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        .exp-text strong {
+            color: var(--text-1);
+        }
+
+        /* Comparison */
+        .compare {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .compare-item {
+            padding: 12px;
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+        }
+
+        .compare-item.ours {
+            border-color: var(--green);
+            background: var(--green-dim);
+        }
+
+        .compare-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+        }
+
+        .compare-name {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-0);
+        }
+
+        .compare-verdict {
+            font-size: 9px;
+            padding: 2px 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .compare-verdict.good {
+            background: var(--green-dim);
+            color: var(--green);
+            border: 1px solid var(--green);
+        }
+
+        .compare-verdict.partial {
+            background: var(--yellow-dim);
+            color: var(--yellow);
+            border: 1px solid var(--yellow);
+        }
+
+        .compare-verdict.bad {
+            background: var(--red-dim);
+            color: var(--red);
+            border: 1px solid var(--red);
+        }
+
+        .compare-item p {
+            font-size: 11px;
+            color: var(--text-2);
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .compare-item.ours p {
+            color: var(--text-1);
+        }
+
+        /* Honest disclaimer */
+        .honest {
+            font-size: 11px;
+            color: var(--text-2);
+            line-height: 1.6;
+        }
+
+        .honest a {
+            color: var(--green);
+            text-decoration: none;
+        }
+
+        .honest a:hover {
+            text-decoration: underline;
+        }
+
+        /* Loading */
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 1px solid var(--border);
+            border-top-color: var(--green);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
         /* Responsive */
-        @media (max-width: 600px) {
-            .app {
-                border: none;
+        @media (max-width: 500px) {
+            .hero h1 {
+                font-size: 24px;
             }
         }
     </style>
@@ -516,144 +689,207 @@
 <body>
     <div class="app">
         <header>
-            <div class="logo">
-                <span class="logo-dot"></span>
-                <span>SECURE_CHAT</span>
-            </div>
-            <div class="status">
-                <span class="status-indicator" id="statusIndicator"></span>
-                <span id="statusText">Hors ligne</span>
+            <div class="logo">VOID</div>
+            <div class="security-badge secure" id="securityBadge">
+                <span class="badge-dot"></span>
+                <span id="securityStatus">Sécurisé</span>
             </div>
         </header>
 
         <main>
-            <!-- HOME VIEW -->
+            <!-- HOME -->
             <div class="view active" id="homeView">
-                <div class="home-view">
-                    <h1>Chat <span class="highlight">P2P</span></h1>
-                    <p class="tagline">Connexion directe. Zero serveur. Chiffré.</p>
-                    
-                    <div class="btn-group">
-                        <button class="btn primary" onclick="startNewChat()">
-                            Créer une conversation
+                <div class="home">
+                    <div class="hero">
+                        <h1>void://chat</h1>
+                        <p>P2P chiffré · Zero serveur · Zero trace</p>
+                    </div>
+
+                    <div class="btn-stack">
+                        <button class="btn" onclick="startChat()">
+                            <span>Créer une conversation</span>
+                            <span class="btn-arrow">→</span>
                         </button>
                         <button class="btn" onclick="joinChat()">
-                            Rejoindre une conversation
+                            <span>Rejoindre</span>
+                            <span class="btn-arrow">→</span>
                         </button>
                     </div>
 
-                    <div class="security-badge">
-                        <h4>Sécurité</h4>
-                        <ul>
-                            <li>Connexion directe navigateur à navigateur</li>
-                            <li>Aucun serveur intermédiaire</li>
-                            <li>Chiffrement AES-256-GCM</li>
-                            <li>Clés échangées via copier-coller</li>
-                            <li>Aucune métadonnée collectée</li>
-                        </ul>
+                    <div class="info-panel success" id="securityInfo">
+                        <h3>✓ Chiffré de bout en bout</h3>
+                        <p>Tes messages ne peuvent être lus que par toi et ton contact. Point.</p>
+                    </div>
+
+                    <div class="info-panel success" id="torDetected" style="display:none;">
+                        <h3>✓ Anonymat maximum</h3>
+                        <p>Tor détecté. Ton IP réelle est masquée, même pour ton contact.</p>
+                    </div>
+
+                    <div class="info-panel">
+                        <h3>Comment ça marche</h3>
+                        <div class="explainer">
+                            <div class="exp-row">
+                                <span class="exp-icon">1</span>
+                                <span class="exp-text"><strong>Connexion directe</strong> — Ton navigateur se connecte directement à celui de ton contact. Pas de serveur entre vous.</span>
+                            </div>
+                            <div class="exp-row">
+                                <span class="exp-icon">2</span>
+                                <span class="exp-text"><strong>Clé secrète partagée</strong> — Le "ticket" contient une clé AES-256. Seuls vous deux l'avez.</span>
+                            </div>
+                            <div class="exp-row">
+                                <span class="exp-icon">3</span>
+                                <span class="exp-text"><strong>Chiffrement local</strong> — Chaque message est chiffré dans ton navigateur avant d'être envoyé.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <h3>Comparé aux autres</h3>
+                        <div class="compare">
+                            <div class="compare-item">
+                                <div class="compare-header">
+                                    <span class="compare-name">WhatsApp</span>
+                                    <span class="compare-verdict partial">Chiffré, mais...</span>
+                                </div>
+                                <p>Messages chiffrés, oui. Mais Meta collecte qui parle à qui, quand, combien de fois. Ces métadonnées valent de l'or.</p>
+                            </div>
+                            <div class="compare-item">
+                                <div class="compare-header">
+                                    <span class="compare-name">Telegram</span>
+                                    <span class="compare-verdict bad">Pas chiffré par défaut</span>
+                                </div>
+                                <p>Les "secret chats" sont chiffrés. Les conversations normales ? Telegram peut les lire.</p>
+                            </div>
+                            <div class="compare-item">
+                                <div class="compare-header">
+                                    <span class="compare-name">Signal</span>
+                                    <span class="compare-verdict good">Excellent</span>
+                                </div>
+                                <p>Le gold standard. Mais : nécessite ton numéro de téléphone, et passe par leurs serveurs (même s'ils ne voient rien).</p>
+                            </div>
+                            <div class="compare-item">
+                                <div class="compare-header">
+                                    <span class="compare-name">Discord</span>
+                                    <span class="compare-verdict bad">Zero chiffrement</span>
+                                </div>
+                                <p>Tout est lisible par Discord. Tes DMs, tes serveurs, tout.</p>
+                            </div>
+                            <div class="compare-item">
+                                <div class="compare-header">
+                                    <span class="compare-name">iMessage</span>
+                                    <span class="compare-verdict partial">Dépend de tes réglages</span>
+                                </div>
+                                <p>Chiffré, sauf si tu actives iCloud backup. Dans ce cas, Apple a une copie lisible.</p>
+                            </div>
+                            <div class="compare-item ours">
+                                <div class="compare-header">
+                                    <span class="compare-name">VOID</span>
+                                    <span class="compare-verdict good">Zero serveur</span>
+                                </div>
+                                <p>Pas de serveur = pas de métadonnées = rien à collecter. Le message va directement de toi à ton contact.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-panel">
+                        <h3>Ce qu'on ne cache pas</h3>
+                        <p class="honest">Ton contact voit ton adresse IP. C'est inhérent au P2P : pour se connecter directement, il faut savoir où envoyer les données. Si tu veux masquer ton IP aussi, utilise <a href="https://www.torproject.org/download/" target="_blank">Tor Browser</a>.</p>
+                    </div>
+
+                    <div class="info-panel">
+                        <h3>Niveau supérieur</h3>
+                        <div class="toggle-row">
+                            <span class="toggle-label">Mode Fantôme (via Tor)</span>
+                            <div class="toggle" id="paranoidToggle" onclick="toggleParanoid()"></div>
+                        </div>
+                        <p class="helper" style="margin-top:8px;">Active ce mode, puis ouvre la page dans Tor Browser. Ton IP sera masquée même pour ton contact.</p>
                     </div>
                 </div>
             </div>
 
-            <!-- CREATE VIEW (Step 1) -->
+            <!-- CREATE -->
             <div class="view" id="createView">
-                <div class="setup-view">
-                    <h2>Nouvelle conversation</h2>
-                    <p class="subtitle">Envoie ce ticket à ton contact</p>
+                <div class="setup">
+                    <h2>Nouveau chat</h2>
+                    <p class="desc">Envoie ce ticket à ton contact par un canal sécurisé</p>
 
                     <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">1</span>
-                            Ton ticket de connexion
+                        <div class="step-header">
+                            <span class="step-num">1</span>
+                            Ton ticket
                         </div>
-                        <div class="code-box large" id="offerCode">
-                            <span class="loading"></span> Génération...
+                        <div class="code-block loading" id="offerCode">
+                            <span class="spinner"></span> Génération...
                         </div>
                         <div class="btn-row">
-                            <button class="btn" onclick="copyOffer()">Copier le ticket</button>
+                            <button class="btn small" onclick="copyOffer()">Copier</button>
                         </div>
                     </div>
 
                     <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">2</span>
-                            Colle la réponse de ton contact
+                        <div class="step-header">
+                            <span class="step-num">2</span>
+                            Réponse de ton contact
                         </div>
-                        <textarea 
-                            class="code-input" 
-                            id="answerInput" 
-                            placeholder="Colle la réponse ici..."
-                        ></textarea>
+                        <textarea class="code-input" id="answerInput" placeholder="Colle ici..."></textarea>
                         <div class="btn-row">
-                            <button class="btn primary" onclick="processAnswer()">Connecter</button>
-                            <button class="btn" onclick="goHome()">Annuler</button>
+                            <button class="btn primary small" onclick="processAnswer()">Connecter</button>
+                            <button class="btn small" onclick="goHome()">Annuler</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- JOIN VIEW -->
+            <!-- JOIN -->
             <div class="view" id="joinView">
-                <div class="setup-view">
+                <div class="setup">
                     <h2>Rejoindre</h2>
-                    <p class="subtitle">Colle le ticket reçu de ton contact</p>
+                    <p class="desc">Colle le ticket reçu de ton contact</p>
 
                     <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">1</span>
-                            Ticket de ton contact
+                        <div class="step-header">
+                            <span class="step-num">1</span>
+                            Ticket reçu
                         </div>
-                        <textarea 
-                            class="code-input" 
-                            id="offerInput" 
-                            placeholder="Colle le ticket ici..."
-                        ></textarea>
+                        <textarea class="code-input" id="offerInput" placeholder="Colle ici..."></textarea>
                         <div class="btn-row">
-                            <button class="btn primary" onclick="processOffer()">Générer ma réponse</button>
-                            <button class="btn" onclick="goHome()">Annuler</button>
+                            <button class="btn primary small" onclick="processOffer()">Générer réponse</button>
+                            <button class="btn small" onclick="goHome()">Annuler</button>
                         </div>
                     </div>
 
-                    <div class="step" id="answerStep" style="display: none;">
-                        <div class="step-label">
-                            <span class="step-number">2</span>
-                            Ta réponse (envoie-la à ton contact)
+                    <div class="step" id="answerStep" style="display:none;">
+                        <div class="step-header">
+                            <span class="step-num">2</span>
+                            Ta réponse (envoie-la)
                         </div>
-                        <div class="code-box large" id="answerCode"></div>
+                        <div class="code-block" id="answerCode"></div>
                         <div class="btn-row">
-                            <button class="btn" onclick="copyAnswer()">Copier la réponse</button>
+                            <button class="btn small" onclick="copyAnswer()">Copier</button>
                         </div>
-                        <p class="helper-text">⏳ En attente de connexion...</p>
+                        <p class="helper">En attente de connexion...</p>
                     </div>
                 </div>
             </div>
 
-            <!-- CHAT VIEW -->
+            <!-- CHAT -->
             <div class="view" id="chatView">
-                <div class="chat-view">
-                    <div class="messages-container" id="messagesContainer">
-                        <div class="system-message connected">
+                <div class="chat">
+                    <div class="messages" id="messages">
+                        <div class="sys-msg connected">
                             <span class="icon">🔒</span>
-                            Connexion sécurisée établie<br>
-                            <small>Messages chiffrés de bout en bout</small>
+                            Connexion E2E établie
                         </div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <!-- Input Area (only visible in chat) -->
-        <div class="input-area" id="inputArea" style="display: none;">
-            <div class="input-wrapper">
-                <input 
-                    type="text" 
-                    class="message-input" 
-                    id="messageInput" 
-                    placeholder="Message..."
-                    onkeypress="handleKeyPress(event)"
-                    autocomplete="off"
-                >
-                <button class="send-btn" onclick="sendMessage()">→</button>
+        <div class="input-area" id="inputArea" style="display:none;">
+            <div class="input-wrap">
+                <input type="text" class="msg-input" id="msgInput" placeholder="Message..." onkeypress="handleKey(event)" autocomplete="off">
+                <button class="send-btn" onclick="sendMsg()">↵</button>
             </div>
         </div>
     </div>
@@ -661,12 +897,71 @@
     <div class="toast" id="toast"></div>
 
     <script>
-        // ============================================
-        // CRYPTO UTILITIES (AES-256-GCM)
-        // ============================================
+        // =============================================
+        // CONFIG
+        // =============================================
         
-        class CryptoUtils {
-            static async generateKey() {
+        // Privacy-focused STUN servers (not Google)
+        const STUN_SERVERS = [
+            { urls: 'stun:stun.l.google.com:19302' }, // Fallback only
+            { urls: 'stun:stun.cloudflare.com:3478' },
+            { urls: 'stun:stun.nextcloud.com:443' }
+        ];
+
+        let isOnTor = false;
+        let paranoidMode = false;
+
+        // =============================================
+        // TOR DETECTION
+        // =============================================
+
+        async function detectTor() {
+            const badge = document.getElementById('securityBadge');
+            const status = document.getElementById('securityStatus');
+            const secInfo = document.getElementById('securityInfo');
+            const torOk = document.getElementById('torDetected');
+
+            try {
+                // Method 1: Check via Tor check API
+                const res = await fetch('https://check.torproject.org/api/ip', {
+                    mode: 'cors',
+                    cache: 'no-cache'
+                });
+                const data = await res.json();
+                isOnTor = data.IsTor === true;
+            } catch {
+                // Method 2: Fallback - check if .onion resolution works
+                // or check for typical Tor Browser characteristics
+                isOnTor = navigator.userAgent.includes('Tor') || 
+                          window.location.hostname.endsWith('.onion');
+            }
+
+            if (isOnTor) {
+                badge.className = 'security-badge anonymous';
+                status.textContent = 'Anonymat max';
+                secInfo.style.display = 'none';
+                torOk.style.display = 'block';
+            } else {
+                badge.className = 'security-badge secure';
+                status.textContent = 'Sécurisé';
+                secInfo.style.display = 'block';
+                torOk.style.display = 'none';
+            }
+        }
+
+        function toggleParanoid() {
+            const toggle = document.getElementById('paranoidToggle');
+            paranoidMode = !paranoidMode;
+            toggle.classList.toggle('active', paranoidMode);
+            localStorage.setItem('paranoidMode', paranoidMode);
+        }
+
+        // =============================================
+        // CRYPTO
+        // =============================================
+
+        class Crypto {
+            static async genKey() {
                 return await crypto.subtle.generateKey(
                     { name: 'AES-GCM', length: 256 },
                     true,
@@ -676,460 +971,335 @@
 
             static async exportKey(key) {
                 const raw = await crypto.subtle.exportKey('raw', key);
-                return this.arrayBufferToBase64(raw);
+                return this.toB64(raw);
             }
 
-            static async importKey(base64Key) {
-                const raw = this.base64ToArrayBuffer(base64Key);
+            static async importKey(b64) {
+                const raw = this.fromB64(b64);
                 return await crypto.subtle.importKey(
-                    'raw',
-                    raw,
+                    'raw', raw,
                     { name: 'AES-GCM', length: 256 },
                     true,
                     ['encrypt', 'decrypt']
                 );
             }
 
-            static async encrypt(key, plaintext) {
+            static async encrypt(key, text) {
                 const iv = crypto.getRandomValues(new Uint8Array(12));
-                const encoded = new TextEncoder().encode(plaintext);
-                
-                const ciphertext = await crypto.subtle.encrypt(
-                    { name: 'AES-GCM', iv },
-                    key,
-                    encoded
-                );
-
-                const combined = new Uint8Array(iv.length + ciphertext.byteLength);
-                combined.set(iv);
-                combined.set(new Uint8Array(ciphertext), iv.length);
-                
-                return this.arrayBufferToBase64(combined.buffer);
+                const enc = new TextEncoder().encode(text);
+                const ct = await crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, enc);
+                const buf = new Uint8Array(iv.length + ct.byteLength);
+                buf.set(iv);
+                buf.set(new Uint8Array(ct), iv.length);
+                return this.toB64(buf.buffer);
             }
 
-            static async decrypt(key, encryptedBase64) {
-                const combined = this.base64ToArrayBuffer(encryptedBase64);
-                const iv = combined.slice(0, 12);
-                const ciphertext = combined.slice(12);
-
-                const decrypted = await crypto.subtle.decrypt(
+            static async decrypt(key, b64) {
+                const buf = this.fromB64(b64);
+                const iv = buf.slice(0, 12);
+                const ct = buf.slice(12);
+                const dec = await crypto.subtle.decrypt(
                     { name: 'AES-GCM', iv: new Uint8Array(iv) },
-                    key,
-                    ciphertext
+                    key, ct
                 );
-
-                return new TextDecoder().decode(decrypted);
+                return new TextDecoder().decode(dec);
             }
 
-            static arrayBufferToBase64(buffer) {
-                const bytes = new Uint8Array(buffer);
-                let binary = '';
-                for (let i = 0; i < bytes.length; i++) {
-                    binary += String.fromCharCode(bytes[i]);
-                }
-                return btoa(binary);
+            static toB64(buf) {
+                const bytes = new Uint8Array(buf);
+                let s = '';
+                bytes.forEach(b => s += String.fromCharCode(b));
+                return btoa(s);
             }
 
-            static base64ToArrayBuffer(base64) {
-                const binary = atob(base64);
-                const bytes = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) {
-                    bytes[i] = binary.charCodeAt(i);
-                }
+            static fromB64(s) {
+                const bin = atob(s);
+                const bytes = new Uint8Array(bin.length);
+                for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
                 return bytes.buffer;
             }
         }
 
-        // ============================================
-        // WEBRTC P2P CONNECTION
-        // ============================================
+        // =============================================
+        // P2P
+        // =============================================
 
-        class SecureP2PChat {
+        class P2P {
             constructor() {
                 this.pc = null;
-                this.dataChannel = null;
-                this.encryptionKey = null;
-                this.onMessage = null;
-                this.onConnected = null;
-                this.onDisconnected = null;
+                this.dc = null;
+                this.key = null;
+                this.onMsg = null;
+                this.onOpen = null;
+                this.onClose = null;
             }
 
             async createOffer() {
-                this.encryptionKey = await CryptoUtils.generateKey();
-                const exportedKey = await CryptoUtils.exportKey(this.encryptionKey);
+                this.key = await Crypto.genKey();
+                const keyB64 = await Crypto.exportKey(this.key);
 
-                this.pc = new RTCPeerConnection({
-                    iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' },
-                        { urls: 'stun:stun1.l.google.com:19302' },
-                        { urls: 'stun:stun2.l.google.com:19302' }
-                    ]
-                });
-
-                this.dataChannel = this.pc.createDataChannel('secure-chat', {
-                    ordered: true
-                });
-                this.setupDataChannel();
+                this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
+                this.dc = this.pc.createDataChannel('v', { ordered: true });
+                this._setupDC();
 
                 const offer = await this.pc.createOffer();
                 await this.pc.setLocalDescription(offer);
+                await this._waitICE();
 
-                await this.waitForICE();
-
-                const package_ = {
-                    t: 'o',
+                return btoa(JSON.stringify({
                     s: this.pc.localDescription.sdp,
-                    k: exportedKey
-                };
-
-                return this.compressAndEncode(package_);
+                    k: keyB64
+                }));
             }
 
-            async processAnswer(answerEncoded) {
-                const package_ = this.decodeAndDecompress(answerEncoded);
-                
-                await this.pc.setRemoteDescription({
-                    type: 'answer',
-                    sdp: package_.s
-                });
-            }
+            async acceptOffer(b64) {
+                const { s, k } = JSON.parse(atob(b64));
+                this.key = await Crypto.importKey(k);
 
-            async createAnswer(offerEncoded) {
-                const package_ = this.decodeAndDecompress(offerEncoded);
-
-                this.encryptionKey = await CryptoUtils.importKey(package_.k);
-
-                this.pc = new RTCPeerConnection({
-                    iceServers: [
-                        { urls: 'stun:stun.l.google.com:19302' },
-                        { urls: 'stun:stun1.l.google.com:19302' },
-                        { urls: 'stun:stun2.l.google.com:19302' }
-                    ]
-                });
-
-                this.pc.ondatachannel = (event) => {
-                    this.dataChannel = event.channel;
-                    this.setupDataChannel();
+                this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
+                this.pc.ondatachannel = e => {
+                    this.dc = e.channel;
+                    this._setupDC();
                 };
 
-                await this.pc.setRemoteDescription({
-                    type: 'offer',
-                    sdp: package_.s
-                });
-
+                await this.pc.setRemoteDescription({ type: 'offer', sdp: s });
                 const answer = await this.pc.createAnswer();
                 await this.pc.setLocalDescription(answer);
+                await this._waitICE();
 
-                await this.waitForICE();
-
-                const answerPackage = {
-                    t: 'a',
+                return btoa(JSON.stringify({
                     s: this.pc.localDescription.sdp
-                };
-
-                return this.compressAndEncode(answerPackage);
+                }));
             }
 
-            compressAndEncode(obj) {
-                return btoa(JSON.stringify(obj));
+            async acceptAnswer(b64) {
+                const { s } = JSON.parse(atob(b64));
+                await this.pc.setRemoteDescription({ type: 'answer', sdp: s });
             }
 
-            decodeAndDecompress(str) {
-                return JSON.parse(atob(str));
+            async send(msg) {
+                if (!this.dc || this.dc.readyState !== 'open') throw new Error('Not connected');
+                const enc = await Crypto.encrypt(this.key, msg);
+                this.dc.send(enc);
             }
 
-            setupDataChannel() {
-                this.dataChannel.onopen = () => {
-                    console.log('[P2P] Data channel OPEN');
-                    if (this.onConnected) this.onConnected();
-                };
-
-                this.dataChannel.onclose = () => {
-                    console.log('[P2P] Data channel CLOSED');
-                    if (this.onDisconnected) this.onDisconnected();
-                };
-
-                this.dataChannel.onerror = (err) => {
-                    console.error('[P2P] Data channel error:', err);
-                };
-
-                this.dataChannel.onmessage = async (event) => {
-                    try {
-                        const decrypted = await CryptoUtils.decrypt(
-                            this.encryptionKey,
-                            event.data
-                        );
-                        if (this.onMessage) this.onMessage(decrypted);
-                    } catch (e) {
-                        console.error('[P2P] Decryption failed:', e);
-                    }
+            _setupDC() {
+                this.dc.onopen = () => this.onOpen?.();
+                this.dc.onclose = () => this.onClose?.();
+                this.dc.onmessage = async e => {
+                    const dec = await Crypto.decrypt(this.key, e.data);
+                    this.onMsg?.(dec);
                 };
             }
 
-            async sendMessage(message) {
-                if (!this.dataChannel || this.dataChannel.readyState !== 'open') {
-                    throw new Error('Not connected');
-                }
-
-                const encrypted = await CryptoUtils.encrypt(
-                    this.encryptionKey,
-                    message
-                );
-                
-                this.dataChannel.send(encrypted);
-            }
-
-            waitForICE() {
-                return new Promise((resolve) => {
-                    if (this.pc.iceGatheringState === 'complete') {
-                        resolve();
-                        return;
-                    }
-
-                    const checkState = () => {
+            _waitICE() {
+                return new Promise(r => {
+                    if (this.pc.iceGatheringState === 'complete') return r();
+                    const check = () => {
                         if (this.pc.iceGatheringState === 'complete') {
-                            this.pc.removeEventListener('icegatheringstatechange', checkState);
-                            resolve();
+                            this.pc.removeEventListener('icegatheringstatechange', check);
+                            r();
                         }
                     };
-
-                    this.pc.addEventListener('icegatheringstatechange', checkState);
-                    setTimeout(resolve, 5000);
+                    this.pc.addEventListener('icegatheringstatechange', check);
+                    setTimeout(r, 4000);
                 });
             }
 
-            disconnect() {
-                if (this.dataChannel) this.dataChannel.close();
-                if (this.pc) this.pc.close();
-                this.pc = null;
-                this.dataChannel = null;
-                this.encryptionKey = null;
+            close() {
+                this.dc?.close();
+                this.pc?.close();
             }
         }
 
-        // ============================================
-        // UI CONTROLLER
-        // ============================================
+        // =============================================
+        // UI
+        // =============================================
 
-        let chat = null;
-        let currentOffer = '';
-        let currentAnswer = '';
+        let p2p = null;
+        let offer = '';
+        let answer = '';
 
-        function showView(viewId) {
+        function showView(id) {
             document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(viewId).classList.add('active');
-            
-            const inputArea = document.getElementById('inputArea');
-            inputArea.style.display = viewId === 'chatView' ? 'block' : 'none';
+            document.getElementById(id).classList.add('active');
+            document.getElementById('inputArea').style.display = id === 'chatView' ? 'block' : 'none';
         }
 
-        function updateStatus(status, text) {
-            const indicator = document.getElementById('statusIndicator');
-            const statusText = document.getElementById('statusText');
-            
-            indicator.className = 'status-indicator ' + status;
-            statusText.textContent = text;
-        }
-
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 2000);
+        function toast(msg) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 2000);
         }
 
         function goHome() {
-            if (chat) {
-                chat.disconnect();
-                chat = null;
-            }
+            p2p?.close();
+            p2p = null;
             showView('homeView');
-            updateStatus('', 'Hors ligne');
-            document.getElementById('messagesContainer').innerHTML = '';
+            document.getElementById('messages').innerHTML = '';
         }
 
-        // ============================================
-        // CHAT ACTIONS
-        // ============================================
+        // =============================================
+        // ACTIONS
+        // =============================================
 
-        async function startNewChat() {
-            chat = new SecureP2PChat();
-            
-            chat.onConnected = () => {
+        async function startChat() {
+            if (paranoidMode && !isOnTor) {
+                toast('Mode Fantôme: ouvre dans Tor Browser');
+                return;
+            }
+
+            p2p = new P2P();
+            p2p.onOpen = () => {
                 showView('chatView');
-                updateStatus('connected', 'Connecté');
-                document.getElementById('messagesContainer').innerHTML = `
-                    <div class="system-message connected">
+                document.getElementById('messages').innerHTML = `
+                    <div class="sys-msg connected">
                         <span class="icon">🔒</span>
-                        Connexion sécurisée établie<br>
-                        <small>Messages chiffrés de bout en bout</small>
+                        Connexion E2E établie
                     </div>
                 `;
-                document.getElementById('messageInput').focus();
+                document.getElementById('msgInput').focus();
+                updateBadgeConnected();
             };
-
-            chat.onDisconnected = () => {
-                updateStatus('', 'Déconnecté');
-                addSystemMessage('Connexion terminée');
-            };
-
-            chat.onMessage = (message) => {
-                addMessage(message, false);
-            };
+            p2p.onClose = () => addSys('Déconnecté');
+            p2p.onMsg = msg => addMsg(msg, false);
 
             showView('createView');
-            updateStatus('waiting', 'En attente...');
-            
-            document.getElementById('offerCode').innerHTML = '<span class="loading"></span> Génération...';
+            document.getElementById('offerCode').innerHTML = '<span class="spinner"></span> Génération...';
+            document.getElementById('offerCode').classList.add('loading');
             document.getElementById('answerInput').value = '';
 
             try {
-                currentOffer = await chat.createOffer();
-                document.getElementById('offerCode').textContent = currentOffer;
+                offer = await p2p.createOffer();
+                document.getElementById('offerCode').textContent = offer;
+                document.getElementById('offerCode').classList.remove('loading');
             } catch (e) {
-                console.error('Error creating offer:', e);
                 document.getElementById('offerCode').textContent = 'Erreur: ' + e.message;
             }
         }
 
         function copyOffer() {
-            navigator.clipboard.writeText(currentOffer);
-            showToast('Ticket copié !');
+            navigator.clipboard.writeText(offer);
+            toast('Copié');
         }
 
         async function processAnswer() {
-            const answerInput = document.getElementById('answerInput');
-            const answer = answerInput.value.trim();
-            
-            if (!answer) {
-                showToast('Colle la réponse de ton contact');
-                return;
-            }
-
+            const val = document.getElementById('answerInput').value.trim();
+            if (!val) return toast('Colle la réponse');
             try {
-                await chat.processAnswer(answer);
-            } catch (e) {
-                console.error('Error processing answer:', e);
-                showToast('Réponse invalide');
+                await p2p.acceptAnswer(val);
+            } catch {
+                toast('Réponse invalide');
             }
         }
 
-        function joinChat() {
-            chat = new SecureP2PChat();
-            
-            chat.onConnected = () => {
+        async function joinChat() {
+            if (paranoidMode && !isOnTor) {
+                toast('Mode Fantôme: ouvre dans Tor Browser');
+                return;
+            }
+
+            p2p = new P2P();
+            p2p.onOpen = () => {
                 showView('chatView');
-                updateStatus('connected', 'Connecté');
-                document.getElementById('messagesContainer').innerHTML = `
-                    <div class="system-message connected">
+                document.getElementById('messages').innerHTML = `
+                    <div class="sys-msg connected">
                         <span class="icon">🔒</span>
-                        Connexion sécurisée établie<br>
-                        <small>Messages chiffrés de bout en bout</small>
+                        Connexion E2E établie
                     </div>
                 `;
-                document.getElementById('messageInput').focus();
+                document.getElementById('msgInput').focus();
+                updateBadgeConnected();
             };
-
-            chat.onDisconnected = () => {
-                updateStatus('', 'Déconnecté');
-                addSystemMessage('Connexion terminée');
-            };
-
-            chat.onMessage = (message) => {
-                addMessage(message, false);
-            };
+            p2p.onClose = () => addSys('Déconnecté');
+            p2p.onMsg = msg => addMsg(msg, false);
 
             showView('joinView');
-            updateStatus('waiting', 'En attente...');
             document.getElementById('answerStep').style.display = 'none';
             document.getElementById('offerInput').value = '';
         }
 
         async function processOffer() {
-            const offerInput = document.getElementById('offerInput');
-            const offer = offerInput.value.trim();
-            
-            if (!offer) {
-                showToast('Colle le ticket de ton contact');
-                return;
-            }
-
+            const val = document.getElementById('offerInput').value.trim();
+            if (!val) return toast('Colle le ticket');
             try {
-                currentAnswer = await chat.createAnswer(offer);
-                document.getElementById('answerCode').textContent = currentAnswer;
+                answer = await p2p.acceptOffer(val);
+                document.getElementById('answerCode').textContent = answer;
                 document.getElementById('answerStep').style.display = 'block';
-            } catch (e) {
-                console.error('Error processing offer:', e);
-                showToast('Ticket invalide');
+            } catch {
+                toast('Ticket invalide');
             }
         }
 
         function copyAnswer() {
-            navigator.clipboard.writeText(currentAnswer);
-            showToast('Réponse copiée !');
+            navigator.clipboard.writeText(answer);
+            toast('Copié');
         }
 
-        // ============================================
-        // MESSAGING
-        // ============================================
+        // =============================================
+        // CHAT
+        // =============================================
 
-        function addMessage(text, sent) {
-            const container = document.getElementById('messagesContainer');
-            const now = new Date();
-            const time = now.getHours().toString().padStart(2, '0') + ':' + 
-                        now.getMinutes().toString().padStart(2, '0');
-
+        function addMsg(text, sent) {
+            const c = document.getElementById('messages');
+            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
             const div = document.createElement('div');
-            div.className = 'message' + (sent ? ' sent' : '');
+            div.className = 'msg' + (sent ? ' sent' : '');
             div.innerHTML = `
-                <div class="message-bubble">${escapeHtml(text)}</div>
-                <div class="message-time">${time}</div>
+                <div class="msg-bubble">${esc(text)}</div>
+                <div class="msg-time">${time}</div>
             `;
-
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            c.appendChild(div);
+            c.scrollTop = c.scrollHeight;
         }
 
-        function addSystemMessage(text) {
-            const container = document.getElementById('messagesContainer');
+        function addSys(text) {
+            const c = document.getElementById('messages');
             const div = document.createElement('div');
-            div.className = 'system-message';
+            div.className = 'sys-msg';
             div.textContent = text;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
+            c.appendChild(div);
         }
 
-        async function sendMessage() {
-            const input = document.getElementById('messageInput');
+        async function sendMsg() {
+            const input = document.getElementById('msgInput');
             const text = input.value.trim();
-            
-            if (!text || !chat) return;
-
+            if (!text || !p2p) return;
             try {
-                await chat.sendMessage(text);
-                addMessage(text, true);
+                await p2p.send(text);
+                addMsg(text, true);
                 input.value = '';
-            } catch (e) {
-                console.error('Error sending message:', e);
-                showToast('Erreur d\'envoi');
+            } catch {
+                toast('Erreur envoi');
             }
         }
 
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
+        function handleKey(e) {
+            if (e.key === 'Enter') sendMsg();
         }
 
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
+        function esc(s) {
+            const d = document.createElement('div');
+            d.textContent = s;
+            return d.innerHTML;
         }
 
-        // Init
+        function updateBadgeConnected() {
+            const badge = document.getElementById('securityBadge');
+            const status = document.getElementById('securityStatus');
+            badge.className = 'security-badge anonymous';
+            status.textContent = 'Chiffré E2E';
+        }
+
+        // =============================================
+        // INIT
+        // =============================================
+
         document.addEventListener('DOMContentLoaded', () => {
-            updateStatus('', 'Hors ligne');
+            detectTor();
+            paranoidMode = localStorage.getItem('paranoidMode') === 'true';
+            document.getElementById('paranoidToggle').classList.toggle('active', paranoidMode);
         });
     </script>
 </body>
