@@ -2,89 +2,64 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whisper — Chat privé et sécurisé</title>
-    <meta name="description" content="Messagerie chiffrée de bout en bout. Aucun serveur. Connexion directe entre vous et votre contact.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Whisper — Messagerie privée</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
         :root {
-            --white: #ffffff;
-            --gray-50: #f9fafb;
-            --gray-100: #f3f4f6;
-            --gray-200: #e5e7eb;
-            --gray-300: #d1d5db;
-            --gray-400: #9ca3af;
-            --gray-500: #6b7280;
-            --gray-600: #4b5563;
-            --gray-700: #374151;
-            --gray-800: #1f2937;
-            --gray-900: #111827;
-            --blue-50: #eff6ff;
-            --blue-100: #dbeafe;
-            --blue-500: #3b82f6;
-            --blue-600: #2563eb;
-            --blue-700: #1d4ed8;
-            --green-50: #f0fdf4;
-            --green-100: #dcfce7;
-            --green-500: #22c55e;
-            --green-600: #16a34a;
-            --green-700: #15803d;
-            --red-50: #fef2f2;
-            --red-500: #ef4444;
-            --amber-50: #fffbeb;
-            --amber-500: #f59e0b;
-            --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-            --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --bg: #ffffff;
+            --bg-alt: #f8f9fa;
+            --bg-muted: #f1f3f5;
+            --border: #e9ecef;
+            --text: #212529;
+            --text-muted: #6c757d;
+            --text-light: #adb5bd;
+            --primary: #228be6;
+            --primary-light: #e7f5ff;
+            --success: #40c057;
+            --success-light: #ebfbee;
+            --warning: #fd7e14;
+            --warning-light: #fff4e6;
+            --error: #fa5252;
+            --radius: 8px;
+            --radius-lg: 12px;
         }
 
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background: var(--gray-50);
-            color: var(--gray-900);
-            line-height: 1.6;
-            min-height: 100vh;
-            min-height: 100dvh;
+        html, body {
+            height: 100%;
+            font-family: 'Inter', system-ui, sans-serif;
+            font-size: 14px;
+            line-height: 1.5;
+            color: var(--text);
+            background: var(--bg-alt);
+            -webkit-font-smoothing: antialiased;
         }
 
-        .mono {
-            font-family: 'IBM Plex Mono', monospace;
-        }
-
-        /* Layout */
         .app {
-            max-width: 480px;
+            max-width: 440px;
             margin: 0 auto;
-            min-height: 100vh;
-            min-height: 100dvh;
-            background: var(--white);
+            height: 100%;
+            background: var(--bg);
             display: flex;
             flex-direction: column;
-            box-shadow: var(--shadow-md);
         }
 
-        @media (max-width: 480px) {
-            .app {
-                box-shadow: none;
-            }
+        @media (min-width: 441px) {
+            .app { box-shadow: 0 0 0 1px var(--border); }
         }
 
         /* Header */
         header {
-            padding: 16px 20px;
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-200);
+            padding: 14px 16px;
+            border-bottom: 1px solid var(--border);
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
+            background: var(--bg);
         }
 
         .logo {
@@ -96,7 +71,7 @@
         .logo-icon {
             width: 32px;
             height: 32px;
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            background: var(--primary);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -109,479 +84,417 @@
             color: white;
         }
 
-        .logo-text {
+        .logo-name {
             font-weight: 600;
-            font-size: 18px;
-            color: var(--gray-900);
+            font-size: 17px;
         }
 
-        .security-indicator {
-            display: flex;
+        .badge {
+            display: inline-flex;
             align-items: center;
             gap: 6px;
-            padding: 6px 12px;
+            padding: 5px 10px;
             border-radius: 100px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: 500;
         }
 
-        .security-indicator.secure {
-            background: var(--green-50);
-            color: var(--green-700);
+        .badge-success {
+            background: var(--success-light);
+            color: #2b8a3e;
         }
 
-        .security-indicator.connecting {
-            background: var(--amber-50);
-            color: var(--amber-500);
+        .badge-warning {
+            background: var(--warning-light);
+            color: #d9480f;
         }
 
-        .security-indicator .dot {
-            width: 8px;
-            height: 8px;
+        .badge-dot {
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: currentColor;
-        }
-
-        .security-indicator.secure .dot {
-            animation: pulse-green 2s infinite;
-        }
-
-        @keyframes pulse-green {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
         }
 
         /* Main */
         main {
             flex: 1;
             overflow-y: auto;
-            padding: 24px 20px;
+            padding: 20px 16px;
         }
 
-        /* Views */
-        .view {
-            display: none;
-        }
-
-        .view.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+        .view { display: none; }
+        .view.active { display: block; }
 
         /* Home */
-        .home {
+        .hero {
             text-align: center;
-            padding: 20px 0;
+            padding: 20px 0 28px;
         }
 
-        .home-hero {
-            margin-bottom: 32px;
+        .hero h1 {
+            font-size: 26px;
+            font-weight: 600;
+            margin-bottom: 6px;
         }
 
-        .home-hero h1 {
-            font-size: 28px;
-            font-weight: 700;
-            color: var(--gray-900);
-            margin-bottom: 8px;
+        .hero p {
+            color: var(--text-muted);
+            font-size: 15px;
         }
 
-        .home-hero p {
-            color: var(--gray-500);
-            font-size: 16px;
+        .actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 28px;
         }
 
         .btn {
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            width: 100%;
-            padding: 14px 20px;
-            border-radius: 12px;
+            gap: 8px;
+            padding: 13px 20px;
+            border-radius: var(--radius);
             font-family: inherit;
-            font-size: 15px;
+            font-size: 14px;
             font-weight: 500;
             cursor: pointer;
-            transition: all 0.15s ease;
             border: none;
+            transition: all 120ms ease;
         }
+
+        .btn svg { width: 18px; height: 18px; }
 
         .btn-primary {
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            background: var(--primary);
             color: white;
-            box-shadow: var(--shadow), 0 4px 14px -3px rgba(37, 99, 235, 0.4);
         }
 
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md), 0 6px 20px -3px rgba(37, 99, 235, 0.5);
-        }
+        .btn-primary:hover { background: #1c7ed6; }
 
         .btn-secondary {
-            background: var(--white);
-            color: var(--gray-700);
-            border: 1px solid var(--gray-200);
+            background: var(--bg);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            background: var(--gray-50);
-            border-color: var(--gray-300);
-        }
+        .btn-secondary:hover { background: var(--bg-alt); }
 
-        .btn-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-bottom: 40px;
-        }
+        .btn-sm { padding: 9px 14px; font-size: 13px; }
 
-        /* Trust Section */
-        .trust-section {
-            text-align: left;
+        /* Section */
+        .section {
             margin-bottom: 24px;
         }
 
-        .trust-section h2 {
-            font-size: 14px;
+        .section-label {
+            font-size: 11px;
             font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-light);
+            margin-bottom: 10px;
+        }
+
+        .card {
+            background: var(--bg-alt);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+        }
+
+        .card-item {
             display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .trust-section h2 svg {
-            width: 18px;
-            height: 18px;
-            color: var(--green-600);
-        }
-
-        .trust-card {
-            background: var(--gray-50);
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-        }
-
-        .trust-card-header {
-            display: flex;
-            align-items: flex-start;
             gap: 12px;
-            margin-bottom: 8px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
         }
 
-        .trust-card-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--blue-50);
-            border-radius: 10px;
+        .card-item:first-child { padding-top: 0; }
+        .card-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+        .card-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--bg);
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-shrink: 0;
         }
 
-        .trust-card-icon svg {
-            width: 20px;
-            height: 20px;
-            color: var(--blue-600);
+        .card-icon svg {
+            width: 18px;
+            height: 18px;
+            color: var(--primary);
         }
 
-        .trust-card-title {
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--gray-900);
+        .card-content h4 {
+            font-size: 14px;
+            font-weight: 500;
             margin-bottom: 2px;
         }
 
-        .trust-card-desc {
-            font-size: 14px;
-            color: var(--gray-500);
-            line-height: 1.5;
-        }
-
-        /* Proof Section */
-        .proof-section {
-            background: var(--blue-50);
-            border: 1px solid var(--blue-100);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 24px;
-            text-align: left;
-        }
-
-        .proof-section h3 {
+        .card-content p {
             font-size: 13px;
-            font-weight: 600;
-            color: var(--blue-700);
-            margin-bottom: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            line-height: 1.45;
         }
 
-        .proof-item {
+        /* Tech Box */
+        .tech-box {
+            background: var(--primary-light);
+            border-radius: var(--radius-lg);
+            padding: 14px 16px;
+            margin-bottom: 24px;
+        }
+
+        .tech-box h4 {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 10px;
             display: flex;
             align-items: center;
+            gap: 6px;
+        }
+
+        .tech-box h4 svg { width: 14px; height: 14px; }
+
+        .tech-item {
+            display: flex;
+            align-items: flex-start;
             gap: 8px;
             font-size: 13px;
-            color: var(--gray-700);
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
-        .proof-item:last-child {
-            margin-bottom: 0;
-        }
+        .tech-item:last-child { margin-bottom: 0; }
 
-        .proof-item svg {
-            width: 16px;
-            height: 16px;
-            color: var(--green-600);
+        .tech-check {
+            color: var(--success);
             flex-shrink: 0;
+            margin-top: 3px;
         }
 
-        .proof-item a {
-            color: var(--blue-600);
-            text-decoration: none;
+        .tech-item strong {
+            color: var(--text);
         }
 
-        .proof-item a:hover {
-            text-decoration: underline;
+        /* Table */
+        .table {
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
         }
 
-        /* Comparison */
-        .comparison {
-            text-align: left;
-            margin-bottom: 24px;
-        }
-
-        .comparison h2 {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--gray-900);
-            margin-bottom: 16px;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
+        .table-row {
+            display: grid;
+            grid-template-columns: 1fr 54px 54px 54px;
             font-size: 13px;
-        }
-
-        .comparison-table th {
-            text-align: left;
             padding: 10px 12px;
-            background: var(--gray-100);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .table-row:last-child { border-bottom: none; }
+
+        .table-head {
+            background: var(--bg-muted);
             font-weight: 500;
-            color: var(--gray-600);
+            color: var(--text-muted);
+            font-size: 11px;
         }
 
-        .comparison-table th:first-child {
-            border-radius: 8px 0 0 0;
+        .table-row.highlight { background: var(--success-light); }
+
+        .table-row span:not(:first-child) { text-align: center; }
+
+        .yes { color: var(--success); }
+        .no { color: var(--error); }
+        .maybe { color: var(--warning); }
+
+        /* Note */
+        .note {
+            background: var(--bg-alt);
+            border-radius: var(--radius);
+            padding: 12px 14px;
+            font-size: 13px;
+            color: var(--text-muted);
         }
 
-        .comparison-table th:last-child {
-            border-radius: 0 8px 0 0;
-            text-align: center;
+        .note strong { color: var(--text); }
+        .note a { color: var(--primary); text-decoration: none; }
+        .note a:hover { text-decoration: underline; }
+
+        /* Tech Details */
+        .details {
+            margin-top: 20px;
         }
 
-        .comparison-table td {
-            padding: 12px;
-            border-bottom: 1px solid var(--gray-100);
+        .details-toggle {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 13px;
+            color: var(--text-muted);
+            cursor: pointer;
+            padding: 8px 0;
         }
 
-        .comparison-table td:last-child {
-            text-align: center;
+        .details-toggle svg {
+            width: 14px;
+            height: 14px;
+            transition: transform 150ms;
         }
 
-        .comparison-table tr:last-child td:first-child {
-            border-radius: 0 0 0 8px;
+        .details-toggle.open svg { transform: rotate(90deg); }
+
+        .details-content {
+            display: none;
+            padding: 14px;
+            background: var(--bg-alt);
+            border-radius: var(--radius);
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
         }
 
-        .comparison-table tr:last-child td:last-child {
-            border-radius: 0 0 8px 0;
+        .details-content.open { display: block; }
+
+        .details-content code {
+            font-family: 'SF Mono', Monaco, monospace;
+            background: var(--bg);
+            padding: 2px 5px;
+            border-radius: 4px;
+            font-size: 11px;
         }
 
-        .comparison-table tr.highlight {
-            background: var(--green-50);
+        .details-content p + p { margin-top: 8px; }
+
+        /* Setup */
+        .setup-head {
+            margin-bottom: 20px;
         }
 
-        .comparison-table tr.highlight td {
-            border-bottom: 1px solid var(--green-100);
-            font-weight: 500;
-        }
-
-        .check {
-            color: var(--green-600);
-        }
-
-        .cross {
-            color: var(--red-500);
-        }
-
-        .partial {
-            color: var(--amber-500);
-        }
-
-        /* Setup Flow */
-        .setup {
-            text-align: left;
-        }
-
-        .setup-header {
-            margin-bottom: 24px;
-        }
-
-        .setup-header h2 {
+        .setup-head h2 {
             font-size: 22px;
             font-weight: 600;
-            color: var(--gray-900);
             margin-bottom: 4px;
         }
 
-        .setup-header p {
-            color: var(--gray-500);
-            font-size: 15px;
+        .setup-head p {
+            color: var(--text-muted);
         }
 
         .step {
-            margin-bottom: 24px;
+            margin-bottom: 20px;
         }
 
         .step-label {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 10px;
+            gap: 8px;
+            margin-bottom: 8px;
         }
 
-        .step-number {
-            width: 24px;
-            height: 24px;
-            background: var(--blue-600);
+        .step-num {
+            width: 22px;
+            height: 22px;
+            background: var(--primary);
             color: white;
             border-radius: 50%;
+            font-size: 12px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
-            font-weight: 600;
         }
 
         .step-title {
-            font-weight: 500;
             font-size: 14px;
-            color: var(--gray-700);
+            font-weight: 500;
         }
 
         .code-box {
-            background: var(--gray-900);
-            border-radius: 10px;
-            padding: 16px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 11px;
-            color: var(--gray-300);
+            background: var(--bg-muted);
+            border-radius: var(--radius);
+            padding: 12px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 10px;
             word-break: break-all;
-            line-height: 1.6;
-            max-height: 140px;
+            color: var(--text-muted);
+            max-height: 90px;
             overflow-y: auto;
+            line-height: 1.5;
         }
 
         .code-box.loading {
             display: flex;
             align-items: center;
             justify-content: center;
-            min-height: 80px;
-            color: var(--gray-500);
+            min-height: 60px;
         }
 
         textarea.input {
             width: 100%;
-            padding: 14px 16px;
-            border: 1px solid var(--gray-200);
-            border-radius: 10px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 12px;
-            color: var(--gray-800);
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 11px;
+            color: var(--text);
             resize: none;
-            min-height: 100px;
+            min-height: 80px;
             outline: none;
-            transition: border-color 0.15s;
+            transition: border-color 150ms;
         }
 
-        textarea.input:focus {
-            border-color: var(--blue-500);
-            box-shadow: 0 0 0 3px var(--blue-50);
-        }
-
-        textarea.input::placeholder {
-            color: var(--gray-400);
-        }
+        textarea.input:focus { border-color: var(--primary); }
+        textarea.input::placeholder { color: var(--text-light); }
 
         .btn-row {
             display: flex;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 10px;
         }
 
-        .btn-row .btn {
-            flex: 1;
-        }
+        .btn-row .btn { flex: 1; }
 
-        .btn-sm {
-            padding: 10px 16px;
-            font-size: 14px;
-        }
-
-        .note {
+        .hint {
             display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-top: 12px;
+            gap: 8px;
+            margin-top: 16px;
             padding: 12px;
-            background: var(--amber-50);
-            border-radius: 8px;
+            background: var(--warning-light);
+            border-radius: var(--radius);
             font-size: 13px;
-            color: var(--gray-700);
         }
 
-        .note svg {
-            width: 18px;
-            height: 18px;
-            color: var(--amber-500);
+        .hint svg {
+            width: 16px;
+            height: 16px;
+            color: var(--warning);
             flex-shrink: 0;
-            margin-top: 1px;
+            margin-top: 2px;
         }
 
         /* Chat */
-        .chat {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-        }
-
-        /* Security Bar */
         .security-bar {
-            background: var(--green-50);
-            border: 1px solid var(--green-100);
-            border-radius: 10px;
-            padding: 12px 14px;
-            margin-bottom: 16px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            padding: 10px 12px;
+            background: var(--success-light);
+            border-radius: var(--radius);
+            margin-bottom: 14px;
         }
 
         .security-bar-icon {
-            width: 36px;
-            height: 36px;
-            background: var(--green-100);
+            width: 34px;
+            height: 34px;
+            background: var(--bg);
             border-radius: 8px;
             display: flex;
             align-items: center;
@@ -591,321 +504,256 @@
         .security-bar-icon svg {
             width: 18px;
             height: 18px;
-            color: var(--green-700);
+            color: var(--success);
         }
 
-        .security-bar-text {
-            flex: 1;
-        }
+        .security-bar-text { flex: 1; }
 
         .security-bar-title {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--green-800);
+            font-size: 13px;
+            font-weight: 500;
+            color: #2b8a3e;
         }
 
         .security-bar-desc {
-            font-size: 12px;
-            color: var(--green-700);
+            font-size: 11px;
+            color: var(--text-muted);
         }
 
-        .fingerprint-btn {
+        .verify-btn {
             padding: 6px 10px;
-            background: var(--white);
-            border: 1px solid var(--green-200);
+            background: var(--bg);
+            border: 1px solid var(--border);
             border-radius: 6px;
             font-size: 11px;
             font-weight: 500;
-            color: var(--green-700);
+            color: var(--text-muted);
             cursor: pointer;
         }
 
-        .fingerprint-btn:hover {
-            background: var(--green-100);
-        }
+        .verify-btn:hover { background: var(--bg-alt); color: var(--text); }
 
         /* Messages */
-        .messages {
-            flex: 1;
-            overflow-y: auto;
+        .messages { flex: 1; }
+
+        .msg {
+            margin-bottom: 8px;
         }
 
-        .message {
-            margin-bottom: 12px;
-            animation: msgIn 0.2s ease;
-        }
+        .msg.sent { text-align: right; }
 
-        @keyframes msgIn {
-            from { opacity: 0; transform: translateY(6px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .message.sent {
-            text-align: right;
-        }
-
-        .message-bubble {
+        .bubble {
             display: inline-block;
             max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 16px;
-            font-size: 15px;
+            padding: 9px 13px;
+            border-radius: 18px;
+            font-size: 14px;
+            line-height: 1.4;
             text-align: left;
-            word-wrap: break-word;
         }
 
-        .message:not(.sent) .message-bubble {
-            background: var(--gray-100);
-            color: var(--gray-900);
+        .msg:not(.sent) .bubble {
+            background: var(--bg-muted);
             border-bottom-left-radius: 4px;
         }
 
-        .message.sent .message-bubble {
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+        .msg.sent .bubble {
+            background: var(--primary);
             color: white;
             border-bottom-right-radius: 4px;
         }
 
-        .message-time {
-            font-size: 11px;
-            color: var(--gray-400);
-            margin-top: 4px;
+        .msg-time {
+            font-size: 10px;
+            color: var(--text-light);
+            margin-top: 3px;
         }
 
-        .system-message {
+        .sys-msg {
             text-align: center;
-            padding: 16px;
+            padding: 12px;
         }
 
-        .system-message-content {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px 16px;
-            background: var(--gray-100);
+        .sys-msg span {
+            display: inline-block;
+            padding: 6px 12px;
+            background: var(--bg-alt);
             border-radius: 100px;
-            font-size: 13px;
-            color: var(--gray-600);
+            font-size: 12px;
+            color: var(--text-muted);
         }
 
-        .system-message-content svg {
-            width: 16px;
-            height: 16px;
-        }
-
-        /* File Messages */
+        /* Files */
         .file-bubble {
             display: inline-flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             max-width: 80%;
-            padding: 12px 16px;
-            background: var(--gray-100);
-            border-radius: 16px;
+            padding: 10px 12px;
+            background: var(--bg-muted);
+            border-radius: 12px;
             border-bottom-left-radius: 4px;
-            text-align: left;
         }
 
-        .message.sent .file-bubble {
-            background: var(--blue-50);
-            border-bottom-left-radius: 16px;
+        .msg.sent .file-bubble {
+            background: var(--primary-light);
+            border-bottom-left-radius: 12px;
             border-bottom-right-radius: 4px;
         }
 
         .file-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--white);
+            width: 38px;
+            height: 38px;
+            background: var(--bg);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 600;
-            color: var(--gray-500);
+            color: var(--text-muted);
             text-transform: uppercase;
-            border: 1px solid var(--gray-200);
         }
 
-        .file-details {
-            flex: 1;
-            min-width: 0;
-        }
+        .file-info { flex: 1; min-width: 0; }
 
         .file-name {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
-            color: var(--gray-900);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
         }
 
-        .file-size {
+        .file-size { font-size: 11px; color: var(--text-muted); }
+
+        .file-dl { margin-top: 4px; }
+
+        .file-dl a {
             font-size: 12px;
-            color: var(--gray-500);
-        }
-
-        .file-download {
-            margin-top: 6px;
-        }
-
-        .file-download a {
-            font-size: 13px;
-            color: var(--blue-600);
+            color: var(--primary);
             text-decoration: none;
             font-weight: 500;
         }
 
-        .file-download a:hover {
-            text-decoration: underline;
-        }
-
         .img-bubble img {
-            max-width: 240px;
-            max-height: 240px;
+            max-width: 220px;
+            max-height: 220px;
             border-radius: 12px;
             display: block;
         }
 
         /* Input */
         .input-area {
-            padding: 16px 20px;
-            background: var(--white);
-            border-top: 1px solid var(--gray-200);
+            padding: 12px 16px;
+            background: var(--bg);
+            border-top: 1px solid var(--border);
         }
 
         .file-progress {
-            margin-bottom: 12px;
-            padding: 10px 14px;
-            background: var(--gray-50);
-            border-radius: 8px;
+            margin-bottom: 10px;
+            padding: 8px 12px;
+            background: var(--bg-alt);
+            border-radius: 6px;
         }
 
         .file-progress-info {
             display: flex;
             justify-content: space-between;
-            font-size: 12px;
-            color: var(--gray-600);
-            margin-bottom: 6px;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
         }
 
         .file-progress-bar {
-            height: 4px;
-            background: var(--gray-200);
+            height: 3px;
+            background: var(--border);
             border-radius: 2px;
             overflow: hidden;
         }
 
         .file-progress-fill {
             height: 100%;
-            background: var(--blue-600);
+            background: var(--primary);
             width: 0%;
-            transition: width 0.2s;
+            transition: width 100ms;
         }
 
         .input-row {
             display: flex;
-            gap: 10px;
+            gap: 8px;
             align-items: flex-end;
         }
 
         .attach-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: var(--gray-100);
+            width: 42px;
+            height: 42px;
+            border-radius: var(--radius);
+            background: var(--bg-alt);
             border: none;
-            color: var(--gray-500);
+            color: var(--text-muted);
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
         }
 
-        .attach-btn:hover {
-            background: var(--gray-200);
-            color: var(--gray-700);
-        }
+        .attach-btn:hover { background: var(--bg-muted); color: var(--text); }
+        .attach-btn svg { width: 18px; height: 18px; }
 
-        .attach-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .message-input {
+        .msg-input {
             flex: 1;
-            padding: 12px 16px;
-            border: 1px solid var(--gray-200);
-            border-radius: 12px;
+            padding: 11px 16px;
+            border: 1px solid var(--border);
+            border-radius: 22px;
             font-family: inherit;
-            font-size: 15px;
-            color: var(--gray-900);
+            font-size: 14px;
             outline: none;
-            transition: all 0.15s;
         }
 
-        .message-input:focus {
-            border-color: var(--blue-500);
-            box-shadow: 0 0 0 3px var(--blue-50);
-        }
-
-        .message-input::placeholder {
-            color: var(--gray-400);
-        }
+        .msg-input:focus { border-color: var(--primary); }
+        .msg-input::placeholder { color: var(--text-light); }
 
         .send-btn {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            background: linear-gradient(135deg, var(--blue-600), var(--blue-700));
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: var(--primary);
             border: none;
             color: white;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: all 0.15s;
         }
 
-        .send-btn:hover {
-            transform: scale(1.05);
-        }
-
-        .send-btn svg {
-            width: 18px;
-            height: 18px;
-        }
+        .send-btn:hover { background: #1c7ed6; }
+        .send-btn svg { width: 17px; height: 17px; margin-left: 2px; }
 
         /* Toast */
         .toast {
             position: fixed;
-            bottom: 100px;
+            bottom: 80px;
             left: 50%;
-            transform: translateX(-50%) translateY(10px);
-            background: var(--gray-900);
+            transform: translateX(-50%) translateY(8px);
+            background: var(--text);
             color: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-size: 14px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 13px;
             font-weight: 500;
             opacity: 0;
-            transition: all 0.2s ease;
+            transition: all 200ms;
             z-index: 100;
-            box-shadow: var(--shadow-md);
         }
 
-        .toast.show {
-            opacity: 1;
-            transform: translateX(-50%) translateY(0);
-        }
+        .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
         /* Modal */
-        .modal-overlay {
+        .modal-bg {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.5);
+            background: rgba(0,0,0,0.4);
             display: none;
             align-items: center;
             justify-content: center;
@@ -913,89 +761,44 @@
             padding: 20px;
         }
 
-        .modal-overlay.active {
-            display: flex;
-        }
+        .modal-bg.active { display: flex; }
 
         .modal {
-            background: var(--white);
-            border-radius: 16px;
-            padding: 24px;
-            max-width: 360px;
+            background: var(--bg);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            max-width: 340px;
             width: 100%;
-            animation: modalIn 0.2s ease;
         }
 
-        @keyframes modalIn {
-            from { opacity: 0; transform: scale(0.95); }
-            to { opacity: 1; transform: scale(1); }
-        }
+        .modal h3 { font-size: 17px; font-weight: 600; margin-bottom: 8px; }
 
-        .modal h3 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
+        .modal p { font-size: 13px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.5; }
 
-        .modal p {
-            font-size: 14px;
-            color: var(--gray-600);
-            margin-bottom: 16px;
-        }
-
-        .fingerprint-display {
-            background: var(--gray-100);
+        .fingerprint {
+            background: var(--bg-alt);
             border-radius: 8px;
             padding: 16px;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 14px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 15px;
             text-align: center;
             letter-spacing: 2px;
-            color: var(--gray-700);
-            margin-bottom: 16px;
-            word-break: break-all;
+            margin-bottom: 12px;
         }
 
-        .modal-note {
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 16px;
-        }
+        .modal-hint { font-size: 11px; color: var(--text-light); margin-bottom: 16px; }
 
         /* Spinner */
         .spinner {
             width: 20px;
             height: 20px;
-            border: 2px solid var(--gray-600);
-            border-top-color: var(--gray-300);
+            border: 2px solid var(--border);
+            border-top-color: var(--primary);
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: spin 600ms linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Transparent note */
-        .transparent-note {
-            margin-top: 24px;
-            padding: 14px 16px;
-            background: var(--gray-50);
-            border-radius: 10px;
-            font-size: 13px;
-            color: var(--gray-600);
-            text-align: left;
-        }
-
-        .transparent-note strong {
-            color: var(--gray-800);
-            font-weight: 600;
-        }
-
-        .transparent-note a {
-            color: var(--blue-600);
-            text-decoration: none;
-        }
+        @keyframes spin { to { transform: rotate(360deg); } }
     </style>
 </head>
 <body>
@@ -1003,289 +806,232 @@
         <header>
             <div class="logo">
                 <div class="logo-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
                     </svg>
                 </div>
-                <span class="logo-text">Whisper</span>
+                <span class="logo-name">Whisper</span>
             </div>
-            <div class="security-indicator secure" id="securityIndicator">
-                <span class="dot"></span>
-                <span id="securityStatus">Sécurisé</span>
+            <div class="badge badge-success" id="statusBadge">
+                <span class="badge-dot"></span>
+                <span id="statusText">Chiffré</span>
             </div>
         </header>
 
         <main>
             <!-- HOME -->
             <div class="view active" id="homeView">
-                <div class="home">
-                    <div class="home-hero">
-                        <h1>Discutez en privé</h1>
-                        <p>Messages et fichiers chiffrés, sans intermédiaire</p>
-                    </div>
+                <div class="hero">
+                    <h1>Discutez en privé</h1>
+                    <p>Vos messages restent entre vous</p>
+                </div>
 
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="startChat()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <line x1="12" y1="5" x2="12" y2="19"/>
-                                <line x1="5" y1="12" x2="19" y2="12"/>
-                            </svg>
-                            Nouvelle conversation
-                        </button>
-                        <button class="btn btn-secondary" onclick="joinChat()">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
-                                <polyline points="10 17 15 12 10 7"/>
-                                <line x1="15" y1="12" x2="3" y2="12"/>
-                            </svg>
-                            Rejoindre
-                        </button>
-                    </div>
+                <div class="actions">
+                    <button class="btn btn-primary" onclick="startChat()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Nouvelle conversation
+                    </button>
+                    <button class="btn btn-secondary" onclick="joinChat()">Rejoindre une conversation</button>
+                </div>
 
-                    <div class="trust-section">
-                        <h2>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-                                <polyline points="9 12 11 14 15 10"/>
-                            </svg>
-                            Comment ça fonctionne
-                        </h2>
-
-                        <div class="trust-card">
-                            <div class="trust-card-header">
-                                <div class="trust-card-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <circle cx="12" cy="12" r="10"/>
-                                        <line x1="12" y1="8" x2="12" y2="12"/>
-                                        <line x1="12" y1="16" x2="12.01" y2="16"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="trust-card-title">Connexion directe</div>
-                                    <div class="trust-card-desc">Votre navigateur se connecte directement à celui de votre contact. Vos messages ne passent par aucun serveur.</div>
-                                </div>
+                <div class="section">
+                    <div class="section-label">Comment ça fonctionne</div>
+                    <div class="card">
+                        <div class="card-item">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h4>Connexion directe</h4>
+                                <p>Votre navigateur se connecte directement à celui de votre contact. Aucun serveur intermédiaire.</p>
                             </div>
                         </div>
-
-                        <div class="trust-card">
-                            <div class="trust-card-header">
-                                <div class="trust-card-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="trust-card-title">Chiffrement de bout en bout</div>
-                                    <div class="trust-card-desc">Vos messages sont chiffrés avec AES-256-GCM avant de quitter votre appareil. Même nous ne pouvons pas les lire.</div>
-                                </div>
+                        <div class="card-item">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h4>Chiffré avant envoi</h4>
+                                <p>Chaque message est chiffré sur votre appareil avant d'être transmis.</p>
                             </div>
                         </div>
-
-                        <div class="trust-card">
-                            <div class="trust-card-header">
-                                <div class="trust-card-icon">
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <polyline points="3 6 5 6 21 6"/>
-                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
-                                    </svg>
-                                </div>
-                                <div>
-                                    <div class="trust-card-title">Rien n'est stocké</div>
-                                    <div class="trust-card-desc">Aucune donnée n'est conservée. Fermez l'onglet, tout disparaît. Pas d'historique, pas de traces.</div>
-                                </div>
+                        <div class="card-item">
+                            <div class="card-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/>
+                                </svg>
+                            </div>
+                            <div class="card-content">
+                                <h4>Rien n'est conservé</h4>
+                                <p>Fermez la page, tout disparaît. Pas d'historique, pas de traces.</p>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <div class="proof-section">
-                        <h3>🔬 Vérifiez par vous-même</h3>
-                        <div class="proof-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span><strong>AES-256-GCM</strong> — Standard utilisé par les banques et les gouvernements</span>
+                <div class="tech-box">
+                    <h4>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                        </svg>
+                        Technologies vérifiables
+                    </h4>
+                    <div class="tech-item">
+                        <svg class="tech-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>AES-256-GCM</strong> — Chiffrement utilisé par les banques</span>
+                    </div>
+                    <div class="tech-item">
+                        <svg class="tech-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>WebRTC</strong> — Protocole des appels vidéo (Meet, Discord)</span>
+                    </div>
+                    <div class="tech-item">
+                        <svg class="tech-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>Web Crypto API</strong> — Cryptographie native du navigateur</span>
+                    </div>
+                    <div class="tech-item">
+                        <svg class="tech-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span><strong>Code ouvert</strong> — Clic droit → Afficher le code source</span>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="section-label">Comparaison</div>
+                    <div class="table">
+                        <div class="table-row table-head">
+                            <span></span><span>Chiffré</span><span>P2P</span><span>Anonyme</span>
                         </div>
-                        <div class="proof-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span><strong>WebRTC</strong> — Technologie des appels vidéo (Google Meet, Discord)</span>
+                        <div class="table-row highlight">
+                            <span><strong>Whisper</strong></span>
+                            <span class="yes">✓</span><span class="yes">✓</span><span class="yes">✓</span>
                         </div>
-                        <div class="proof-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span><strong>Web Crypto API</strong> — Cryptographie native du navigateur</span>
+                        <div class="table-row">
+                            <span>Signal</span>
+                            <span class="yes">✓</span><span class="no">✗</span><span class="no">✗</span>
                         </div>
-                        <div class="proof-item">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <polyline points="20 6 9 17 4 12"/>
-                            </svg>
-                            <span><strong>Code visible</strong> — Clic droit → Afficher le code source</span>
+                        <div class="table-row">
+                            <span>WhatsApp</span>
+                            <span class="yes">✓</span><span class="no">✗</span><span class="no">✗</span>
+                        </div>
+                        <div class="table-row">
+                            <span>Telegram</span>
+                            <span class="maybe">~</span><span class="no">✗</span><span class="no">✗</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="comparison">
-                        <h2>Comparaison avec les autres apps</h2>
-                        <table class="comparison-table">
-                            <tr>
-                                <th>App</th>
-                                <th>Chiffré</th>
-                                <th>Sans serveur</th>
-                                <th>Sans compte</th>
-                            </tr>
-                            <tr class="highlight">
-                                <td><strong>Whisper</strong></td>
-                                <td><span class="check">✓</span></td>
-                                <td><span class="check">✓</span></td>
-                                <td><span class="check">✓</span></td>
-                            </tr>
-                            <tr>
-                                <td>Signal</td>
-                                <td><span class="check">✓</span></td>
-                                <td><span class="cross">✗</span></td>
-                                <td><span class="cross">✗</span></td>
-                            </tr>
-                            <tr>
-                                <td>WhatsApp</td>
-                                <td><span class="check">✓</span></td>
-                                <td><span class="cross">✗</span></td>
-                                <td><span class="cross">✗</span></td>
-                            </tr>
-                            <tr>
-                                <td>Telegram</td>
-                                <td><span class="partial">~</span></td>
-                                <td><span class="cross">✗</span></td>
-                                <td><span class="cross">✗</span></td>
-                            </tr>
-                            <tr>
-                                <td>Discord</td>
-                                <td><span class="cross">✗</span></td>
-                                <td><span class="cross">✗</span></td>
-                                <td><span class="cross">✗</span></td>
-                            </tr>
-                        </table>
+                <div class="note">
+                    <strong>Transparence :</strong> Votre contact voit votre IP (normal pour du P2P). Pour la masquer : <a href="https://www.torproject.org/download/" target="_blank">Tor Browser</a>.
+                </div>
+
+                <div class="details">
+                    <div class="details-toggle" onclick="toggleDetails()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+                        Détails techniques
                     </div>
-
-                    <div class="transparent-note">
-                        <strong>Ce que nous ne cachons pas :</strong> Votre contact voit votre adresse IP (c'est normal pour une connexion directe). Pour masquer votre IP, utilisez <a href="https://www.torproject.org/download/" target="_blank">Tor Browser</a>.
+                    <div class="details-content" id="detailsContent">
+                        <p><strong>Chiffrement :</strong> <code>AES-256-GCM</code> avec IV aléatoire de 96 bits par message.</p>
+                        <p><strong>Transport :</strong> WebRTC DataChannel (DTLS-SRTP) + couche applicative AES-256.</p>
+                        <p><strong>Vérification :</strong> Empreinte SHA-256 de la clé, vérifiable par téléphone.</p>
                     </div>
                 </div>
             </div>
 
             <!-- CREATE -->
             <div class="view" id="createView">
-                <div class="setup">
-                    <div class="setup-header">
-                        <h2>Nouvelle conversation</h2>
-                        <p>Envoyez ce code à votre contact</p>
+                <div class="setup-head">
+                    <h2>Nouvelle conversation</h2>
+                    <p>Partagez ce code avec votre contact</p>
+                </div>
+                <div class="step">
+                    <div class="step-label">
+                        <span class="step-num">1</span>
+                        <span class="step-title">Code d'invitation</span>
                     </div>
-
-                    <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">1</span>
-                            <span class="step-title">Votre code d'invitation</span>
-                        </div>
-                        <div class="code-box loading" id="offerCode">
-                            <div class="spinner"></div>
-                        </div>
-                        <div class="btn-row">
-                            <button class="btn btn-secondary btn-sm" onclick="copyOffer()">
-                                Copier le code
-                            </button>
-                        </div>
+                    <div class="code-box loading" id="offerCode"><div class="spinner"></div></div>
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" onclick="copyOffer()">Copier</button>
                     </div>
-
-                    <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">2</span>
-                            <span class="step-title">Réponse de votre contact</span>
-                        </div>
-                        <textarea class="input" id="answerInput" placeholder="Collez ici la réponse de votre contact..."></textarea>
-                        <div class="btn-row">
-                            <button class="btn btn-primary btn-sm" onclick="processAnswer()">Connecter</button>
-                            <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
-                        </div>
+                </div>
+                <div class="step">
+                    <div class="step-label">
+                        <span class="step-num">2</span>
+                        <span class="step-title">Réponse de votre contact</span>
                     </div>
-
-                    <div class="note">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="12" r="10"/>
-                            <line x1="12" y1="16" x2="12" y2="12"/>
-                            <line x1="12" y1="8" x2="12.01" y2="8"/>
-                        </svg>
-                        <span>Envoyez ce code par un moyen sécurisé (de visu, par Signal, etc.). Ce code contient la clé de chiffrement.</span>
+                    <textarea class="input" id="answerInput" placeholder="Collez la réponse ici..."></textarea>
+                    <div class="btn-row">
+                        <button class="btn btn-primary btn-sm" onclick="processAnswer()">Connecter</button>
+                        <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
                     </div>
+                </div>
+                <div class="hint">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/>
+                    </svg>
+                    <span>Ce code contient la clé de chiffrement. Partagez-le par un canal sécurisé.</span>
                 </div>
             </div>
 
             <!-- JOIN -->
             <div class="view" id="joinView">
-                <div class="setup">
-                    <div class="setup-header">
-                        <h2>Rejoindre</h2>
-                        <p>Collez le code reçu de votre contact</p>
+                <div class="setup-head">
+                    <h2>Rejoindre</h2>
+                    <p>Collez le code reçu</p>
+                </div>
+                <div class="step">
+                    <div class="step-label">
+                        <span class="step-num">1</span>
+                        <span class="step-title">Code d'invitation</span>
                     </div>
-
-                    <div class="step">
-                        <div class="step-label">
-                            <span class="step-number">1</span>
-                            <span class="step-title">Code d'invitation reçu</span>
-                        </div>
-                        <textarea class="input" id="offerInput" placeholder="Collez ici le code d'invitation..."></textarea>
-                        <div class="btn-row">
-                            <button class="btn btn-primary btn-sm" onclick="processOffer()">Continuer</button>
-                            <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
-                        </div>
+                    <textarea class="input" id="offerInput" placeholder="Collez le code..."></textarea>
+                    <div class="btn-row">
+                        <button class="btn btn-primary btn-sm" onclick="processOffer()">Continuer</button>
+                        <button class="btn btn-secondary btn-sm" onclick="goHome()">Annuler</button>
                     </div>
-
-                    <div class="step" id="answerStep" style="display: none;">
-                        <div class="step-label">
-                            <span class="step-number">2</span>
-                            <span class="step-title">Votre réponse (à envoyer)</span>
-                        </div>
-                        <div class="code-box" id="answerCode"></div>
-                        <div class="btn-row">
-                            <button class="btn btn-secondary btn-sm" onclick="copyAnswer()">Copier la réponse</button>
-                        </div>
-                        <p style="margin-top: 12px; font-size: 13px; color: var(--gray-500);">
-                            Envoyez cette réponse à votre contact. La connexion s'établira automatiquement.
-                        </p>
+                </div>
+                <div class="step" id="answerStep" style="display:none;">
+                    <div class="step-label">
+                        <span class="step-num">2</span>
+                        <span class="step-title">Votre réponse</span>
                     </div>
+                    <div class="code-box" id="answerCode"></div>
+                    <div class="btn-row">
+                        <button class="btn btn-secondary btn-sm" onclick="copyAnswer()">Copier</button>
+                    </div>
+                    <p style="margin-top:10px;font-size:12px;color:var(--text-muted);">Envoyez cette réponse. La connexion s'établira automatiquement.</p>
                 </div>
             </div>
 
             <!-- CHAT -->
             <div class="view" id="chatView">
-                <div class="chat">
-                    <div class="security-bar">
-                        <div class="security-bar-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
-                                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                            </svg>
-                        </div>
-                        <div class="security-bar-text">
-                            <div class="security-bar-title">Connexion chiffrée</div>
-                            <div class="security-bar-desc">Messages protégés de bout en bout</div>
-                        </div>
-                        <button class="fingerprint-btn" onclick="showFingerprint()">Vérifier</button>
+                <div class="security-bar">
+                    <div class="security-bar-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+                        </svg>
                     </div>
-                    <div class="messages" id="messages"></div>
+                    <div class="security-bar-text">
+                        <div class="security-bar-title">Conversation chiffrée</div>
+                        <div class="security-bar-desc">Connexion directe et sécurisée</div>
+                    </div>
+                    <button class="verify-btn" onclick="showFP()">Vérifier</button>
                 </div>
+                <div class="messages" id="messages"></div>
             </div>
         </main>
 
-        <div class="input-area" id="inputArea" style="display: none;">
-            <div class="file-progress" id="fileProgress" style="display: none;">
+        <div class="input-area" id="inputArea" style="display:none;">
+            <div class="file-progress" id="fileProgress" style="display:none;">
                 <div class="file-progress-info">
-                    <span id="fileProgressName">fichier.pdf</span>
-                    <span id="fileProgressPercent">0%</span>
+                    <span id="fpName"></span><span id="fpPct">0%</span>
                 </div>
-                <div class="file-progress-bar">
-                    <div class="file-progress-fill" id="fileProgressFill"></div>
-                </div>
+                <div class="file-progress-bar"><div class="file-progress-fill" id="fpFill"></div></div>
             </div>
             <div class="input-row">
                 <button class="attach-btn" onclick="document.getElementById('fileInput').click()">
@@ -1293,12 +1039,11 @@
                         <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
                     </svg>
                 </button>
-                <input type="file" id="fileInput" style="display: none;" onchange="handleFileSelect(event)" multiple>
-                <input type="text" class="message-input" id="msgInput" placeholder="Votre message..." onkeypress="handleKey(event)" autocomplete="off">
+                <input type="file" id="fileInput" style="display:none;" onchange="onFile(event)" multiple>
+                <input type="text" class="msg-input" id="msgInput" placeholder="Message..." onkeydown="onKey(event)">
                 <button class="send-btn" onclick="sendMsg()">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                        <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
                     </svg>
                 </button>
             </div>
@@ -1307,585 +1052,54 @@
 
     <div class="toast" id="toast"></div>
 
-    <!-- Fingerprint Modal -->
-    <div class="modal-overlay" id="fingerprintModal">
+    <div class="modal-bg" id="fpModal">
         <div class="modal">
-            <h3>🔐 Vérification de sécurité</h3>
-            <p>Comparez ce code avec votre contact (par téléphone ou de visu). S'ils sont identiques, personne n'intercepte vos messages.</p>
-            <div class="fingerprint-display" id="fingerprintDisplay"></div>
-            <p class="modal-note">Ce code est dérivé de la clé de chiffrement partagée entre vous et votre contact uniquement.</p>
-            <button class="btn btn-secondary btn-sm" onclick="closeFingerprint()" style="width: 100%;">Fermer</button>
+            <h3>Vérification de sécurité</h3>
+            <p>Comparez ce code avec votre contact par téléphone. S'ils sont identiques, personne n'intercepte vos messages.</p>
+            <div class="fingerprint" id="fpDisplay"></div>
+            <p class="modal-hint">Cette empreinte est unique à votre conversation.</p>
+            <button class="btn btn-secondary btn-sm" onclick="closeFP()" style="width:100%;">Fermer</button>
         </div>
     </div>
 
     <script>
-        // =============================================
-        // CONFIGURATION
-        // =============================================
-        
-        const STUN_SERVERS = [
-            { urls: 'stun:stun.l.google.com:19302' },
-            { urls: 'stun:stun.cloudflare.com:3478' }
-        ];
-
-        // =============================================
-        // CRYPTOGRAPHY (Web Crypto API)
-        // =============================================
-
-        class Crypto {
-            static async generateKey() {
-                return await crypto.subtle.generateKey(
-                    { name: 'AES-GCM', length: 256 },
-                    true,
-                    ['encrypt', 'decrypt']
-                );
-            }
-
-            static async exportKey(key) {
-                const raw = await crypto.subtle.exportKey('raw', key);
-                return this.toBase64(raw);
-            }
-
-            static async importKey(base64) {
-                const raw = this.fromBase64(base64);
-                return await crypto.subtle.importKey(
-                    'raw', raw,
-                    { name: 'AES-GCM', length: 256 },
-                    true,
-                    ['encrypt', 'decrypt']
-                );
-            }
-
-            static async encrypt(key, plaintext) {
-                const iv = crypto.getRandomValues(new Uint8Array(12));
-                const encoded = new TextEncoder().encode(plaintext);
-                const ciphertext = await crypto.subtle.encrypt(
-                    { name: 'AES-GCM', iv },
-                    key,
-                    encoded
-                );
-                const combined = new Uint8Array(iv.length + ciphertext.byteLength);
-                combined.set(iv);
-                combined.set(new Uint8Array(ciphertext), iv.length);
-                return this.toBase64(combined.buffer);
-            }
-
-            static async decrypt(key, base64) {
-                const combined = this.fromBase64(base64);
-                const iv = combined.slice(0, 12);
-                const ciphertext = combined.slice(12);
-                const decrypted = await crypto.subtle.decrypt(
-                    { name: 'AES-GCM', iv: new Uint8Array(iv) },
-                    key,
-                    ciphertext
-                );
-                return new TextDecoder().decode(decrypted);
-            }
-
-            static async getFingerprint(key) {
-                const raw = await crypto.subtle.exportKey('raw', key);
-                const hash = await crypto.subtle.digest('SHA-256', raw);
-                const bytes = new Uint8Array(hash);
-                // Return first 16 bytes as hex, grouped
-                let hex = '';
-                for (let i = 0; i < 16; i++) {
-                    hex += bytes[i].toString(16).padStart(2, '0');
-                    if (i % 4 === 3 && i < 15) hex += ' ';
-                }
-                return hex.toUpperCase();
-            }
-
-            static toBase64(buffer) {
-                const bytes = new Uint8Array(buffer);
-                let binary = '';
-                bytes.forEach(b => binary += String.fromCharCode(b));
-                return btoa(binary);
-            }
-
-            static fromBase64(base64) {
-                const binary = atob(base64);
-                const bytes = new Uint8Array(binary.length);
-                for (let i = 0; i < binary.length; i++) {
-                    bytes[i] = binary.charCodeAt(i);
-                }
-                return bytes.buffer;
-            }
-        }
-
-        // =============================================
-        // P2P CONNECTION (WebRTC)
-        // =============================================
-
-        class P2PConnection {
-            constructor() {
-                this.pc = null;
-                this.dc = null;
-                this.encryptionKey = null;
-                this.onMessage = null;
-                this.onConnected = null;
-                this.onDisconnected = null;
-            }
-
-            async createOffer() {
-                this.encryptionKey = await Crypto.generateKey();
-                const keyBase64 = await Crypto.exportKey(this.encryptionKey);
-
-                this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
-                this.dc = this.pc.createDataChannel('whisper', { ordered: true });
-                this._setupDataChannel();
-
-                const offer = await this.pc.createOffer();
-                await this.pc.setLocalDescription(offer);
-                await this._waitForICE();
-
-                return btoa(JSON.stringify({
-                    sdp: this.pc.localDescription.sdp,
-                    key: keyBase64
-                }));
-            }
-
-            async acceptOffer(offerBase64) {
-                const { sdp, key } = JSON.parse(atob(offerBase64));
-                this.encryptionKey = await Crypto.importKey(key);
-
-                this.pc = new RTCPeerConnection({ iceServers: STUN_SERVERS });
-                this.pc.ondatachannel = (e) => {
-                    this.dc = e.channel;
-                    this._setupDataChannel();
-                };
-
-                await this.pc.setRemoteDescription({ type: 'offer', sdp });
-                const answer = await this.pc.createAnswer();
-                await this.pc.setLocalDescription(answer);
-                await this._waitForICE();
-
-                return btoa(JSON.stringify({
-                    sdp: this.pc.localDescription.sdp
-                }));
-            }
-
-            async acceptAnswer(answerBase64) {
-                const { sdp } = JSON.parse(atob(answerBase64));
-                await this.pc.setRemoteDescription({ type: 'answer', sdp });
-            }
-
-            async send(message) {
-                if (!this.dc || this.dc.readyState !== 'open') {
-                    throw new Error('Non connecté');
-                }
-                const encrypted = await Crypto.encrypt(this.encryptionKey, message);
-                this.dc.send(encrypted);
-            }
-
-            _setupDataChannel() {
-                this.dc.onopen = () => this.onConnected?.();
-                this.dc.onclose = () => this.onDisconnected?.();
-                this.dc.onmessage = async (e) => {
-                    const decrypted = await Crypto.decrypt(this.encryptionKey, e.data);
-                    this.onMessage?.(decrypted);
-                };
-            }
-
-            _waitForICE() {
-                return new Promise((resolve) => {
-                    if (this.pc.iceGatheringState === 'complete') return resolve();
-                    
-                    const check = () => {
-                        if (this.pc.iceGatheringState === 'complete') {
-                            this.pc.removeEventListener('icegatheringstatechange', check);
-                            resolve();
-                        }
-                    };
-                    this.pc.addEventListener('icegatheringstatechange', check);
-                    setTimeout(resolve, 5000);
-                });
-            }
-
-            close() {
-                this.dc?.close();
-                this.pc?.close();
-            }
-        }
-
-        // =============================================
-        // APPLICATION
-        // =============================================
-
-        let connection = null;
-        let currentOffer = '';
-        let currentAnswer = '';
-
-        // UI Functions
-        function showView(id) {
-            document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            document.getElementById('inputArea').style.display = id === 'chatView' ? 'block' : 'none';
-        }
-
-        function toast(msg) {
-            const t = document.getElementById('toast');
-            t.textContent = msg;
-            t.classList.add('show');
-            setTimeout(() => t.classList.remove('show'), 2500);
-        }
-
-        function updateSecurityIndicator(status, text) {
-            const indicator = document.getElementById('securityIndicator');
-            const statusEl = document.getElementById('securityStatus');
-            indicator.className = 'security-indicator ' + status;
-            statusEl.textContent = text;
-        }
-
-        function goHome() {
-            connection?.close();
-            connection = null;
-            showView('homeView');
-            updateSecurityIndicator('secure', 'Sécurisé');
-        }
-
-        // Chat Functions
-        async function startChat() {
-            connection = new P2PConnection();
-            
-            connection.onConnected = () => {
-                showView('chatView');
-                updateSecurityIndicator('secure', 'Chiffré');
-                document.getElementById('messages').innerHTML = '';
-                document.getElementById('msgInput').focus();
-            };
-
-            connection.onDisconnected = () => {
-                updateSecurityIndicator('connecting', 'Déconnecté');
-                addSystemMessage('Connexion terminée');
-            };
-
-            connection.onMessage = (msg) => {
-                if (!handleFileMessage(msg)) {
-                    addMessage(msg, false);
-                }
-            };
-
-            showView('createView');
-            updateSecurityIndicator('connecting', 'En attente');
-            
-            document.getElementById('offerCode').innerHTML = '<div class="spinner"></div>';
-            document.getElementById('offerCode').classList.add('loading');
-            document.getElementById('answerInput').value = '';
-
-            try {
-                currentOffer = await connection.createOffer();
-                document.getElementById('offerCode').textContent = currentOffer;
-                document.getElementById('offerCode').classList.remove('loading');
-            } catch (e) {
-                document.getElementById('offerCode').textContent = 'Erreur: ' + e.message;
-            }
-        }
-
-        function copyOffer() {
-            navigator.clipboard.writeText(currentOffer);
-            toast('Code copié');
-        }
-
-        async function processAnswer() {
-            const val = document.getElementById('answerInput').value.trim();
-            if (!val) return toast('Collez la réponse de votre contact');
-            try {
-                await connection.acceptAnswer(val);
-            } catch (e) {
-                toast('Code invalide');
-            }
-        }
-
-        async function joinChat() {
-            connection = new P2PConnection();
-            
-            connection.onConnected = () => {
-                showView('chatView');
-                updateSecurityIndicator('secure', 'Chiffré');
-                document.getElementById('messages').innerHTML = '';
-                document.getElementById('msgInput').focus();
-            };
-
-            connection.onDisconnected = () => {
-                updateSecurityIndicator('connecting', 'Déconnecté');
-                addSystemMessage('Connexion terminée');
-            };
-
-            connection.onMessage = (msg) => {
-                if (!handleFileMessage(msg)) {
-                    addMessage(msg, false);
-                }
-            };
-
-            showView('joinView');
-            updateSecurityIndicator('connecting', 'En attente');
-            document.getElementById('answerStep').style.display = 'none';
-            document.getElementById('offerInput').value = '';
-        }
-
-        async function processOffer() {
-            const val = document.getElementById('offerInput').value.trim();
-            if (!val) return toast('Collez le code d\'invitation');
-            try {
-                currentAnswer = await connection.acceptOffer(val);
-                document.getElementById('answerCode').textContent = currentAnswer;
-                document.getElementById('answerStep').style.display = 'block';
-            } catch (e) {
-                toast('Code invalide');
-            }
-        }
-
-        function copyAnswer() {
-            navigator.clipboard.writeText(currentAnswer);
-            toast('Réponse copiée');
-        }
-
-        // Messages
-        function addMessage(text, sent) {
-            const container = document.getElementById('messages');
-            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            
-            const div = document.createElement('div');
-            div.className = 'message' + (sent ? ' sent' : '');
-            div.innerHTML = `
-                <div class="message-bubble">${escapeHtml(text)}</div>
-                <div class="message-time">${time}</div>
-            `;
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function addSystemMessage(text) {
-            const container = document.getElementById('messages');
-            const div = document.createElement('div');
-            div.className = 'system-message';
-            div.innerHTML = `
-                <div class="system-message-content">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="16" x2="12" y2="12"/>
-                        <line x1="12" y1="8" x2="12.01" y2="8"/>
-                    </svg>
-                    ${escapeHtml(text)}
-                </div>
-            `;
-            container.appendChild(div);
-        }
-
-        async function sendMsg() {
-            const input = document.getElementById('msgInput');
-            const text = input.value.trim();
-            if (!text || !connection) return;
-
-            try {
-                await connection.send(text);
-                addMessage(text, true);
-                input.value = '';
-            } catch (e) {
-                toast('Erreur d\'envoi');
-            }
-        }
-
-        function handleKey(e) {
-            if (e.key === 'Enter') sendMsg();
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // Fingerprint
-        async function showFingerprint() {
-            if (!connection?.encryptionKey) return;
-            const fp = await Crypto.getFingerprint(connection.encryptionKey);
-            document.getElementById('fingerprintDisplay').textContent = fp;
-            document.getElementById('fingerprintModal').classList.add('active');
-        }
-
-        function closeFingerprint() {
-            document.getElementById('fingerprintModal').classList.remove('active');
-        }
-
-        // =============================================
-        // FILE SHARING
-        // =============================================
-
-        const CHUNK_SIZE = 64 * 1024;
-        const MAX_BUFFER = 256 * 1024;
-        let incomingFiles = {};
-
-        async function handleFileSelect(event) {
-            const files = event.target.files;
-            if (!files.length || !connection) return;
-            for (const file of files) {
-                await sendFile(file);
-            }
-            event.target.value = '';
-        }
-
-        async function sendFile(file) {
-            const fileId = crypto.randomUUID();
-            const totalChunks = Math.ceil(file.size / CHUNK_SIZE);
-            
-            showProgress(file.name, 0);
-
-            await connection.send(JSON.stringify({
-                type: 'file-start',
-                id: fileId,
-                name: file.name,
-                size: file.size,
-                mimeType: file.type,
-                totalChunks
-            }));
-
-            const arrayBuffer = await file.arrayBuffer();
-            const uint8Array = new Uint8Array(arrayBuffer);
-
-            for (let i = 0; i < totalChunks; i++) {
-                const start = i * CHUNK_SIZE;
-                const end = Math.min(start + CHUNK_SIZE, file.size);
-                const chunk = uint8Array.slice(start, end);
-                
-                await waitForBuffer(connection.dc);
-                
-                await connection.send(JSON.stringify({
-                    type: 'file-chunk',
-                    id: fileId,
-                    index: i,
-                    data: Crypto.toBase64(chunk.buffer)
-                }));
-                
-                showProgress(file.name, Math.round(((i + 1) / totalChunks) * 100));
-            }
-
-            await connection.send(JSON.stringify({ type: 'file-end', id: fileId }));
-            hideProgress();
-            addFileMessage(file.name, file.size, file.type, null, true);
-        }
-
-        function waitForBuffer(dc) {
-            return new Promise((resolve) => {
-                if (!dc || dc.bufferedAmount <= MAX_BUFFER) return resolve();
-                const check = () => {
-                    if (!dc || dc.readyState !== 'open' || dc.bufferedAmount <= MAX_BUFFER) {
-                        resolve();
-                    } else {
-                        setTimeout(check, 50);
-                    }
-                };
-                check();
-            });
-        }
-
-        function handleFileMessage(data) {
-            try {
-                const msg = JSON.parse(data);
-                
-                if (msg.type === 'file-start') {
-                    incomingFiles[msg.id] = {
-                        name: msg.name,
-                        size: msg.size,
-                        mimeType: msg.mimeType,
-                        totalChunks: msg.totalChunks,
-                        chunks: [],
-                        received: 0
-                    };
-                    showProgress(msg.name, 0);
-                    return true;
-                }
-                
-                if (msg.type === 'file-chunk') {
-                    const file = incomingFiles[msg.id];
-                    if (!file) return true;
-                    file.chunks[msg.index] = Crypto.fromBase64(msg.data);
-                    file.received++;
-                    showProgress(file.name, Math.round((file.received / file.totalChunks) * 100));
-                    return true;
-                }
-                
-                if (msg.type === 'file-end') {
-                    const file = incomingFiles[msg.id];
-                    if (!file) return true;
-                    
-                    const totalSize = file.chunks.reduce((acc, c) => acc + c.byteLength, 0);
-                    const assembled = new Uint8Array(totalSize);
-                    let offset = 0;
-                    for (const chunk of file.chunks) {
-                        assembled.set(new Uint8Array(chunk), offset);
-                        offset += chunk.byteLength;
-                    }
-                    
-                    const blob = new Blob([assembled], { type: file.mimeType });
-                    const url = URL.createObjectURL(blob);
-                    
-                    hideProgress();
-                    addFileMessage(file.name, file.size, file.mimeType, url, false);
-                    delete incomingFiles[msg.id];
-                    return true;
-                }
-                
-                return false;
-            } catch {
-                return false;
-            }
-        }
-
-        function showProgress(name, percent) {
-            const el = document.getElementById('fileProgress');
-            document.getElementById('fileProgressName').textContent = name.length > 25 ? name.slice(0, 22) + '...' : name;
-            document.getElementById('fileProgressPercent').textContent = percent + '%';
-            document.getElementById('fileProgressFill').style.width = percent + '%';
-            el.style.display = 'block';
-        }
-
-        function hideProgress() {
-            document.getElementById('fileProgress').style.display = 'none';
-        }
-
-        function addFileMessage(name, size, mimeType, url, sent) {
-            const container = document.getElementById('messages');
-            const time = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-            const ext = name.split('.').pop() || '?';
-            const sizeStr = formatSize(size);
-            const isImage = mimeType?.startsWith('image/');
-            
-            const div = document.createElement('div');
-            div.className = 'message' + (sent ? ' sent' : '');
-            
-            if (isImage && url) {
-                div.innerHTML = `
-                    <div class="img-bubble">
-                        <img src="${url}" alt="${escapeHtml(name)}">
-                        <div class="file-download"><a href="${url}" download="${escapeHtml(name)}">Télécharger (${sizeStr})</a></div>
-                    </div>
-                    <div class="message-time">${time}</div>
-                `;
-            } else {
-                div.innerHTML = `
-                    <div class="file-bubble">
-                        <div class="file-icon">${escapeHtml(ext)}</div>
-                        <div class="file-details">
-                            <div class="file-name">${escapeHtml(name)}</div>
-                            <div class="file-size">${sizeStr}</div>
-                            ${url ? `<div class="file-download"><a href="${url}" download="${escapeHtml(name)}">Télécharger</a></div>` : ''}
-                        </div>
-                    </div>
-                    <div class="message-time">${time}</div>
-                `;
-            }
-            
-            container.appendChild(div);
-            container.scrollTop = container.scrollHeight;
-        }
-
-        function formatSize(bytes) {
-            if (bytes < 1024) return bytes + ' o';
-            if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' Ko';
-            if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' Mo';
-            return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' Go';
-        }
+    const Crypto={async genKey(){return crypto.subtle.generateKey({name:'AES-GCM',length:256},!0,['encrypt','decrypt'])},async expKey(k){return this.toB64(await crypto.subtle.exportKey('raw',k))},async impKey(b){return crypto.subtle.importKey('raw',this.fromB64(b),{name:'AES-GCM',length:256},!0,['encrypt','decrypt'])},async enc(k,t){const iv=crypto.getRandomValues(new Uint8Array(12)),ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},k,new TextEncoder().encode(t)),c=new Uint8Array(12+ct.byteLength);return c.set(iv),c.set(new Uint8Array(ct),12),this.toB64(c.buffer)},async dec(k,b){const c=new Uint8Array(this.fromB64(b));return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:c.slice(0,12)},k,c.slice(12)))},async fp(k){const h=new Uint8Array(await crypto.subtle.digest('SHA-256',await crypto.subtle.exportKey('raw',k)));let s='';for(let i=0;i<16;i++){s+=h[i].toString(16).padStart(2,'0');if(i%4===3&&i<15)s+=' '}return s.toUpperCase()},toB64(b){let s='';new Uint8Array(b).forEach(x=>s+=String.fromCharCode(x));return btoa(s)},fromB64(b){const s=atob(b),a=new Uint8Array(s.length);for(let i=0;i<s.length;i++)a[i]=s.charCodeAt(i);return a.buffer}};
+
+    class P2P{constructor(){this.pc=null;this.dc=null;this.key=null;this.onMsg=null;this.onOpen=null;this.onClose=null}async offer(){this.key=await Crypto.genKey();const kb=await Crypto.expKey(this.key);this.pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]});this.dc=this.pc.createDataChannel('w',{ordered:!0});this._setup();const o=await this.pc.createOffer();await this.pc.setLocalDescription(o);await this._ice();return btoa(JSON.stringify({s:this.pc.localDescription.sdp,k:kb}))}async accept(ob){const{s,k}=JSON.parse(atob(ob));this.key=await Crypto.impKey(k);this.pc=new RTCPeerConnection({iceServers:[{urls:'stun:stun.l.google.com:19302'},{urls:'stun:stun.cloudflare.com:3478'}]});this.pc.ondatachannel=e=>{this.dc=e.channel;this._setup()};await this.pc.setRemoteDescription({type:'offer',sdp:s});const a=await this.pc.createAnswer();await this.pc.setLocalDescription(a);await this._ice();return btoa(JSON.stringify({s:this.pc.localDescription.sdp}))}async answer(ab){const{s}=JSON.parse(atob(ab));await this.pc.setRemoteDescription({type:'answer',sdp:s})}async send(m){if(!this.dc||this.dc.readyState!=='open')throw Error();this.dc.send(await Crypto.enc(this.key,m))}_setup(){this.dc.onopen=()=>this.onOpen?.();this.dc.onclose=()=>this.onClose?.();this.dc.onmessage=async e=>this.onMsg?.(await Crypto.dec(this.key,e.data))}_ice(){return new Promise(r=>{if(this.pc.iceGatheringState==='complete')return r();const c=()=>{if(this.pc.iceGatheringState==='complete'){this.pc.removeEventListener('icegatheringstatechange',c);r()}};this.pc.addEventListener('icegatheringstatechange',c);setTimeout(r,5000)})}close(){this.dc?.close();this.pc?.close()}}
+
+    let conn,offerB64='',answerB64='';
+    const $=id=>document.getElementById(id);
+    function view(id){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));$(id).classList.add('active');$('inputArea').style.display=id==='chatView'?'block':'none'}
+    function toast(m){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+    function status(t,txt){const b=$('statusBadge');b.className='badge badge-'+t;$('statusText').textContent=txt}
+    function goHome(){conn?.close();conn=null;view('homeView');status('success','Chiffré')}
+    function toggleDetails(){const t=document.querySelector('.details-toggle'),c=$('detailsContent');t.classList.toggle('open');c.classList.toggle('open')}
+
+    async function startChat(){conn=new P2P();conn.onOpen=()=>{view('chatView');status('success','Chiffré');$('messages').innerHTML='';$('msgInput').focus()};conn.onClose=()=>{status('warning','Déconnecté');addSys('Terminée')};conn.onMsg=m=>{if(!fileMsg(m))addMsg(m,!1)};view('createView');status('warning','Attente');const c=$('offerCode');c.innerHTML='<div class="spinner"></div>';c.classList.add('loading');$('answerInput').value='';try{offerB64=await conn.offer();c.textContent=offerB64;c.classList.remove('loading')}catch(e){c.textContent='Erreur'}}
+    function copyOffer(){navigator.clipboard.writeText(offerB64);toast('Copié')}
+    async function processAnswer(){const v=$('answerInput').value.trim();if(!v)return toast('Collez la réponse');try{await conn.answer(v)}catch{toast('Code invalide')}}
+
+    async function joinChat(){conn=new P2P();conn.onOpen=()=>{view('chatView');status('success','Chiffré');$('messages').innerHTML='';$('msgInput').focus()};conn.onClose=()=>{status('warning','Déconnecté');addSys('Terminée')};conn.onMsg=m=>{if(!fileMsg(m))addMsg(m,!1)};view('joinView');status('warning','Attente');$('answerStep').style.display='none';$('offerInput').value=''}
+    async function processOffer(){const v=$('offerInput').value.trim();if(!v)return toast('Collez le code');try{answerB64=await conn.accept(v);$('answerCode').textContent=answerB64;$('answerStep').style.display='block'}catch{toast('Code invalide')}}
+    function copyAnswer(){navigator.clipboard.writeText(answerB64);toast('Copié')}
+
+    function esc(s){const d=document.createElement('div');d.textContent=s;return d.innerHTML}
+    function addMsg(t,sent){const c=$('messages'),time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),d=document.createElement('div');d.className='msg'+(sent?' sent':'');d.innerHTML=`<div class="bubble">${esc(t)}</div><div class="msg-time">${time}</div>`;c.appendChild(d);c.scrollTop=c.scrollHeight}
+    function addSys(t){const c=$('messages'),d=document.createElement('div');d.className='sys-msg';d.innerHTML=`<span>${esc(t)}</span>`;c.appendChild(d)}
+    async function sendMsg(){const i=$('msgInput'),t=i.value.trim();if(!t||!conn)return;try{await conn.send(t);addMsg(t,!0);i.value=''}catch{toast('Erreur')}}
+    function onKey(e){if(e.key==='Enter')sendMsg()}
+
+    async function showFP(){if(!conn?.key)return;$('fpDisplay').textContent=await Crypto.fp(conn.key);$('fpModal').classList.add('active')}
+    function closeFP(){$('fpModal').classList.remove('active')}
+
+    const CHUNK=64*1024,MAXBUF=256*1024;let incoming={};
+    async function onFile(e){const f=e.target.files;if(!f.length||!conn)return;for(const x of f)await sendF(x);e.target.value=''}
+    async function sendF(f){const id=crypto.randomUUID(),n=Math.ceil(f.size/CHUNK);showProg(f.name,0);await conn.send(JSON.stringify({t:'s',id,name:f.name,size:f.size,mime:f.type,n}));const b=new Uint8Array(await f.arrayBuffer());for(let i=0;i<n;i++){await waitBuf(conn.dc);await conn.send(JSON.stringify({t:'c',id,i,d:Crypto.toB64(b.slice(i*CHUNK,Math.min((i+1)*CHUNK,f.size)).buffer)}));showProg(f.name,Math.round((i+1)/n*100))}await conn.send(JSON.stringify({t:'e',id}));hideProg();addFile(f.name,f.size,f.type,null,!0)}
+    function waitBuf(dc){return new Promise(r=>{if(!dc||dc.bufferedAmount<=MAXBUF)return r();const c=()=>{if(!dc||dc.readyState!=='open'||dc.bufferedAmount<=MAXBUF)r();else setTimeout(c,50)};c()})}
+    function fileMsg(d){try{const m=JSON.parse(d);if(m.t==='s'){incoming[m.id]={name:m.name,size:m.size,mime:m.mime,n:m.n,p:[],g:0};showProg(m.name,0);return!0}if(m.t==='c'){const f=incoming[m.id];if(!f)return!0;f.p[m.i]=Crypto.fromB64(m.d);f.g++;showProg(f.name,Math.round(f.g/f.n*100));return!0}if(m.t==='e'){const f=incoming[m.id];if(!f)return!0;const tot=f.p.reduce((a,c)=>a+c.byteLength,0),arr=new Uint8Array(tot);let o=0;for(const p of f.p){arr.set(new Uint8Array(p),o);o+=p.byteLength}const url=URL.createObjectURL(new Blob([arr],{type:f.mime}));hideProg();addFile(f.name,f.size,f.mime,url,!1);delete incoming[m.id];return!0}return!1}catch{return!1}}
+    function showProg(n,p){$('fileProgress').style.display='block';$('fpName').textContent=n.length>18?n.slice(0,15)+'...':n;$('fpPct').textContent=p+'%';$('fpFill').style.width=p+'%'}
+    function hideProg(){$('fileProgress').style.display='none'}
+    function addFile(name,size,mime,url,sent){const c=$('messages'),time=new Date().toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'}),ext=name.split('.').pop()||'?',sz=size<1024?size+' o':size<1048576?(size/1024).toFixed(1)+' Ko':(size/1048576).toFixed(1)+' Mo',img=mime?.startsWith('image/'),d=document.createElement('div');d.className='msg'+(sent?' sent':'');d.innerHTML=img&&url?`<div class="img-bubble"><img src="${url}"><div class="file-dl"><a href="${url}" download="${esc(name)}">Télécharger (${sz})</a></div></div><div class="msg-time">${time}</div>`:`<div class="file-bubble"><div class="file-icon">${esc(ext)}</div><div class="file-info"><div class="file-name">${esc(name)}</div><div class="file-size">${sz}</div>${url?`<div class="file-dl"><a href="${url}" download="${esc(name)}">Télécharger</a></div>`:''}</div></div><div class="msg-time">${time}</div>`;c.appendChild(d);c.scrollTop=c.scrollHeight}
     </script>
 </body>
 </html>
