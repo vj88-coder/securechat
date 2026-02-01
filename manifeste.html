@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Manifeste · VoidLab</title>
+    <meta name="description" content="Pourquoi nous construisons des outils qui ne voient rien de ce que vous faites.">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://voidlab.app/manifeste">
+    <meta property="og:title" content="Manifeste · VoidLab">
+    <meta property="og:description" content="Pourquoi nous construisons des outils qui ne voient rien de ce que vous faites.">
+    <meta property="og:locale" content="fr_FR">
+    
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23050505' width='100' height='100'/><rect fill='%2322c55e' x='42' y='42' width='16' height='16'/></svg>">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --bg: #fafaf9;
+            --fg: #0c0c0c;
+            --muted: #57534e;
+            --subtle: #a8a29e;
+            --border: #e7e5e4;
+            --surface: #f5f5f4;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
+            --warning-bg: #fef3c7;
+            --warning-border: #fcd34d;
+            --warning-fg: #92400e;
+            --warning-text: #a16207;
+        }
+        
+        html { font-size: 18px; scroll-behavior: smooth; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.75;
+            -webkit-font-smoothing: antialiased;
+        }
+        
+        ::selection { background: var(--fg); color: var(--bg); }
+        a { color: inherit; }
+        
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+            background: rgba(250, 250, 249, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+        
+        .nav-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            background: var(--fg);
+            display: grid;
+            place-items: center;
+        }
+        
+        .logo-mark::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+        }
+        
+        .logo-text {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 20px;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        
+        .nav-links a {
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .nav-links a:hover { color: var(--fg); }
+        
+        .nav-cta {
+            background: var(--fg);
+            color: var(--bg) !important;
+            padding: 10px 20px;
+            font-weight: 500;
+        }
+        
+        /* Article */
+        article {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 140px 24px 100px;
+        }
+        
+        @media (max-width: 600px) {
+            html { font-size: 16px; }
+            article { padding: 110px 16px 60px; }
+        }
+        
+        .article-header {
+            margin-bottom: 56px;
+        }
+        
+        .article-header h1 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(2rem, 5vw, 2.8rem);
+            font-weight: 400;
+            line-height: 1.15;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+        
+        .article-intro {
+            font-size: 1.15rem;
+            color: var(--muted);
+        }
+        
+        /* Content */
+        .content h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 400;
+            margin: 64px 0 24px;
+            letter-spacing: -0.01em;
+        }
+        
+        .content p {
+            margin-bottom: 24px;
+            color: var(--muted);
+        }
+        
+        .content strong {
+            color: var(--fg);
+            font-weight: 500;
+        }
+        
+        .content a {
+            color: var(--accent-dim);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        
+        .content a:hover { color: var(--fg); }
+        
+        /* Principles */
+        .principles {
+            margin: 56px 0;
+            display: grid;
+            gap: 1px;
+            background: var(--border);
+        }
+        
+        .principle {
+            padding: 32px;
+            background: var(--bg);
+        }
+        
+        .principle h3 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.25rem;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        
+        .principle p {
+            font-size: 0.95rem;
+            color: var(--muted);
+            margin: 0;
+        }
+        
+        /* Tech Section */
+        .tech-section {
+            background: var(--fg);
+            color: var(--bg);
+            padding: 48px 32px;
+            margin: 56px 0;
+        }
+        
+        .tech-label {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--subtle);
+            margin-bottom: 16px;
+        }
+        
+        .tech-title {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 32px;
+        }
+        
+        .tech-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 24px;
+        }
+        
+        @media (max-width: 500px) {
+            .tech-grid { grid-template-columns: 1fr; }
+        }
+        
+        .tech-item {
+            border-left: 1px solid var(--muted);
+            padding-left: 16px;
+        }
+        
+        .tech-item-name {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 12px;
+            color: var(--accent);
+            margin-bottom: 6px;
+        }
+        
+        .tech-item-desc {
+            font-size: 13px;
+            color: var(--subtle);
+            line-height: 1.5;
+        }
+        
+        /* Warnings */
+        .warnings {
+            background: var(--warning-bg);
+            border: 1px solid var(--warning-border);
+            padding: 28px;
+            margin: 40px 0;
+        }
+        
+        .warnings h4 {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--warning-fg);
+            margin-bottom: 16px;
+        }
+        
+        .warnings p {
+            font-size: 15px;
+            color: var(--warning-text);
+            margin-bottom: 14px;
+            line-height: 1.6;
+        }
+        
+        .warnings p:last-child { margin-bottom: 0; }
+        
+        .warnings strong { color: var(--warning-fg); }
+        
+        /* CTA */
+        .cta-section {
+            margin-top: 64px;
+            padding-top: 40px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .cta-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 14px 24px;
+            font-size: 15px;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: var(--fg);
+            color: var(--bg);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+        }
+        
+        .btn-secondary {
+            background: var(--bg);
+            color: var(--fg);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-secondary:hover { border-color: var(--fg); }
+        
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 40px 24px;
+            margin-top: 64px;
+        }
+        
+        .footer-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .footer-copy {
+            font-size: 14px;
+            color: var(--subtle);
+        }
+        
+        .footer-links {
+            display: flex;
+            gap: 28px;
+        }
+        
+        .footer-links a {
+            font-size: 14px;
+            color: var(--muted);
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover { color: var(--fg); }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-mark"></div>
+                <span class="logo-text">VoidLab</span>
+            </a>
+            <div class="nav-links">
+                <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener">GitHub</a>
+                <a href="/transfer.html" class="nav-cta">Ouvrir Transfer</a>
+            </div>
+        </div>
+    </nav>
+    
+    <article>
+        <header class="article-header">
+            <h1>Pourquoi vos outils devraient être aveugles</h1>
+            <p class="article-intro">Internet devait être un espace de liberté. Quelque part en chemin, nous avons accepté que chaque fichier, chaque message, chaque clic soit visible par quelqu'un d'autre.</p>
+        </header>
+        
+        <div class="content">
+            <h2>Le problème</h2>
+            <p>Quand vous envoyez un fichier via un service de partage classique, vos données passent par leurs serveurs. Ces entreprises peuvent les lire, les analyser, les stocker. Parfois pour améliorer leurs services. Parfois parce que la loi les y oblige. Parfois parce qu'un employé mal intentionné a accès aux systèmes.</p>
+            
+            <p>Le problème n'est pas que ces services soient mal conçus. Le problème est leur architecture même. <strong>Quand vos données passent par un serveur, quelqu'un d'autre que vous peut y accéder.</strong></p>
+            
+            <p>Les fuites de données ne sont pas des accidents rares. Elles sont la conséquence logique d'un modèle où la confiance est externalisée vers des tiers. Chaque serveur est une surface d'attaque. Chaque base de données est une cible potentielle.</p>
+            
+            <h2>Notre approche</h2>
+            <p>VoidLab prend le chemin inverse. Au lieu de vous demander de nous faire confiance, nous avons construit des outils qui n'ont pas besoin de votre confiance.</p>
+            
+            <p>Transfer, notre premier outil, envoie vos fichiers directement d'un appareil à l'autre. Aucun serveur intermédiaire ne voit passer vos données. Même nous, les créateurs de l'outil, ne pouvons pas savoir ce que vous envoyez, à qui, ni quand.</p>
+            
+            <p>Ce n'est pas une promesse marketing. C'est une propriété mathématique de l'architecture que nous utilisons.</p>
+            
+            <div class="principles">
+                <div class="principle">
+                    <h3>Zéro confiance requise</h3>
+                    <p>Vous n'avez pas à nous croire sur parole. Le code est ouvert, les protocoles sont documentés, les implémentations sont vérifiables.</p>
+                </div>
+                <div class="principle">
+                    <h3>Zéro connaissance</h3>
+                    <p>Nous ne savons rien de ce que vous faites. Pas de compte, pas d'identifiant, pas de métadonnées. Vos fichiers sont protégés de bout en bout.</p>
+                </div>
+                <div class="principle">
+                    <h3>Zéro trace</h3>
+                    <p>Pas de logs, pas d'historique, pas de persistance. Les clés sont détruites après chaque session. Ce qui n'existe pas ne peut pas fuiter.</p>
+                </div>
+            </div>
+            
+            <div class="tech-section">
+                <p class="tech-label">Standards utilisés</p>
+                <h3 class="tech-title">Les mêmes protocoles que les messageries les plus sécurisées</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <p class="tech-item-name">X25519</p>
+                        <p class="tech-item-desc">Échange de clés sur courbe elliptique</p>
+                    </div>
+                    <div class="tech-item">
+                        <p class="tech-item-name">HKDF-SHA-256</p>
+                        <p class="tech-item-desc">Dérivation de clés</p>
+                    </div>
+                    <div class="tech-item">
+                        <p class="tech-item-name">AES-256-GCM</p>
+                        <p class="tech-item-desc">Protection des données</p>
+                    </div>
+                    <div class="tech-item">
+                        <p class="tech-item-name">DTLS 1.2+</p>
+                        <p class="tech-item-desc">Protection du transport</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Ce que nous ne faisons pas</h2>
+            <p>Nous ne collectons pas vos données. Nous n'avons pas de trackers, pas de cookies analytiques, pas de pixels de suivi. Nous ne vendons rien à personne parce que nous n'avons rien à vendre.</p>
+            
+            <p>Nous ne monétisons pas vos usages. VoidLab est gratuit et le restera. Notre modèle repose sur la conviction que des outils de base pour la vie privée ne devraient pas être un luxe.</p>
+            
+            <p>Nous ne faisons pas de compromis sur la sécurité. Si une fonctionnalité implique de collecter des données ou de réduire la protection, nous ne l'implémentons pas.</p>
+            
+            <div class="warnings">
+                <h4>Ce que nous ne pouvons pas promettre</h4>
+                <p><strong>Protection de l'adresse IP.</strong> Les connexions directes entre appareils révèlent les adresses IP des participants. Si l'anonymat total est important pour vous, utilisez VoidLab via Tor Browser ou un VPN qui protège contre les fuites WebRTC.</p>
+                <p><strong>Audit professionnel.</strong> Notre code est ouvert mais n'a pas été audité par une firme de sécurité externe. Nous encourageons les chercheurs à examiner notre implémentation.</p>
+                <p><strong>Disponibilité garantie.</strong> VoidLab est un projet indépendant. Nous faisons de notre mieux mais ne pouvons pas offrir les garanties d'une infrastructure d'entreprise.</p>
+            </div>
+            
+            <h2>Transparence totale</h2>
+            <p>Tout ce que nous construisons est visible sur <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener">GitHub</a>. Vous pouvez lire chaque ligne de code, vérifier chaque algorithme, auditer chaque décision technique.</p>
+            
+            <p>Si vous trouvez une faille, dites-le nous. Si vous avez des suggestions, elles sont les bienvenues. VoidLab appartient à ceux qui l'utilisent.</p>
+            
+            <div class="cta-section">
+                <div class="cta-buttons">
+                    <a href="/transfer.html" class="btn btn-primary">Essayer Transfer</a>
+                    <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener" class="btn btn-secondary">Voir le code</a>
+                </div>
+            </div>
+        </div>
+    </article>
+    
+    <footer>
+        <div class="footer-inner">
+            <span class="footer-copy">VoidLab 2026</span>
+            <div class="footer-links">
+                <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener">GitHub</a>
+                <a href="/">Accueil</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
