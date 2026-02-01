@@ -2,505 +2,419 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VoidLab — Outils chiffrés, libres et gratuits</title>
-    <meta name="description" content="Suite d'outils gratuits avec chiffrement de bout en bout. Aucun serveur. Aucun compte. Aucune trace. Souveraineté numérique.">
-    <meta name="robots" content="index, follow">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>VoidLab</title>
+    <meta name="description" content="Des outils qui ne voient rien de ce que vous faites. Confidentialité par conception.">
     <link rel="canonical" href="https://voidlab.app">
     
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://voidlab.app">
-    <meta property="og:title" content="VoidLab — Outils chiffrés, libres et gratuits">
-    <meta property="og:description" content="Chiffrement de bout en bout. Aucun serveur. Aucune trace.">
+    <meta property="og:title" content="VoidLab">
+    <meta property="og:description" content="Des outils qui ne voient rien de ce que vous faites.">
     <meta property="og:image" content="https://voidlab.app/og.png">
     <meta property="og:locale" content="fr_FR">
-    <meta name="twitter:card" content="summary_large_image">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100'/><rect fill='%2322c55e' x='40' y='40' width='20' height='20'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23050505' width='100' height='100'/><rect fill='%2322c55e' x='42' y='42' width='16' height='16'/></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
-        *, *::before, *::after {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
-            --black: #0a0a0a;
-            --white: #fafafa;
-            --gray-50: #f5f5f5;
-            --gray-100: #e5e5e5;
-            --gray-200: #d4d4d4;
-            --gray-300: #a3a3a3;
-            --gray-400: #737373;
-            --gray-500: #525252;
-            --green: #16a34a;
-            --green-light: #dcfce7;
+            --bg: #fafaf9;
+            --fg: #0c0c0c;
+            --muted: #57534e;
+            --subtle: #a8a29e;
+            --border: #e7e5e4;
+            --surface: #f5f5f4;
+            --accent: #22c55e;
+            --accent-dim: #16a34a;
         }
         
-        html {
-            font-size: 16px;
-        }
+        html { font-size: 17px; scroll-behavior: smooth; }
         
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--white);
-            color: var(--black);
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--fg);
+            line-height: 1.6;
             -webkit-font-smoothing: antialiased;
         }
         
-        ::selection {
-            background: var(--black);
-            color: var(--white);
-        }
+        ::selection { background: var(--fg); color: var(--bg); }
         
         a { color: inherit; text-decoration: none; }
         
-        /* Header */
-        header {
+        /* Navigation */
+        nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            background: var(--white);
-            border-bottom: 1px solid var(--gray-100);
+            padding: 20px 24px;
         }
         
-        .header-inner {
+        .nav-inner {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 32px;
-            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
         
-        .wordmark {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 22px;
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-mark {
+            width: 32px;
+            height: 32px;
+            background: var(--fg);
+            display: grid;
+            place-items: center;
+        }
+        
+        .logo-mark::after {
+            content: '';
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+        }
+        
+        .logo-text {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: 20px;
+            font-weight: 500;
             letter-spacing: -0.02em;
         }
         
-        .header-right {
+        .nav-links {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 32px;
         }
         
-        .header-link {
-            font-size: 13px;
-            color: var(--gray-500);
-            transition: color 0.15s;
+        .nav-links a {
+            font-size: 14px;
+            color: var(--muted);
+            transition: color 0.2s;
         }
         
-        .header-link:hover {
-            color: var(--black);
+        .nav-links a:hover { color: var(--fg); }
+        
+        .nav-cta {
+            background: var(--fg);
+            color: var(--bg) !important;
+            padding: 10px 20px;
+            font-weight: 500;
         }
         
-        .status {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            color: var(--green);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .status::before {
-            content: '';
-            width: 6px;
-            height: 6px;
-            background: var(--green);
-            display: block;
+        @media (max-width: 600px) {
+            nav { padding: 16px; }
+            .nav-links a:not(.nav-cta) { display: none; }
         }
         
         /* Hero */
         .hero {
-            padding: 160px 32px 100px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 140px 24px 100px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(2.4rem, 6vw, 4rem);
+            font-weight: 400;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            margin-bottom: 32px;
+        }
+        
+        .hero-text {
+            font-size: 1.15rem;
+            color: var(--muted);
+            max-width: 600px;
+            margin-bottom: 48px;
+        }
+        
+        .hero-text p {
+            margin-bottom: 20px;
+        }
+        
+        .hero-text p:last-child { margin-bottom: 0; }
+        
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--fg);
+            color: var(--bg);
+            padding: 16px 28px;
+            font-size: 15px;
+            font-weight: 500;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .hero-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+        }
+        
+        .hero-cta svg {
+            width: 18px;
+            height: 18px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+        }
+        
+        /* Philosophy */
+        .philosophy {
+            padding: 120px 24px;
+            background: var(--fg);
+            color: var(--bg);
+        }
+        
+        .philosophy-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.5fr;
+            gap: 80px;
+        }
+        
+        @media (max-width: 900px) {
+            .philosophy-inner {
+                grid-template-columns: 1fr;
+                gap: 48px;
+            }
+        }
+        
+        .philosophy h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            line-height: 1.2;
+        }
+        
+        .philosophy-content {
+            display: grid;
+            gap: 40px;
+        }
+        
+        .philosophy-block h3 {
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 12px;
+            color: var(--accent);
+        }
+        
+        .philosophy-block p {
+            font-size: 15px;
+            color: #a8a29e;
+            line-height: 1.7;
+        }
+        
+        /* How it works */
+        .how {
+            padding: 120px 24px;
+        }
+        
+        .how-inner {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .how h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
+        }
+        
+        .how > .how-inner > p {
+            font-size: 1.1rem;
+            color: var(--muted);
+            margin-bottom: 64px;
+            max-width: 600px;
+        }
+        
+        .steps {
+            display: grid;
+            gap: 48px;
+        }
+        
+        .step {
+            display: grid;
+            grid-template-columns: 64px 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+        
+        @media (max-width: 600px) {
+            .step {
+                grid-template-columns: 1fr;
+                gap: 16px;
+            }
+        }
+        
+        .step-number {
+            width: 64px;
+            height: 64px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            font-family: 'Source Code Pro', monospace;
+            font-size: 20px;
+            font-weight: 500;
+        }
+        
+        .step-content h3 {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .step-content p {
+            color: var(--muted);
+            line-height: 1.7;
+        }
+        
+        /* Security */
+        .security {
+            padding: 120px 24px;
+            background: var(--surface);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .security-inner {
             max-width: 1200px;
             margin: 0 auto;
         }
         
-        .hero-content {
-            max-width: 680px;
+        .security-header {
+            max-width: 600px;
+            margin-bottom: 64px;
         }
         
-        .hero h1 {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(38px, 6vw, 58px);
+        .security-header h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
             font-weight: 400;
-            line-height: 1.1;
-            letter-spacing: -0.03em;
-            margin-bottom: 24px;
+            letter-spacing: -0.02em;
+            margin-bottom: 16px;
         }
         
-        .hero h1 em {
-            font-style: italic;
+        .security-header p {
+            font-size: 1.1rem;
+            color: var(--muted);
         }
         
-        .hero-text {
-            font-size: 17px;
-            color: var(--gray-500);
-            max-width: 480px;
-            margin-bottom: 40px;
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 32px;
+        }
+        
+        .security-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            padding: 32px;
+        }
+        
+        .security-card h3 {
+            font-family: 'Source Code Pro', monospace;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--accent-dim);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        
+        .security-card p {
+            font-size: 15px;
+            color: var(--muted);
             line-height: 1.6;
         }
         
-        .hero-actions {
+        /* CTA */
+        .cta-section {
+            padding: 120px 24px;
+            text-align: center;
+        }
+        
+        .cta-inner {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .cta-inner h2 {
+            font-family: 'Newsreader', Georgia, serif;
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 24px;
+        }
+        
+        .cta-inner p {
+            color: var(--muted);
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+        }
+        
+        .cta-buttons {
             display: flex;
             gap: 16px;
+            justify-content: center;
             flex-wrap: wrap;
         }
         
         .btn {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            padding: 14px 28px;
-            font-family: inherit;
-            font-size: 14px;
+            padding: 16px 28px;
+            font-size: 15px;
             font-weight: 500;
-            border: none;
-            cursor: pointer;
-            transition: all 0.15s;
-        }
-        
-        .btn svg {
-            width: 16px;
-            height: 16px;
+            transition: all 0.2s;
         }
         
         .btn-primary {
-            background: var(--black);
-            color: var(--white);
+            background: var(--fg);
+            color: var(--bg);
         }
         
         .btn-primary:hover {
-            background: #1a1a1a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
         }
         
         .btn-secondary {
             background: transparent;
-            color: var(--black);
-            border: 1px solid var(--gray-200);
+            color: var(--fg);
+            border: 1px solid var(--border);
         }
         
         .btn-secondary:hover {
-            border-color: var(--black);
-        }
-        
-        /* Trust bar */
-        .trust {
-            border-top: 1px solid var(--gray-100);
-            border-bottom: 1px solid var(--gray-100);
-            background: var(--gray-50);
-        }
-        
-        .trust-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-        }
-        
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 13px;
-            color: var(--gray-500);
-        }
-        
-        .trust-item svg {
-            width: 16px;
-            height: 16px;
-            color: var(--green);
-        }
-        
-        /* Tools */
-        .tools {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 32px;
-        }
-        
-        .section-header {
-            margin-bottom: 48px;
-        }
-        
-        .section-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gray-400);
-            margin-bottom: 12px;
-        }
-        
-        .section-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 28px;
-            font-weight: 400;
-        }
-        
-        .tools-grid {
-            display: grid;
-            gap: 16px;
-        }
-        
-        @media (min-width: 768px) {
-            .tools-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        .tool-card {
-            border: 1px solid var(--gray-100);
-            padding: 32px;
-            display: flex;
-            flex-direction: column;
-            transition: border-color 0.15s, box-shadow 0.15s;
-        }
-        
-        .tool-card:hover {
-            border-color: var(--gray-200);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
-        }
-        
-        .tool-name {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-        
-        .tool-desc {
-            font-size: 14px;
-            color: var(--gray-500);
-            line-height: 1.55;
-            margin-bottom: 24px;
-            flex: 1;
-        }
-        
-        .tool-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .tool-specs {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .tool-spec {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 10px;
-            padding: 4px 8px;
-            background: var(--gray-50);
-            color: var(--gray-500);
-        }
-        
-        .tool-link {
-            font-size: 13px;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            transition: gap 0.15s;
-        }
-        
-        .tool-card:hover .tool-link {
-            gap: 10px;
-        }
-        
-        .tool-link svg {
-            width: 14px;
-            height: 14px;
-        }
-        
-        /* Protocol */
-        .protocol {
-            background: var(--black);
-            color: var(--white);
-            padding: 80px 32px;
-        }
-        
-        .protocol-inner {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .protocol-header {
-            margin-bottom: 48px;
-        }
-        
-        .protocol-label {
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #737373;
-            margin-bottom: 12px;
-        }
-        
-        .protocol-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 28px;
-            font-weight: 400;
-            margin-bottom: 12px;
-        }
-        
-        .protocol-desc {
-            font-size: 15px;
-            color: #a3a3a3;
-            max-width: 480px;
-        }
-        
-        .specs-grid {
-            display: grid;
-            gap: 1px;
-            background: #262626;
-        }
-        
-        @media (min-width: 768px) {
-            .specs-grid {
-                grid-template-columns: repeat(4, 1fr);
-            }
-        }
-        
-        .spec {
-            background: var(--black);
-            padding: 28px;
-        }
-        
-        .spec-label {
-            font-size: 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #737373;
-            margin-bottom: 8px;
-        }
-        
-        .spec-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 13px;
-            color: var(--white);
-            margin-bottom: 12px;
-        }
-        
-        .spec-note {
-            font-size: 12px;
-            color: #737373;
-            line-height: 1.5;
-        }
-        
-        /* Principles */
-        .principles {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 80px 32px;
-        }
-        
-        .principles-grid {
-            display: grid;
-            gap: 32px;
-            margin-top: 48px;
-        }
-        
-        @media (min-width: 768px) {
-            .principles-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        .principle {
-            padding: 32px;
-            background: var(--gray-50);
-        }
-        
-        .principle-icon {
-            width: 40px;
-            height: 40px;
-            background: var(--black);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 20px;
-        }
-        
-        .principle-icon svg {
-            width: 20px;
-            height: 20px;
-            color: var(--white);
-        }
-        
-        .principle h3 {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 20px;
-            font-weight: 400;
-            margin-bottom: 10px;
-        }
-        
-        .principle p {
-            font-size: 14px;
-            color: var(--gray-500);
-            line-height: 1.6;
-        }
-        
-        /* Transparency */
-        .transparency {
-            border-top: 1px solid var(--gray-100);
-            padding: 64px 32px;
-        }
-        
-        .transparency-inner {
-            max-width: 680px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .transparency h2 {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 24px;
-            font-weight: 400;
-            margin-bottom: 16px;
-        }
-        
-        .transparency p {
-            font-size: 15px;
-            color: var(--gray-500);
-            line-height: 1.65;
-            margin-bottom: 24px;
-        }
-        
-        .transparency-link {
-            font-size: 14px;
-            font-weight: 500;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .transparency-link svg {
-            width: 16px;
-            height: 16px;
+            border-color: var(--fg);
         }
         
         /* Footer */
         footer {
-            border-top: 1px solid var(--gray-100);
-            padding: 32px;
+            padding: 48px 24px;
+            border-top: 1px solid var(--border);
         }
         
         .footer-inner {
@@ -510,238 +424,185 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 24px;
         }
         
         .footer-left {
-            font-size: 13px;
-            color: var(--gray-400);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .footer-copy {
+            font-size: 14px;
+            color: var(--subtle);
         }
         
         .footer-links {
             display: flex;
-            gap: 24px;
+            gap: 32px;
         }
         
         .footer-links a {
-            font-size: 13px;
-            color: var(--gray-400);
-            transition: color 0.15s;
+            font-size: 14px;
+            color: var(--muted);
         }
         
-        .footer-links a:hover {
-            color: var(--black);
-        }
+        .footer-links a:hover { color: var(--fg); }
         
-        /* Responsive */
-        @media (max-width: 767px) {
-            .header-inner {
-                padding: 0 20px;
-            }
-            .hero {
-                padding: 140px 20px 80px;
-            }
-            .trust-inner {
-                padding: 16px 20px;
-                gap: 16px;
-            }
-            .trust-item {
-                font-size: 11px;
-            }
-            .tools, .principles {
-                padding: 60px 20px;
-            }
-            .protocol {
-                padding: 60px 20px;
-            }
-            .transparency {
-                padding: 48px 20px;
-            }
-            footer {
-                padding: 24px 20px;
+        @media (max-width: 600px) {
+            .footer-inner {
+                flex-direction: column;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <header>
-        <div class="header-inner">
-            <a href="/" class="wordmark">VoidLab</a>
-            <div class="header-right">
-                <a href="/manifeste" class="header-link">Manifeste</a>
-                <span class="status">Opérationnel</span>
+    <nav>
+        <div class="nav-inner">
+            <a href="/" class="logo">
+                <div class="logo-mark"></div>
+                <span class="logo-text">VoidLab</span>
+            </a>
+            <div class="nav-links">
+                <a href="/manifeste.html">Notre mission</a>
+                <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener">GitHub</a>
+                <a href="/transfer.html" class="nav-cta">Accéder aux outils</a>
             </div>
         </div>
-    </header>
+    </nav>
     
     <main>
         <section class="hero">
-            <div class="hero-content">
-                <h1>Outils chiffrés pour un internet <em>libre</em></h1>
-                <p class="hero-text">Suite d'applications gratuites avec chiffrement de bout en bout. Vos données ne transitent par aucun serveur. Aucun compte requis. Aucune trace conservée.</p>
-                <div class="hero-actions">
-                    <a href="/transfer" class="btn btn-primary">
-                        Envoyer un fichier
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    </a>
-                    <a href="/manifeste" class="btn btn-secondary">Lire le manifeste</a>
+            <h1>Vos données ne regardent que vous</h1>
+            <div class="hero-text">
+                <p>Nous construisons des outils qui fonctionnent sans jamais voir ce que vous faites. Pas de serveurs qui stockent vos fichiers. Pas de bases de données avec vos informations. Pas de logs, pas de traces, pas de compromis.</p>
+                <p>Ce n'est pas une promesse. C'est la façon dont nos outils sont construits. Mathématiquement, techniquement, nous ne pouvons pas accéder à vos données. Même si on le voulait. Même si quelqu'un nous le demandait.</p>
+            </div>
+            <a href="/transfer.html" class="hero-cta">
+                Découvrir Transfer
+                <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </section>
+        
+        <section class="philosophy">
+            <div class="philosophy-inner">
+                <h2>Pourquoi nous faisons ça</h2>
+                <div class="philosophy-content">
+                    <div class="philosophy-block">
+                        <h3>Le problème</h3>
+                        <p>La plupart des services que vous utilisez pour partager des fichiers ou communiquer fonctionnent sur un principe simple : vos données passent par leurs serveurs. Ils peuvent les lire, les analyser, les stocker. Parfois pour améliorer leurs services. Parfois parce que la loi les y oblige. Parfois parce qu'ils se font pirater.</p>
+                    </div>
+                    <div class="philosophy-block">
+                        <h3>Notre approche</h3>
+                        <p>Nous avons choisi une architecture différente. Vos fichiers passent directement d'un appareil à l'autre. Ils ne transitent jamais par nos serveurs. Nous ne pouvons pas les voir, les lire, ou les stocker. Ce n'est pas une question de politique de confidentialité. C'est une impossibilité technique.</p>
+                    </div>
+                    <div class="philosophy-block">
+                        <h3>La transparence</h3>
+                        <p>Tout notre code est public. Vous pouvez vérifier chaque ligne, auditer chaque décision. Nous n'avons rien à cacher parce que nous n'avons accès à rien. C'est la seule façon de construire des outils en lesquels vous pouvez vraiment avoir confiance.</p>
+                    </div>
                 </div>
             </div>
         </section>
         
-        <div class="trust">
-            <div class="trust-inner">
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    Chiffrement AES-256-GCM
-                </div>
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    Perfect Forward Secrecy
-                </div>
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    Code source ouvert
-                </div>
-                <div class="trust-item">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
-                    Aucune donnée collectée
-                </div>
-            </div>
-        </div>
-        
-        <section class="tools">
-            <div class="section-header">
-                <div class="section-label">Applications</div>
-                <h2 class="section-title">Outils disponibles</h2>
-            </div>
-            
-            <div class="tools-grid">
-                <a href="/transfer" class="tool-card">
-                    <h3 class="tool-name">Transfer</h3>
-                    <p class="tool-desc">Envoi de fichiers pair-à-pair sans limite de taille. Connexion directe entre appareils, aucun serveur intermédiaire ne voit vos données.</p>
-                    <div class="tool-footer">
-                        <div class="tool-specs">
-                            <span class="tool-spec">P2P</span>
-                            <span class="tool-spec">AES-256</span>
-                            <span class="tool-spec">WebRTC</span>
+        <section class="how">
+            <div class="how-inner">
+                <h2>Comment ça fonctionne</h2>
+                <p>Une connexion directe entre deux appareils, protégée par plusieurs couches de sécurité indépendantes.</p>
+                
+                <div class="steps">
+                    <div class="step">
+                        <div class="step-number">01</div>
+                        <div class="step-content">
+                            <h3>Connexion directe</h3>
+                            <p>Quand vous envoyez un fichier, il va directement de votre appareil à celui de votre destinataire. Il ne passe par aucun serveur intermédiaire. Personne ne peut l'intercepter en chemin.</p>
                         </div>
-                        <span class="tool-link">
-                            Utiliser
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </span>
                     </div>
-                </a>
-                
-                <a href="/whisper" class="tool-card">
-                    <h3 class="tool-name">Whisper</h3>
-                    <p class="tool-desc">Messagerie chiffrée pair-à-pair. Échangez messages et fichiers en temps réel. Fermez l'onglet, tout disparaît.</p>
-                    <div class="tool-footer">
-                        <div class="tool-specs">
-                            <span class="tool-spec">E2E</span>
-                            <span class="tool-spec">ECDH</span>
-                            <span class="tool-spec">Éphémère</span>
+                    <div class="step">
+                        <div class="step-number">02</div>
+                        <div class="step-content">
+                            <h3>Protection automatique</h3>
+                            <p>Avant même de quitter votre appareil, vos données sont protégées par deux couches indépendantes. Même si quelqu'un réussissait à intercepter la connexion, il ne verrait que des données illisibles.</p>
                         </div>
-                        <span class="tool-link">
-                            Utiliser
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                        </span>
                     </div>
-                </a>
-            </div>
-        </section>
-        
-        <section class="protocol">
-            <div class="protocol-inner">
-                <div class="protocol-header">
-                    <div class="protocol-label">Sécurité</div>
-                    <h2 class="protocol-title">Protocole cryptographique</h2>
-                    <p class="protocol-desc">Standards ouverts, implémentation native via Web Crypto API. Aucune dépendance externe. Code source auditable.</p>
-                </div>
-                
-                <div class="specs-grid">
-                    <div class="spec">
-                        <div class="spec-label">Échange de clés</div>
-                        <div class="spec-value">ECDH P-256</div>
-                        <div class="spec-note">Courbe elliptique NIST. Clés éphémères par session. Perfect Forward Secrecy garanti.</div>
+                    <div class="step">
+                        <div class="step-number">03</div>
+                        <div class="step-content">
+                            <h3>Clés éphémères</h3>
+                            <p>Chaque transfert utilise des clés uniques, générées sur votre appareil. Une fois le transfert terminé, ces clés sont détruites. Si quelqu'un obtenait une clé passée, il ne pourrait rien faire avec.</p>
+                        </div>
                     </div>
-                    <div class="spec">
-                        <div class="spec-label">Dérivation</div>
-                        <div class="spec-value">HKDF-SHA-256</div>
-                        <div class="spec-note">RFC 5869. Salt cryptographique aléatoire de 256 bits par session.</div>
-                    </div>
-                    <div class="spec">
-                        <div class="spec-label">Chiffrement</div>
-                        <div class="spec-value">AES-256-GCM</div>
-                        <div class="spec-note">Chiffrement authentifié. IV 96 bits par message. Tag d'intégrité 128 bits.</div>
-                    </div>
-                    <div class="spec">
-                        <div class="spec-label">Transport</div>
-                        <div class="spec-value">DTLS 1.2+</div>
-                        <div class="spec-note">WebRTC DataChannel avec DTLS-SRTP obligatoire. Double couche de chiffrement.</div>
+                    <div class="step">
+                        <div class="step-number">04</div>
+                        <div class="step-content">
+                            <h3>Vérification mutuelle</h3>
+                            <p>Une empreinte unique s'affiche des deux côtés. En la comparant avec votre correspondant, vous pouvez confirmer que personne ne s'est interposé dans la connexion.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
         
-        <section class="principles">
-            <div class="section-header">
-                <div class="section-label">Philosophie</div>
-                <h2 class="section-title">Principes fondateurs</h2>
-            </div>
-            
-            <div class="principles-grid">
-                <article class="principle">
-                    <div class="principle-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                        </svg>
-                    </div>
-                    <h3>Zéro confiance</h3>
-                    <p>Nous ne demandons pas votre confiance, nous la rendons inutile. Le chiffrement s'effectue entièrement sur votre appareil. Même compromis, nos serveurs ne révéleraient rien.</p>
-                </article>
+        <section class="security">
+            <div class="security-inner">
+                <div class="security-header">
+                    <h2>Les standards que nous utilisons</h2>
+                    <p>Les mêmes protocoles que les applications de messagerie les plus sécurisées au monde.</p>
+                </div>
                 
-                <article class="principle">
-                    <div class="principle-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
-                        </svg>
+                <div class="security-grid">
+                    <div class="security-card">
+                        <h3>X25519</h3>
+                        <p>Échange de clés sur courbe elliptique Curve25519. Plus rapide et plus résistant aux attaques que les courbes utilisées par les standards gouvernementaux.</p>
                     </div>
-                    <h3>Zéro connaissance</h3>
-                    <p>Nous ne savons rien de vous. Pas de compte, pas d'email, pas de numéro. Nous ne pouvons pas vous identifier, donc personne ne le peut.</p>
-                </article>
-                
-                <article class="principle">
-                    <div class="principle-icon">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
-                        </svg>
+                    <div class="security-card">
+                        <h3>AES-256-GCM</h3>
+                        <p>Protection de vos données avec authentification intégrée. Chaque bloc est vérifié pour détecter toute modification. 256 bits de protection.</p>
                     </div>
-                    <h3>Zéro trace</h3>
-                    <p>Fermez l'onglet, tout disparaît. Aucun historique, aucun log, aucune métadonnée. Les clés cryptographiques sont détruites à chaque session.</p>
-                </article>
+                    <div class="security-card">
+                        <h3>HKDF-SHA-256</h3>
+                        <p>Dérivation de clés à partir du secret partagé. Génère des clés uniques pour chaque usage, renforçant l'isolation entre les différentes opérations.</p>
+                    </div>
+                    <div class="security-card">
+                        <h3>DTLS 1.2+</h3>
+                        <p>Seconde couche de protection sur le transport. Même si la première couche était compromise, vos données resteraient protégées.</p>
+                    </div>
+                    <div class="security-card">
+                        <h3>Perfect Forward Secrecy</h3>
+                        <p>Clés éphémères détruites après chaque session. La compromission d'une clé future ne permet pas de déchiffrer les échanges passés.</p>
+                    </div>
+                    <div class="security-card">
+                        <h3>IV aléatoire par bloc</h3>
+                        <p>Chaque morceau de fichier utilise son propre vecteur d'initialisation, généré aléatoirement. Deux blocs identiques produisent des résultats différents.</p>
+                    </div>
+                </div>
             </div>
         </section>
         
-        <section class="transparency">
-            <div class="transparency-inner">
-                <h2>Transparence totale</h2>
-                <p>Tout le code est ouvert et vérifiable. Faites un clic droit, affichez le code source. Pas de serveur caché, pas de tracking, pas de magie noire. Ce que vous voyez est ce qui s'exécute.</p>
-                <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer" class="transparency-link">
-                    Voir sur GitHub
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                </a>
+        <section class="cta-section">
+            <div class="cta-inner">
+                <h2>Prêt à essayer ?</h2>
+                <p>Transfer est notre premier outil. Il vous permet d'envoyer des fichiers de toute taille, directement à quelqu'un, sans que personne d'autre ne puisse y accéder.</p>
+                <div class="cta-buttons">
+                    <a href="/transfer.html" class="btn btn-primary">Ouvrir Transfer</a>
+                    <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener" class="btn btn-secondary">Voir le code</a>
+                </div>
             </div>
         </section>
     </main>
     
     <footer>
         <div class="footer-inner">
-            <div class="footer-left">VoidLab — France — 2025</div>
-            <nav class="footer-links">
-                <a href="/manifeste">Manifeste</a>
-                <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer">GitHub</a>
-            </nav>
+            <div class="footer-left">
+                <div class="logo-mark" style="width: 24px; height: 24px;"></div>
+                <span class="footer-copy">VoidLab 2026</span>
+            </div>
+            <div class="footer-links">
+                <a href="/manifeste.html">Manifeste</a>
+                <a href="https://github.com/vj88-coder/securechat" target="_blank" rel="noopener">GitHub</a>
+                <a href="/transfer.html">Transfer</a>
+            </div>
         </div>
     </footer>
 </body>
