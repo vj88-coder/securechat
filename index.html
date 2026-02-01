@@ -4,24 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>VoidLab — Outils chiffrés, libres et gratuits</title>
-    <meta name="description" content="Suite d'outils gratuits avec chiffrement de bout en bout. Aucun serveur. Aucun compte. Aucune trace. Souveraineté numérique française.">
+    <meta name="description" content="Suite d'outils gratuits avec chiffrement de bout en bout. Aucun serveur. Aucun compte. Aucune trace. Souveraineté numérique.">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://voidlab.app">
     
-    <!-- OpenGraph -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://voidlab.app">
     <meta property="og:title" content="VoidLab — Outils chiffrés, libres et gratuits">
-    <meta property="og:description" content="Suite d'outils gratuits avec chiffrement de bout en bout. Aucun serveur. Aucun compte. Aucune trace.">
+    <meta property="og:description" content="Chiffrement de bout en bout. Aucun serveur. Aucune trace.">
     <meta property="og:image" content="https://voidlab.app/og.png">
     <meta property="og:locale" content="fr_FR">
-    
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="VoidLab — Outils chiffrés">
-    <meta name="twitter:description" content="Chiffrement de bout en bout. Aucun serveur. Aucune trace.">
     
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%23000' width='100' height='100'/><rect fill='%2322c55e' x='40' y='40' width='20' height='20'/></svg>">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect fill='%230a0a0a' width='100' height='100'/><rect fill='%2322c55e' x='40' y='40' width='20' height='20'/></svg>">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -36,13 +31,15 @@
         
         :root {
             --black: #0a0a0a;
-            --white: #e8e8e8;
-            --gray-1: #141414;
-            --gray-2: #1f1f1f;
-            --gray-3: #333;
-            --gray-4: #666;
-            --gray-5: #999;
-            --green: #22c55e;
+            --white: #fafafa;
+            --gray-50: #f5f5f5;
+            --gray-100: #e5e5e5;
+            --gray-200: #d4d4d4;
+            --gray-300: #a3a3a3;
+            --gray-400: #737373;
+            --gray-500: #525252;
+            --green: #16a34a;
+            --green-light: #dcfce7;
         }
         
         html {
@@ -51,21 +48,18 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: var(--black);
-            color: var(--white);
+            background: var(--white);
+            color: var(--black);
             line-height: 1.5;
             -webkit-font-smoothing: antialiased;
         }
         
         ::selection {
-            background: var(--green);
-            color: var(--black);
+            background: var(--black);
+            color: var(--white);
         }
         
-        a {
-            color: inherit;
-            text-decoration: none;
-        }
+        a { color: inherit; text-decoration: none; }
         
         /* Header */
         header {
@@ -74,7 +68,15 @@
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 24px 32px;
+            background: var(--white);
+            border-bottom: 1px solid var(--gray-100);
+        }
+        
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 32px;
+            height: 64px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -86,14 +88,30 @@
             letter-spacing: -0.02em;
         }
         
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+        
+        .header-link {
+            font-size: 13px;
+            color: var(--gray-500);
+            transition: color 0.15s;
+        }
+        
+        .header-link:hover {
+            color: var(--black);
+        }
+        
         .status {
             font-size: 11px;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: var(--gray-4);
+            letter-spacing: 0.08em;
+            color: var(--green);
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
         }
         
         .status::before {
@@ -104,229 +122,400 @@
             display: block;
         }
         
-        /* Main */
-        main {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        /* Hero */
+        .hero {
+            padding: 160px 32px 100px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        /* Intro */
-        .intro {
-            padding: 160px 32px 120px;
-            max-width: 900px;
+        .hero-content {
+            max-width: 680px;
         }
         
-        .intro h1 {
+        .hero h1 {
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: clamp(40px, 7vw, 68px);
+            font-size: clamp(38px, 6vw, 58px);
             font-weight: 400;
-            line-height: 1.08;
+            line-height: 1.1;
             letter-spacing: -0.03em;
-            margin-bottom: 28px;
+            margin-bottom: 24px;
         }
         
-        .intro h1 em {
+        .hero h1 em {
             font-style: italic;
         }
         
-        .intro-text {
+        .hero-text {
             font-size: 17px;
-            color: var(--gray-5);
-            max-width: 520px;
+            color: var(--gray-500);
+            max-width: 480px;
             margin-bottom: 40px;
+            line-height: 1.6;
         }
         
-        .intro-links {
+        .hero-actions {
             display: flex;
-            gap: 28px;
+            gap: 16px;
+            flex-wrap: wrap;
         }
         
-        .intro-links a {
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 28px;
+            font-family: inherit;
             font-size: 14px;
-            color: var(--white);
-            padding-bottom: 3px;
-            border-bottom: 1px solid var(--gray-3);
-            transition: border-color 0.15s;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+            transition: all 0.15s;
         }
         
-        .intro-links a:hover {
-            border-color: var(--white);
+        .btn svg {
+            width: 16px;
+            height: 16px;
+        }
+        
+        .btn-primary {
+            background: var(--black);
+            color: var(--white);
+        }
+        
+        .btn-primary:hover {
+            background: #1a1a1a;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--black);
+            border: 1px solid var(--gray-200);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--black);
+        }
+        
+        /* Trust bar */
+        .trust {
+            border-top: 1px solid var(--gray-100);
+            border-bottom: 1px solid var(--gray-100);
+            background: var(--gray-50);
+        }
+        
+        .trust-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+        }
+        
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--gray-500);
+        }
+        
+        .trust-item svg {
+            width: 16px;
+            height: 16px;
+            color: var(--green);
         }
         
         /* Tools */
         .tools {
-            border-top: 1px solid var(--gray-2);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 80px 32px;
         }
         
-        .tool {
+        .section-header {
+            margin-bottom: 48px;
+        }
+        
+        .section-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--gray-400);
+            margin-bottom: 12px;
+        }
+        
+        .section-title {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 28px;
+            font-weight: 400;
+        }
+        
+        .tools-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            border-bottom: 1px solid var(--gray-2);
-            transition: background 0.15s;
+            gap: 16px;
         }
         
-        @media (min-width: 800px) {
-            .tool {
-                grid-template-columns: 180px 1fr auto;
-                align-items: center;
+        @media (min-width: 768px) {
+            .tools-grid {
+                grid-template-columns: repeat(2, 1fr);
             }
         }
         
-        .tool:hover {
-            background: var(--gray-1);
+        .tool-card {
+            border: 1px solid var(--gray-100);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.15s, box-shadow 0.15s;
+        }
+        
+        .tool-card:hover {
+            border-color: var(--gray-200);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
         }
         
         .tool-name {
-            padding: 28px 32px;
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 22px;
+            font-size: 24px;
+            margin-bottom: 8px;
         }
         
         .tool-desc {
-            padding: 0 32px 28px;
-            color: var(--gray-4);
             font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.55;
+            margin-bottom: 24px;
+            flex: 1;
         }
         
-        @media (min-width: 800px) {
-            .tool-desc {
-                padding: 28px 32px;
-                border-left: 1px solid var(--gray-2);
-            }
+        .tool-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
         
-        .tool-action {
-            padding: 28px 32px;
+        .tool-specs {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .tool-spec {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            padding: 4px 8px;
+            background: var(--gray-50);
+            color: var(--gray-500);
+        }
+        
+        .tool-link {
+            font-size: 13px;
+            font-weight: 500;
             display: flex;
             align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            gap: 6px;
+            transition: gap 0.15s;
         }
         
-        .tool-action.live {
-            color: var(--green);
+        .tool-card:hover .tool-link {
+            gap: 10px;
         }
         
-        .tool-action.soon {
-            color: var(--gray-4);
-        }
-        
-        .tool-action svg {
+        .tool-link svg {
             width: 14px;
             height: 14px;
         }
         
         /* Protocol */
         .protocol {
+            background: var(--black);
+            color: var(--white);
             padding: 80px 32px;
-            border-top: 1px solid var(--gray-2);
         }
         
-        .section-title {
-            font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 12px;
-            font-weight: 400;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gray-4);
-            margin-bottom: 12px;
+        .protocol-inner {
+            max-width: 1200px;
+            margin: 0 auto;
         }
         
-        .section-desc {
-            font-size: 14px;
-            color: var(--gray-5);
-            max-width: 440px;
+        .protocol-header {
             margin-bottom: 48px;
         }
         
-        .specs {
-            display: grid;
-            gap: 1px;
-            background: var(--gray-2);
+        .protocol-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #737373;
+            margin-bottom: 12px;
         }
         
-        @media (min-width: 800px) {
-            .specs {
+        .protocol-title {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 28px;
+            font-weight: 400;
+            margin-bottom: 12px;
+        }
+        
+        .protocol-desc {
+            font-size: 15px;
+            color: #a3a3a3;
+            max-width: 480px;
+        }
+        
+        .specs-grid {
+            display: grid;
+            gap: 1px;
+            background: #262626;
+        }
+        
+        @media (min-width: 768px) {
+            .specs-grid {
                 grid-template-columns: repeat(4, 1fr);
             }
         }
         
         .spec {
             background: var(--black);
-            padding: 24px;
+            padding: 28px;
         }
         
         .spec-label {
             font-size: 10px;
             text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--gray-4);
-            margin-bottom: 6px;
+            letter-spacing: 0.1em;
+            color: #737373;
+            margin-bottom: 8px;
         }
         
         .spec-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 12px;
+            font-size: 13px;
             color: var(--white);
             margin-bottom: 12px;
         }
         
         .spec-note {
             font-size: 12px;
-            color: var(--gray-4);
-            line-height: 1.45;
+            color: #737373;
+            line-height: 1.5;
         }
         
         /* Principles */
         .principles {
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 80px 32px;
-            border-top: 1px solid var(--gray-2);
         }
         
         .principles-grid {
             display: grid;
-            gap: 40px;
+            gap: 32px;
             margin-top: 48px;
         }
         
-        @media (min-width: 800px) {
+        @media (min-width: 768px) {
             .principles-grid {
                 grid-template-columns: repeat(3, 1fr);
-                gap: 32px;
             }
+        }
+        
+        .principle {
+            padding: 32px;
+            background: var(--gray-50);
+        }
+        
+        .principle-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        
+        .principle-icon svg {
+            width: 20px;
+            height: 20px;
+            color: var(--white);
         }
         
         .principle h3 {
             font-family: 'Instrument Serif', Georgia, serif;
-            font-size: 18px;
+            font-size: 20px;
             font-weight: 400;
             margin-bottom: 10px;
         }
         
         .principle p {
-            font-size: 13px;
-            color: var(--gray-4);
-            line-height: 1.55;
+            font-size: 14px;
+            color: var(--gray-500);
+            line-height: 1.6;
+        }
+        
+        /* Transparency */
+        .transparency {
+            border-top: 1px solid var(--gray-100);
+            padding: 64px 32px;
+        }
+        
+        .transparency-inner {
+            max-width: 680px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .transparency h2 {
+            font-family: 'Instrument Serif', Georgia, serif;
+            font-size: 24px;
+            font-weight: 400;
+            margin-bottom: 16px;
+        }
+        
+        .transparency p {
+            font-size: 15px;
+            color: var(--gray-500);
+            line-height: 1.65;
+            margin-bottom: 24px;
+        }
+        
+        .transparency-link {
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .transparency-link svg {
+            width: 16px;
+            height: 16px;
         }
         
         /* Footer */
         footer {
-            margin-top: auto;
-            padding: 40px 32px;
-            border-top: 1px solid var(--gray-2);
+            border-top: 1px solid var(--gray-100);
+            padding: 32px;
+        }
+        
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
         }
         
         .footer-left {
-            font-size: 12px;
-            color: var(--gray-4);
+            font-size: 13px;
+            color: var(--gray-400);
         }
         
         .footer-links {
@@ -335,149 +524,225 @@
         }
         
         .footer-links a {
-            font-size: 12px;
-            color: var(--gray-4);
+            font-size: 13px;
+            color: var(--gray-400);
             transition: color 0.15s;
         }
         
         .footer-links a:hover {
-            color: var(--white);
+            color: var(--black);
         }
         
-        @media (max-width: 799px) {
-            header {
-                padding: 20px 24px;
+        /* Responsive */
+        @media (max-width: 767px) {
+            .header-inner {
+                padding: 0 20px;
             }
-            .intro {
-                padding: 140px 24px 100px;
+            .hero {
+                padding: 140px 20px 80px;
             }
-            .tool-name, .tool-desc, .tool-action {
-                padding-left: 24px;
-                padding-right: 24px;
+            .trust-inner {
+                padding: 16px 20px;
+                gap: 16px;
             }
-            .protocol, .principles, footer {
-                padding-left: 24px;
-                padding-right: 24px;
+            .trust-item {
+                font-size: 11px;
+            }
+            .tools, .principles {
+                padding: 60px 20px;
+            }
+            .protocol {
+                padding: 60px 20px;
+            }
+            .transparency {
+                padding: 48px 20px;
+            }
+            footer {
+                padding: 24px 20px;
             }
         }
     </style>
 </head>
 <body>
     <header>
-        <a href="/" class="wordmark">VoidLab</a>
-        <span class="status">Opérationnel</span>
+        <div class="header-inner">
+            <a href="/" class="wordmark">VoidLab</a>
+            <div class="header-right">
+                <a href="/manifeste" class="header-link">Manifeste</a>
+                <span class="status">Opérationnel</span>
+            </div>
+        </div>
     </header>
     
     <main>
-        <section class="intro">
-            <h1>Outils chiffrés pour un internet <em>libre</em></h1>
-            <p class="intro-text">Suite d'applications gratuites avec chiffrement de bout en bout. Aucun serveur ne stocke vos données. Aucun compte requis. Aucune trace conservée.</p>
-            <nav class="intro-links">
-                <a href="/manifeste">Lire le manifeste</a>
-                <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer">Code source</a>
-            </nav>
+        <section class="hero">
+            <div class="hero-content">
+                <h1>Outils chiffrés pour un internet <em>libre</em></h1>
+                <p class="hero-text">Suite d'applications gratuites avec chiffrement de bout en bout. Vos données ne transitent par aucun serveur. Aucun compte requis. Aucune trace conservée.</p>
+                <div class="hero-actions">
+                    <a href="/transfer" class="btn btn-primary">
+                        Envoyer un fichier
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="/manifeste" class="btn btn-secondary">Lire le manifeste</a>
+                </div>
+            </div>
         </section>
         
+        <div class="trust">
+            <div class="trust-inner">
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Chiffrement AES-256-GCM
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Perfect Forward Secrecy
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Code source ouvert
+                </div>
+                <div class="trust-item">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                    Aucune donnée collectée
+                </div>
+            </div>
+        </div>
+        
         <section class="tools">
-            <a href="/transfer" class="tool">
-                <span class="tool-name">Transfer</span>
-                <span class="tool-desc">Envoi de fichiers P2P sans limite de taille. Connexion directe entre appareils, chiffrement AES-256-GCM.</span>
-                <span class="tool-action live">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    Disponible
-                </span>
-            </a>
-            
-            <a href="/whisper" class="tool">
-                <span class="tool-name">Whisper</span>
-                <span class="tool-desc">Messagerie chiffrée pair-à-pair. Échange de messages et fichiers en temps réel.</span>
-                <span class="tool-action live">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                    Disponible
-                </span>
-            </a>
-            
-            <div class="tool">
-                <span class="tool-name">Vault</span>
-                <span class="tool-desc">Gestionnaire de mots de passe local. Chiffrement AES-256, export sécurisé.</span>
-                <span class="tool-action soon">Bientôt</span>
+            <div class="section-header">
+                <div class="section-label">Applications</div>
+                <h2 class="section-title">Outils disponibles</h2>
             </div>
             
-            <div class="tool">
-                <span class="tool-name">Notes</span>
-                <span class="tool-desc">Notes chiffrées Markdown. Stockage local, synchronisation P2P optionnelle.</span>
-                <span class="tool-action soon">Bientôt</span>
-            </div>
-            
-            <div class="tool">
-                <span class="tool-name">Paste</span>
-                <span class="tool-desc">Partage de texte chiffré. Autodestruction après lecture unique.</span>
-                <span class="tool-action soon">Bientôt</span>
-            </div>
-            
-            <div class="tool">
-                <span class="tool-name">Auth</span>
-                <span class="tool-desc">Authentification 2FA locale. TOTP sans cloud, backup chiffré.</span>
-                <span class="tool-action soon">Bientôt</span>
+            <div class="tools-grid">
+                <a href="/transfer" class="tool-card">
+                    <h3 class="tool-name">Transfer</h3>
+                    <p class="tool-desc">Envoi de fichiers pair-à-pair sans limite de taille. Connexion directe entre appareils, aucun serveur intermédiaire ne voit vos données.</p>
+                    <div class="tool-footer">
+                        <div class="tool-specs">
+                            <span class="tool-spec">P2P</span>
+                            <span class="tool-spec">AES-256</span>
+                            <span class="tool-spec">WebRTC</span>
+                        </div>
+                        <span class="tool-link">
+                            Utiliser
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </span>
+                    </div>
+                </a>
+                
+                <a href="/whisper" class="tool-card">
+                    <h3 class="tool-name">Whisper</h3>
+                    <p class="tool-desc">Messagerie chiffrée pair-à-pair. Échangez messages et fichiers en temps réel. Fermez l'onglet, tout disparaît.</p>
+                    <div class="tool-footer">
+                        <div class="tool-specs">
+                            <span class="tool-spec">E2E</span>
+                            <span class="tool-spec">ECDH</span>
+                            <span class="tool-spec">Éphémère</span>
+                        </div>
+                        <span class="tool-link">
+                            Utiliser
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </span>
+                    </div>
+                </a>
             </div>
         </section>
         
         <section class="protocol">
-            <h2 class="section-title">Protocole cryptographique</h2>
-            <p class="section-desc">Standards ouverts, implémentation native via Web Crypto API. Aucune dépendance externe. Code source auditable.</p>
-            
-            <div class="specs">
-                <div class="spec">
-                    <div class="spec-label">Échange de clés</div>
-                    <div class="spec-value">ECDH P-256</div>
-                    <div class="spec-note">Courbe elliptique NIST. Clés éphémères par session. Perfect Forward Secrecy garanti.</div>
+            <div class="protocol-inner">
+                <div class="protocol-header">
+                    <div class="protocol-label">Sécurité</div>
+                    <h2 class="protocol-title">Protocole cryptographique</h2>
+                    <p class="protocol-desc">Standards ouverts, implémentation native via Web Crypto API. Aucune dépendance externe. Code source auditable.</p>
                 </div>
-                <div class="spec">
-                    <div class="spec-label">Dérivation</div>
-                    <div class="spec-value">HKDF-SHA-256</div>
-                    <div class="spec-note">RFC 5869. Salt aléatoire 256 bits généré par session.</div>
-                </div>
-                <div class="spec">
-                    <div class="spec-label">Chiffrement</div>
-                    <div class="spec-value">AES-256-GCM</div>
-                    <div class="spec-note">Chiffrement authentifié. IV 96 bits par message. Tag intégrité 128 bits.</div>
-                </div>
-                <div class="spec">
-                    <div class="spec-label">Transport</div>
-                    <div class="spec-value">DTLS 1.2+</div>
-                    <div class="spec-note">WebRTC DataChannel avec DTLS-SRTP. Double couche de chiffrement.</div>
+                
+                <div class="specs-grid">
+                    <div class="spec">
+                        <div class="spec-label">Échange de clés</div>
+                        <div class="spec-value">ECDH P-256</div>
+                        <div class="spec-note">Courbe elliptique NIST. Clés éphémères par session. Perfect Forward Secrecy garanti.</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Dérivation</div>
+                        <div class="spec-value">HKDF-SHA-256</div>
+                        <div class="spec-note">RFC 5869. Salt cryptographique aléatoire de 256 bits par session.</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Chiffrement</div>
+                        <div class="spec-value">AES-256-GCM</div>
+                        <div class="spec-note">Chiffrement authentifié. IV 96 bits par message. Tag d'intégrité 128 bits.</div>
+                    </div>
+                    <div class="spec">
+                        <div class="spec-label">Transport</div>
+                        <div class="spec-value">DTLS 1.2+</div>
+                        <div class="spec-note">WebRTC DataChannel avec DTLS-SRTP obligatoire. Double couche de chiffrement.</div>
+                    </div>
                 </div>
             </div>
         </section>
         
         <section class="principles">
-            <h2 class="section-title">Principes fondateurs</h2>
+            <div class="section-header">
+                <div class="section-label">Philosophie</div>
+                <h2 class="section-title">Principes fondateurs</h2>
+            </div>
             
             <div class="principles-grid">
                 <article class="principle">
+                    <div class="principle-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                        </svg>
+                    </div>
                     <h3>Zéro confiance</h3>
-                    <p>Nous ne demandons pas votre confiance. Le chiffrement s'effectue sur votre appareil. Même compromis, nos serveurs ne révéleraient rien.</p>
+                    <p>Nous ne demandons pas votre confiance, nous la rendons inutile. Le chiffrement s'effectue entièrement sur votre appareil. Même compromis, nos serveurs ne révéleraient rien.</p>
                 </article>
                 
                 <article class="principle">
+                    <div class="principle-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
                     <h3>Zéro connaissance</h3>
-                    <p>Nous ne savons rien de vous. Pas de compte, pas d'email, pas de numéro. Identification impossible, pour nous comme pour quiconque.</p>
+                    <p>Nous ne savons rien de vous. Pas de compte, pas d'email, pas de numéro. Nous ne pouvons pas vous identifier, donc personne ne le peut.</p>
                 </article>
                 
                 <article class="principle">
+                    <div class="principle-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                            <circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/>
+                        </svg>
+                    </div>
                     <h3>Zéro trace</h3>
-                    <p>Fermez l'onglet, tout disparaît. Aucun historique, aucun log, aucune métadonnée. Les clés sont détruites à chaque session.</p>
+                    <p>Fermez l'onglet, tout disparaît. Aucun historique, aucun log, aucune métadonnée. Les clés cryptographiques sont détruites à chaque session.</p>
                 </article>
+            </div>
+        </section>
+        
+        <section class="transparency">
+            <div class="transparency-inner">
+                <h2>Transparence totale</h2>
+                <p>Tout le code est ouvert et vérifiable. Faites un clic droit, affichez le code source. Pas de serveur caché, pas de tracking, pas de magie noire. Ce que vous voyez est ce qui s'exécute.</p>
+                <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer" class="transparency-link">
+                    Voir sur GitHub
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                </a>
             </div>
         </section>
     </main>
     
     <footer>
-        <div class="footer-left">VoidLab — France — 2025</div>
-        <nav class="footer-links">
-            <a href="/manifeste">Manifeste</a>
-            <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer">GitHub</a>
-        </nav>
+        <div class="footer-inner">
+            <div class="footer-left">VoidLab — France — 2025</div>
+            <nav class="footer-links">
+                <a href="/manifeste">Manifeste</a>
+                <a href="https://github.com/voidlab" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </nav>
+        </div>
     </footer>
 </body>
 </html>
